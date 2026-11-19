@@ -5,6 +5,7 @@ from statistics import mean, median
 
 from .outcomes import grid, matched_first_attempts
 from .paths import LIMITS
+from .closeout import scope_note
 
 
 def heldout_snapshot(data):
@@ -22,11 +23,23 @@ def heldout_snapshot(data):
     when = datetime.fromisoformat(data["updated"]).astimezone(timezone.utc)
     lines = [
         "## Current held-out results",
-        f"**{when:%Y-%m-%d %H:%M UTC}.** The study has recorded "
+        f"**{when:%Y-%m-%d %H:%M UTC}.** "
+        + ("Closed for today. " if data.get("closeout") else "")
+        + "The study has recorded "
         f"**{len(held):,}/{target:,} evaluations ({len(held) / target:.1%})**. "
         f"All five methods have scores on {len(paired):,} questions. "
         f"The development sweep selected {size} total agents, including the coordinator.",
     ]
+    if data.get("closeout"):
+        lines.append(
+            scope_note(data["closeout"])
+            + " [Cutoff and frozen question IDs](protocol/closeout.json)"
+        )
+        lines.append(
+            "The [experiment inventory](reports/experiments/inventory.md) lists completed studies, "
+            "the five comparisons closed early against their original targets, and every postponed "
+            "experiment with its purpose and run counts."
+        )
     table_rows = []
     for domain, title in (("news", "News"), ("code", "Code")):
         for label, panel in (("first attempts", paired), ("outage-free", clean)):
@@ -98,7 +111,7 @@ def heldout_snapshot(data):
     lines.append(
         f"The study ledger shows **${balances.get('settled', 0):.2f} settled** and "
         f"**${balances.get('reserved', 0):.2f} reserved** against the ${sum(LIMITS.values()):.0f} ceiling. "
-        f"The fixed evidence audit has {len(data['support'])}/{data['targets']['audit']} records. "
+        f"The fixed semantic evidence audit has {len(data['support'])}/{data['targets']['audit']} records. "
         "[Live local dashboard](http://127.0.0.1:8765) · [Private explorer](https://huggingface.co/spaces/BurnyCoder/luna-folder-swarm-explorer)"
     )
     return "\n\n".join(lines)

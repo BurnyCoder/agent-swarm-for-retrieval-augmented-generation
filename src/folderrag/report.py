@@ -15,6 +15,7 @@ from .paths import DATA, ROOT, now, read, save
 from .provenance import displayed_citations, quote_audit
 from .readme import heldout_snapshot
 from .inventory import experiment_inventory
+from .closeout import findings, scope_note, selected_rows
 
 REPORTS = ROOT / "reports"
 OUT = ROOT / "results"
@@ -48,6 +49,9 @@ def dashboard_data(rows=None):
     measured_at = now() if rows else archived.get("updated") or now()
     if not rows and (OUT / "cases.json").is_file():
         rows = read(OUT / "cases.json")
+    decision_file = ROOT / "protocol/closeout.json"
+    decision = read(decision_file) if decision_file.is_file() else {}
+    rows = selected_rows(rows, decision)
     references = {}
     if (BENCH / "cases.json").is_file() and rows:
         references = read(BENCH / "cases.json")
@@ -76,8 +80,12 @@ def dashboard_data(rows=None):
         targets["test"] = sum(len(b) for b in split["blocks"][: final["blocks"]]) * (
             len(BASE) + 2
         )
+    if decision:
+        targets["registered_test"] = targets["test"]
+        targets["test"] = len(decision["included_ids"]) * (len(BASE) + 2)
     data = {
-        "updated": measured_at,
+        "closeout": decision,
+        "updated": decision.get("closed_utc", measured_at),
         "budget": ledger().totals() or archived.get("budget", {}),
         "balances": ledger().balances() or archived.get("balances", {}),
         "offset_audit": archived.get("offset_audit", {}),
@@ -98,7 +106,7 @@ def dashboard_data(rows=None):
             rows,
             f"swarm{final['size']}",
             final["blocks"],
-            (DATA / "phase-stops/test.json").exists(),
+            bool(decision) or (DATA / "phase-stops/test.json").exists(),
         )
         if final
         else [],
@@ -118,17 +126,38 @@ def dashboard_data(rows=None):
         },
     }
     data["inventory"] = experiment_inventory(data, split)
+    control_counts = [
+        i["planned"] for i in data["inventory"] if i.get("phase") == "diagnostics"
+    ]
+    if control_counts and all(n is not None for n in control_counts):
+        targets["diagnostics"] = sum(control_counts)
     return data
 
 
 def serve_dashboard(port):
+    # The closed release serves an immutable snapshot and performs no recurring statistical work.
+    final_payload = None
+    published = SITE / "data.json"
+    decision = ROOT / "protocol/closeout.json"
+    if (
+        published.is_file()
+        and decision.is_file()
+        and (DATA / "operations/owner-stop.json").is_file()
+    ):
+        candidate = published.read_bytes()
+        if json.loads(candidate).get("closeout") == read(decision):
+            final_payload = candidate
+
     class Dashboard(http.server.SimpleHTTPRequestHandler):
         def __init__(self, *args, **kwargs):
             super().__init__(*args, directory=str(SITE), **kwargs)
 
         def do_GET(self):
             if self.path.split("?")[0] == "/data.json":
-                payload = json.dumps(dashboard_data(), ensure_ascii=False).encode()
+                payload = (
+                    final_payload
+                    or json.dumps(dashboard_data(), ensure_ascii=False).encode()
+                )
                 self.send_response(200)
                 self.send_header("Content-Type", "application/json")
                 self.send_header("Cache-Control", "no-store")
@@ -163,6 +192,8 @@ def table(groups):
 
 
 def conclusions(data):
+    if data.get("closeout"):
+        return findings(data)
     if not data["rows"]:
         return "The protocol and implementation are available. Paired experiments are pending."
     if not data["comparisons"]:
@@ -289,8 +320,8 @@ def write_pdf(data, summary, date):
     def para(text, style="BodyText"):
         story.append(Paragraph(text, styles[style]))
 
-    def small_table(body):
-        t = Table(body, repeatRows=1, hAlign="LEFT")
+    def small_table(body, widths=None):
+        t = Table(body, colWidths=widths, repeatRows=1, hAlign="LEFT")
         t.setStyle(
             TableStyle(
                 [
@@ -309,6 +340,10 @@ def write_pdf(data, summary, date):
 
     para("Luna swarms for retrieval over files", "Title")
     para("Libor “Burny” Burian · " + date)
+    if data.get("closeout"):
+        para(
+            f"End-of-day report · {data['closeout']['question_limit']} held-out questions"
+        )
     para("Abstract", "Heading2")
     para(html.escape(summary))
     para("Motivation and method", "Heading2")
@@ -332,6 +367,16 @@ def write_pdf(data, summary, date):
         f = data["freeze"]
         para(
             f"The development rule selected {f['size']} total agents and admitted {f['blocks']} balanced blocks. A block contains 32 news questions and one question from each of 15 pinned repositories. Eleven repositories were reserved outside development."
+        )
+    if data.get("closeout"):
+        para("End-of-day scope", "Heading2")
+        para(html.escape(scope_note(data["closeout"])))
+        balances = data["balances"]
+        para(
+            f"The complete study ledger includes development, grading, outage checks and supplementary attempts. It records a settled upper estimate of ${balances.get('settled', 0):.4f} and ${balances.get('reserved', 0):.4f} reserved for unresolved usage."
+        )
+        para(
+            "The stopping decision followed descriptive interim results. The intervals and adjusted p-values below describe this ordered prefix and do not adjust for the timing of the stop. The final partial block gives slightly unequal repository weights in the question-level code mean."
         )
     para("Results", "Heading2")
     if data["groups"]:
@@ -422,6 +467,17 @@ def write_pdf(data, summary, date):
             "The bridge reuses the archived responses. Stricter extraction of the final news label and a different code judge can change the reported scores without any change in the generated answers."
         )
     para("Discussion and limitations", "Heading2")
+    if data.get("closeout"):
+        audit = data.get("quote_audit", {}).get("test", {})
+        rejected = sum(
+            not c.get("valid")
+            for r in data["rows"]
+            if r["phase"] == "test"
+            for c in r.get("citations", [])
+        )
+        para(
+            f"Independent replay found {audit.get('both', 0):,} of {audit.get('verified', 0):,} accepted quotes at their recorded location and in the model-visible evidence. The verifier rejected {rejected:,} proposed citations. The semantic audit was postponed, so claim entailment remains unmeasured."
+        )
     if data["capacity-flags"]:
         recovered = sum(
             not r["error"] and r["repeated_score"] is not None
@@ -433,7 +489,8 @@ def write_pdf(data, summary, date):
             "The service-availability report compares the primary scores, unaffected matched questions and the secondary technical repeats."
         )
     para(
-        "Benchmark questions predate the generator and could have entered its training data. Closed-book and counterfactual diagnostics probe dependence on file contents. The generator and code judge share a model family. Interval estimates describe the sampled tasks. Quote matching verifies textual provenance. A separate blinded support audit tests whether each passage substantiates the attached claim and whether the full answer includes uncited assertions."
+        "Benchmark questions predate the generator and could have entered its training data. The generator and code judge share a model family. Interval estimates describe the sampled tasks. "
+        + ("The postponed closed-book and counterfactual controls leave dependence on file contents unresolved. Semantic support and uncited assertions remain ungraded." if data.get("closeout") else "Closed-book and counterfactual diagnostics probe dependence on file contents. A blinded support audit evaluates whether passages substantiate their claims and whether the answer includes uncited assertions.")
     )
     if data["twins"] or data["support"]:
         para("Evidence and interventions", "Heading2")
@@ -506,7 +563,36 @@ def write_pdf(data, summary, date):
                 ]
             )
         )
+    if data.get("closeout"):
+        from reportlab.lib.styles import ParagraphStyle
+
+        para("Appendix · experiment inventory", "Heading2")
+        para(
+            "The recorded and planned counts below refer to the original design. Each held-out method completed every question in the shortened panel. Postponed studies have no closeout results."
+        )
+        cell = ParagraphStyle("inventoryCell", fontSize=8, leading=10)
+        body = [["Experiment", "Type", "Status", "N / plan", "What it tests"]]
+        body.extend(
+            [
+                [
+                    r["name"],
+                    r["kind"],
+                    r["status"],
+                    f"{r['done']}/{r['planned']}",
+                    r["purpose"],
+                ]
+                for r in data["inventory"]
+            ]
+        )
+        small_table(
+            [
+                [Paragraph(html.escape(str(value)), cell) for value in row]
+                for row in body
+            ],
+            widths=[94, 83, 63, 52, 188],
+        )
     para("Related work and reproducibility", "Heading2")
+    links = []
     for title, url in (
         ("MultiHop-RAG", "https://arxiv.org/abs/2401.15391"),
         ("SWE-QA", "https://aclanthology.org/2026.findings-acl.402/"),
@@ -525,7 +611,8 @@ def write_pdf(data, summary, date):
             "https://github.com/BurnyCoder/agent-swarm-for-retrieval-augmented-generation",
         ),
     ):
-        para(f'<link color="#156154" href="{url}">{title}</link>')
+        links.append(f'<link color="#156154" href="{url}">{title}</link>')
+    para(" · ".join(links))
     from reportlab.platypus import KeepTogether
 
     story.append(
@@ -561,7 +648,11 @@ def build():
 
     data["offset_audit"] = news_offsets() or data.get("offset_audit", {})
     if (BENCH / "cases.json").is_file() and raw_rows:
-        data["quote_audit"] = quote_audit(raw_rows, read(BENCH / "cases.json"), DATA)
+        data["quote_audit"] = quote_audit(
+            selected_rows(raw_rows, data.get("closeout")),
+            read(BENCH / "cases.json"),
+            DATA,
+        )
     date = dt.datetime.now(ZoneInfo("Europe/Berlin")).date().isoformat()
     summary = conclusions(data)
     figures(data)
@@ -591,7 +682,13 @@ def build():
     pages = {
         "inventory": (
             "Experiment inventory",
-            "Counts come from saved graded runs, audit records, or completed engineering checks as appropriate for each row. The five primary methods share every registered held-out question. The controls use the fixed first block. Technical repeats have their own records and budget. [Preregistration](../preregistration.md) · [Offline test coverage](offline.md)",
+            "Counts come from saved graded runs, audit records, or completed engineering checks. The denominator is the original plan. "
+            + (
+                f"Each of the five held-out methods completed {data['closeout']['question_limit']}/{data['closeout']['question_limit']} questions in today's shortened panel. "
+                if data.get("closeout")
+                else ""
+            )
+            + "The controls use the fixed first block. Technical repeats have their own budget. [Preregistration](../preregistration.md) · [Offline test coverage](offline.md)",
             outcomes.grid(
                 ["Experiment", "Type", "Status", "Recorded / planned", "What it tests"],
                 [
@@ -746,6 +843,42 @@ def build():
             ),
         ),
     }
+    if data.get("closeout"):
+        ext = []
+        for row in comps:
+            scale = 100 if row["domain"] == "news" else 1
+            cluster = row.get("repository_ci", [])
+            ext.append(
+                [
+                    row["domain"],
+                    row["comparator"],
+                    row["n"],
+                    f"{row['difference'] * scale:+.2f}",
+                    f"{row['low'] * scale:+.2f} to {row['high'] * scale:+.2f}",
+                    f"{row['holm_p']:.4g}",
+                    f"{cluster[0]:+.2f} to {cluster[1]:+.2f}" if cluster else "—",
+                ]
+            )
+        pages["closeout"] = (
+            "End-of-day results and stopping decision",
+            scope_note(data["closeout"])
+            + f" Every retained question has a grade for every method. The scores include {data['closeout']['first_attempt_generation_failures']} first-attempt generation failures.",
+            summary
+            + "\n\nDifferences below subtract the comparator from the selected swarm. News uses percentage points and code uses rubric points. The six external comparisons and the two size comparisons use their prespecified, separate Holm families. These estimates and intervals are exploratory after the owner-directed stop.\n\n"
+            + outcomes.grid(
+                [
+                    "Domain",
+                    "Comparator",
+                    "Pairs",
+                    "Difference",
+                    "Paired 95% interval",
+                    "Holm p",
+                    "Repository bootstrap 95% interval",
+                ],
+                ext,
+            )
+            + "\n\n[Experiment inventory](inventory.md) · [Outage-free sensitivity](availability.md) · [Exact citation audit](grounding.md) · [Frozen cutoff IDs and excluded record IDs](../../protocol/closeout.json)",
+        )
     audit = data["offset_audit"]
     if audit:
         pages["offsets"] = (
@@ -795,6 +928,7 @@ def build():
     (REPORTS / "summary.md").write_text(
         "# Experiment summary\n\n"
         + summary
+        + ("\n\n" + scope_note(data["closeout"]) if data.get("closeout") else "")
         + "\n\n"
         + choice
         + "\n\n"
@@ -900,7 +1034,9 @@ def build():
         prefix
         + "\n\n<!-- generated -->\n## Measured results\n\n"
         + (
-            "Each row uses every graded response available for that method. "
+            "The held-out rows use the same closed question panel for every method. [Paired differences and 95% intervals](reports/experiments/closeout.md)"
+            if data.get("closeout")
+            else "Each row uses every graded response available for that method. "
             "During collection, methods can have different question counts. "
             "Run `uv run folderrag report` to regenerate this snapshot from the saved records."
             if current

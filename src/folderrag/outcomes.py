@@ -309,7 +309,9 @@ def availability(data):
                     arm,
                     cell(panel, arm),
                     cell(unaffected, arm),
-                    cell(restored, arm, True),
+                    cell(restored, arm, True)
+                    if data["capacity-repeats"]
+                    else ("Postponed" if data.get("closeout") else "Pending"),
                 ]
             )
     return grid(
@@ -402,7 +404,7 @@ def coverage(data):
     return grid(
         [
             "Phase",
-            "Registered runs",
+            "Report target",
             "Completed records",
             "Pending/unrun",
             "Generation failures",

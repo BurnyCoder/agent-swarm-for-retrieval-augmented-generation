@@ -9,7 +9,7 @@ import time
 import uuid
 from pathlib import Path, PureWindowsPath
 
-from .paths import ROOT, now, read
+from .paths import DATA, ROOT, now, read
 from .provenance import displayed_citations
 
 
@@ -107,6 +107,23 @@ def run():
     serve = sub.add_parser("dashboard")
     serve.add_argument("--port", type=int, default=8765)
     a = p.parse_args()
+    if (
+        a.op
+        in {
+            "run",
+            "guarded",
+            "capacity-probe",
+            "capacity-retries",
+            "historical",
+            "counterfactual",
+            "diagnostics-audit",
+        }
+        and (DATA / "operations/owner-stop.json").is_file()
+    ):
+        p.exit(
+            2,
+            "Study acquisition is closed at the owner's request. Reports and archives remain available.\n",
+        )
     if a.op == "prepare":
         from .benchdata import prepare
 
@@ -219,10 +236,12 @@ def run():
         from .evaluate import ledger, records
         from collections import Counter
 
+        stop = DATA / "operations/owner-stop.json"
         print(
             json.dumps(
                 {
                     "utc": now(),
+                    "owner_stop": read(stop) if stop.is_file() else None,
                     "completed": dict(Counter(r["phase"] for r in records())),
                     "cost_or_reserved_upper_usd": ledger().totals(),
                 },

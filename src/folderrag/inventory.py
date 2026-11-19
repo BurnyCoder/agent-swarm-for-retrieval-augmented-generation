@@ -17,6 +17,15 @@ def experiment_inventory(data, split):
     def add(name, kind, done, planned, purpose, phase=None):
         if planned is not None and done >= planned and planned > 0:
             status = "Completed"
+        elif data.get("closeout") and phase == "test":
+            status = "Closed early"
+        elif data.get("closeout") and phase in {
+            "diagnostics",
+            "twins",
+            "support",
+            "retry",
+        }:
+            status = "Postponed"
         elif stages.get(phase) in ("budget_stop", "stopped"):
             status = "Stopped"
         elif stages.get(phase) == "finished":
@@ -33,6 +42,7 @@ def experiment_inventory(data, split):
                 done=done,
                 planned=planned,
                 purpose=purpose,
+                phase=phase,
             )
         )
 
@@ -189,6 +199,7 @@ def experiment_inventory(data, split):
         len(data["twins"]),
         4,
         "Change the decisive stop count or Requests pool-size constant in a pair of copies of each corpus.",
+        "twins",
     )
     add(
         "Blinded evidence audit",
@@ -196,6 +207,7 @@ def experiment_inventory(data, split):
         len(data["support"]),
         data["targets"]["audit"],
         "Assess claim support, uncited assertions, gold fact exposure, and code definitions and calls.",
+        "support",
     )
     if data["capacity-flags"]:
         add(
@@ -204,5 +216,6 @@ def experiment_inventory(data, split):
             len(data["capacity-repeats"]),
             len(data["capacity-flags"]),
             "Repeat eligible upstream failures once within the retry budget. Primary scores keep their first attempts.",
+            "retry",
         )
     return items

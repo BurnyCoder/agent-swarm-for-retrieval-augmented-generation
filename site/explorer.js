@@ -150,7 +150,7 @@ async function refresh() {
     render();
   } catch (e) { byId("status").textContent = e.message; }
   finally {
-    if (["127.0.0.1","localhost"].includes(location.hostname)) setTimeout(refresh,20000);
+    if (!data.closeout?.closed_utc && ["127.0.0.1","localhost"].includes(location.hostname)) setTimeout(refresh,20000);
   }
 }
 for (const id of ["phase","domain","method","query"]) byId(id).addEventListener("input",render);
