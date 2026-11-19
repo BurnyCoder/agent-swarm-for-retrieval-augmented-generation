@@ -5,5 +5,5 @@ Pending cases have no quality score. Completed generation failures receive the r
 | Phase | Registered runs | Completed records | Pending/unrun | Generation failures | Timeouts | Missing grade |
 | --- | --- | --- | --- | --- | --- | --- |
 | dev | 140 | 140 | 0 | 0 | 0 | 0 |
-| test | 2350 | 166 | 2184 | 30 | 0 | 0 |
+| test | 2350 | 1155 | 1195 | 30 | 0 | 0 |
 | diagnostics | pending | 0 | — | 0 | 0 | 0 |

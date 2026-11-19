@@ -251,6 +251,19 @@ def operating_choices(data):
     return " ".join(out)
 
 
+def matched_first_attempts(rows, arms):
+    """Return graded first attempts for questions with one observation in every arm."""
+    cases = defaultdict(dict)
+    for row in rows:
+        if (
+            row["phase"] == "test"
+            and row["arm"] in arms
+            and row.get("score") is not None
+        ):
+            cases[row["id"]][row["arm"]] = row
+    return [q for q in cases.values() if all(a in q for a in arms)]
+
+
 def availability(data):
     """Hold all five arms to identical question sets when describing the service interruption."""
     if not data["capacity-flags"]:
@@ -262,21 +275,10 @@ def availability(data):
         for r in data["capacity-repeats"]
         if not r["error"] and r["repeated_score"] is not None
     }
-    cases = defaultdict(dict)
-    for row in data["rows"]:
-        if (
-            row["phase"] == "test"
-            and row["arm"] in arms
-            and row.get("score") is not None
-        ):
-            cases[row["id"]][row["arm"]] = row
+    cases = matched_first_attempts(data["rows"], arms)
     output = []
     for domain in ("news", "code"):
-        panel = [
-            q
-            for q in cases.values()
-            if all(a in q for a in arms) and q[arms[0]]["domain"] == domain
-        ]
+        panel = [q for q in cases if q[arms[0]]["domain"] == domain]
         unaffected = [
             q for q in panel if all(r["unit"] not in flagged for r in q.values())
         ]
