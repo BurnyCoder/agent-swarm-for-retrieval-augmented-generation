@@ -21,6 +21,26 @@ SITE = ROOT / "site"
 
 def dashboard_data():
     rows = records()
+    if rows:
+        # A provider-certified bound can narrow an unresolved charge after its original
+        # answer record was saved. The private raw record retains its original estimate.
+        with ledger().connect() as db:
+            charges = dict(
+                db.execute(
+                    "select unit, sum(usd)/1000000000.0 from calls group by unit"
+                )
+            )
+        rows = [
+            {
+                **r,
+                "cost_upper_usd": charges.get(r["unit"], r["cost_upper_usd"]),
+                "grading_cost_upper_usd": sum(
+                    charges.get(r["unit"] + "-grade-" + phase, 0.0)
+                    for phase in (r["phase"], "retry")
+                ),
+            }
+            for r in rows
+        ]
     archived = read(OUT / "metrics.json") if (OUT / "metrics.json").is_file() else {}
     if not rows and (OUT / "cases.json").is_file():
         rows = read(OUT / "cases.json")
@@ -47,6 +67,9 @@ def dashboard_data():
         "balances": ledger().balances() or archived.get("balances", {}),
         "offset_audit": archived.get("offset_audit", {}),
         "quote_audit": archived.get("quote_audit", {}),
+        "operation": read(DATA / "operations/capacity.json")
+        if (DATA / "operations/capacity.json").exists()
+        else archived.get("operation", {}),
         "encoder_runtime": read(DATA / "runtime/encoder.json")
         if (DATA / "runtime/encoder.json").exists()
         else archived.get("encoder_runtime", {}),
@@ -74,6 +97,8 @@ def dashboard_data():
                 "index-timings",
                 "smoke",
                 "stages",
+                "capacity-flags",
+                "capacity-repeats",
             )
         },
     }
@@ -380,6 +405,16 @@ def write_pdf(data, summary, date):
             "The bridge reuses the archived responses. Stricter extraction of the final news label and a different code judge can change the reported scores without any change in the generated answers."
         )
     para("Discussion and limitations", "Heading2")
+    if data["capacity-flags"]:
+        recovered = sum(
+            not r["error"] and r["repeated_score"] is not None
+            for r in data["capacity-repeats"]
+        )
+        para(
+            f"The acquisition log identifies {len(data['capacity-flags'])} generation failures with an explicit upstream capacity rejection. "
+            f"The retry allocation produced {recovered} successfully graded technical repeats. The primary tables retain original attempts. "
+            "The service-availability report compares the primary scores, unaffected matched questions and the secondary technical repeats."
+        )
     para(
         "Benchmark questions predate the generator and could have entered its training data. Closed-book and counterfactual diagnostics probe dependence on file contents. The generator and code judge share a model family. Interval estimates describe the sampled tasks. Quote matching verifies textual provenance. A separate blinded support audit tests whether each passage substantiates the attached claim and whether the full answer includes uncited assertions."
     )
@@ -498,6 +533,10 @@ def write_pdf(data, summary, date):
 
 
 def build():
+    if (DATA / "operations/capacity.json").exists():
+        from .capacity import classify_failures
+
+        classify_failures()
     data = dashboard_data()
     from .offset_audit import news_offsets
 
@@ -531,6 +570,11 @@ def build():
     else:
         choice = "Selection is pending completion of the registered development panel."
     pages = {
+        "availability": (
+            "Service availability and technical repeats",
+            "The primary analysis retains the recorded first attempts. The secondary calculations below use only questions with all five arms graded. The unaffected panel excludes a question from every arm when any generation failure logged an explicit provider overload. The repeat panel substitutes an eligible technical repeat only when it completed successfully. An unresolved repeat removes that question from every arm in that panel. This sensitivity analysis was specified after an upstream incident. [Dated acquisition amendment](../provider-overload.md)",
+            outcomes.availability(data),
+        ),
         "strata": (
             "Generalization by repository and news type",
             "Rows retain the frozen strata. Repository membership records whether an earlier code question from that repository was used during development. These small-cell estimates are descriptive.",

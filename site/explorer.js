@@ -119,7 +119,8 @@ async function refresh() {
     method.value = selected;
     const used = Object.values(data.budget).reduce((a,b)=>a+b,0);
     const cost = data.balances ? "$"+(data.balances.settled||0).toFixed(2)+" settled upper estimate + $"+(data.balances.reserved||0).toFixed(2)+" reserved" : "$"+used.toFixed(2)+" charged or reserved";
-    byId("status").textContent = data.rows.length+" condition runs · "+cost+" of $50 · updated "+new Date(data.updated).toLocaleString();
+    const run = data.operation?.state ? " · "+data.operation.action+" "+data.operation.state.replaceAll("_"," ") : "";
+    byId("status").textContent = data.rows.length+" condition runs · "+cost+" of $50"+run+" · updated "+new Date(data.updated).toLocaleString();
     renderSizeChart();
     render();
   } catch (e) { byId("status").textContent = e.message; }

@@ -28,6 +28,8 @@ Every generation logs its API-visible request and output to the terminal and tim
 
 The reporting command regenerates tables, figures, summary reports, paper PDF, and explorer data. The release script verifies both Hugging Face repositories are private before uploading an allowlist. The live dashboard reads local records; the private hosted explorer shows the last released milestone.
 
+For upstream capacity errors, the study controller stops dispatch and resumes the frozen phase with a gradual increase in the number of concurrent questions. Use `scripts/study.ps1 -StartAt test -RecoverCapacity` after an interruption. `uv run folderrag reconcile test` uses the provider's free token counter to certify a tighter worst-case charge for stale reservations. The reserved amount still covers the full possible output, and the raw attempts are retained. [Recovery protocol](../reports/provider-overload.md)
+
 In the explorer, choose a corpus and switch between answer quality, mean inference cost and median answer time. The swarm-size chart includes a question only after sizes 1, 2, 4 and 8 have all scored it. The paper and explorer use the same matched measurements. The answer table below includes each completed condition as it arrives.
 
 On WSL, an optional `FOLDERRAG_ARCTIC_VENV` can point to a Linux-native environment containing the same locked Arctic dependencies. This avoids repeated library imports across the Windows filesystem boundary for the comparator. The model, tool configuration and deadlines are identical.

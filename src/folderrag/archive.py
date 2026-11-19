@@ -2,7 +2,7 @@
 
 import tarfile
 
-from .paths import DATA
+from .paths import DATA, read
 
 
 def build_archives():
@@ -26,6 +26,18 @@ def build_archives():
                 files.extend((DATA / name).glob("*.json"))
         if phase == "dev":
             files.extend((DATA / "historical").glob("*.json"))
+        if phase == "retry":
+            for name in ("capacity-flags", "capacity-repeats", "operations"):
+                files.extend(
+                    p
+                    for p in (DATA / name).glob("*")
+                    if p.suffix in {".json", ".jsonl"}
+                )
+        files.extend(
+            p
+            for p in (DATA / "billing-certificates").glob("*.json")
+            if read(p)["phase"] == phase
+        )
         if not files:
             continue
         path = output / (phase + ".tar.gz")
