@@ -11,22 +11,55 @@ Paid acquisition stopped at the owner's request after interim scores were visibl
 
 The [experiment inventory](reports/experiments/inventory.md) lists completed studies, the five comparisons closed early against their original targets, and every postponed experiment with its purpose and run counts.
 
-| Matched panel | Questions | 4-agent swarm | One agent | Stock Codex | Arctic single agent | One-shot RAG |
-| --- | --- | --- | --- | --- | --- | --- |
-| News, first attempts | 169 | 126/169 | 116/169 | 140/169 | 132/169 | 120/169 |
-| News, outage-free | 164 | 126/164 | 116/164 | 140/164 | 130/164 | 119/164 |
-| Code, first attempts | 81 | 76.00 | 74.53 | 79.27 | 80.37 | 67.91 |
-| Code, outage-free | 78 | 77.88 | 77.40 | 81.17 | 82.35 | 68.59 |
+| Method | News (n=169) | News outage-free (n=164) | Code (n=81) | Code outage-free (n=78) |
+| --- | --- | --- | --- | --- |
+| 4-agent swarm | 126/169 (74.6%) | 126/164 (76.8%) | 76.00 | 77.88 |
+| 1-agent harness | 116/169 (68.6%) | 116/164 (70.7%) | 74.53 | 77.40 |
+| Stock Codex | 140/169 (82.8%) | 140/164 (85.4%) | 79.27 | 81.17 |
+| Arctic single agent | 132/169 (78.1%) | 130/164 (79.3%) | 80.37 | 82.35 |
+| One-shot hybrid RAG | 120/169 (71.0%) | 119/164 (72.6%) | 67.91 | 68.59 |
 
-News cells count exact matches. Code cells give the mean blinded rubric score out of 100. The primary scores retain 30 provider-overload failures. The outage-free rows exclude a question from all five methods whenever any arm had a recorded overload failure. [Paired outage analysis](reports/experiments/availability.md)
+News cells count exact matches. Code cells give the mean blinded rubric score out of 100. The primary scores retain 30 provider-overload failures. The outage-free scores exclude a question from all five methods whenever any arm had a recorded overload failure. [Paired outage analysis](reports/experiments/availability.md)
 
 Across 144 outage-free news questions with annotated sources, the swarm cited 86.2% of the reference files per question on average. One agent cited 78.1% and stock Codex cited 82.1%. [Citation and claim-support measurements](reports/experiments/grounding.md)
 
-On the 164 matched outage-free news questions, the swarm took a median **139 seconds** at a mean upper cost of **$0.0171 per question**. Stock Codex took **70 seconds** at **$0.0051**.
+### Cost and latency on all first attempts
+
+| Method | News USD / question | News median s | Code USD / question | Code median s |
+| --- | --- | --- | --- | --- |
+| 4-agent swarm | $0.01739 | 138.2 | $0.01721 | 146.5 |
+| 1-agent harness | $0.00593 | 75.7 | $0.00552 | 74.7 |
+| Stock Codex | $0.00521 | 70.4 | $0.00463 | 72.4 |
+| Arctic single agent | $0.00655 | 36.2 | $0.00545 | 55.1 |
+| One-shot hybrid RAG | $0.00079 | 7.7 | $0.00079 | 9.2 |
+
+Costs are mean upper estimates for answer generation. Latencies are medians in seconds and exclude index setup. The study ledger also includes grading.
+
+### Four-agent swarm minus each comparator
+
+| Comparator | News difference [95% CI], pp | Holm p | Code difference [95% CI] | Holm p |
+| --- | --- | --- | --- | --- |
+| 1-agent harness | +5.92 [-1.18, +13.02] | 0.2866 | +1.47 [-1.20, +4.33] | 0.3694 |
+| Stock Codex | -8.28 [-14.20, -2.96] | 0.0468 | -3.27 [-6.81, +0.28] | 0.2826 |
+| Arctic single agent | -3.55 [-9.47, +2.37] | 0.6899 | -4.37 [-7.59, -1.20] | 0.0468 |
+| One-shot hybrid RAG | +3.55 [-2.96, +10.06] | 0.6899 | +8.09 [+3.44, +12.56] | 0.0126 |
+
+Positive differences favor the swarm. News uses percentage points and code uses rubric points out of 100. The intervals are paired and exploratory after the cutoff. Holm correction covers the six external comparisons together and the two single-agent comparisons separately.
+
+### Swarm size on development and held-out questions
+
+| Agents | Development news | Development code | Held-out news | Held-out code |
+| --- | --- | --- | --- | --- |
+| 1 | 5/10 | 82.60 (n=10) | 116/169 | 74.53 (n=81) |
+| 2 | 6/10 | 71.60 (n=10) | Postponed | Postponed |
+| 4 | 8/10 | 75.10 (n=10) | 126/169 | 76.00 (n=81) |
+| 8 | 6/10 | 78.90 (n=10) | Postponed | Postponed |
+
+All four sizes answered the same development questions. The one- and four-agent systems also answered the same held-out panel. The other two held-out size conditions were postponed.
 
 The study ledger shows **$9.96 settled** and **$0.77 reserved** against the $50 ceiling. The fixed semantic evidence audit has 0/235 records. [Live local dashboard](http://127.0.0.1:8765) · [Private explorer](https://huggingface.co/spaces/BurnyCoder/luna-folder-swarm-explorer)
 
-The 4-agent swarm answered 126/169 news questions correctly and averaged 76.00/100 on code. The highest observed news score came from stock Codex (140/169). The highest observed code score came from Arctic single agent (80.37/100). One investigator scored 116/169 on news and 74.53/100 on code. The swarm's code difference from one-shot retrieval was +8.09 points. The shortened panel supports exploratory paired estimates. The original full-sample superiority claim remains unresolved. [Measured tables](results/tables.md)
+The 4-agent swarm answered 126/169 news questions correctly and averaged 76.00/100 on code. The highest observed news score came from stock Codex (140/169). The highest observed code score came from Arctic single agent (80.37/100). One investigator scored 116/169 on news and 74.53/100 on code. The swarm's code difference from one-shot retrieval was +8.09 points. Both paired intervals for adding investigators include zero. The shortened panel supports exploratory paired estimates. The original full-sample superiority claim remains unresolved. [Measured tables](results/tables.md)
 <!-- /result-headline -->
 
 The starting observation comes from a small, model-specific study. Its single agent outscored its swarm on repository questions. Its filename-recall measure leaves open whether an agent saw a passage that substantiates the answer. The present comparison holds the generation model fixed, includes ordinary Codex and one-shot retrieval, and measures passage delivery. [Arctic results](https://github.com/BurnyCoder/arcticswarm-folder-rag-research/blob/bd5b3ed98cde10e9c1f90795f2182d84ecd51ddc/results/day1/tables.md) · [Original collector](https://github.com/BurnyCoder/arcticswarm-folder-rag-research/blob/bd5b3ed98cde10e9c1f90795f2182d84ecd51ddc/src/folderrag/collect.py#L78)

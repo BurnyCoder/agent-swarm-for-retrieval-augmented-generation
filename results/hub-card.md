@@ -18,7 +18,7 @@ See the [preregistration](reports/preregistration.md), [measured tables](results
 
 ## Current measurements
 
-The 4-agent swarm answered 126/169 news questions correctly and averaged 76.00/100 on code. The highest observed news score came from stock Codex (140/169). The highest observed code score came from Arctic single agent (80.37/100). One investigator scored 116/169 on news and 74.53/100 on code. The swarm's code difference from one-shot retrieval was +8.09 points. The shortened panel supports exploratory paired estimates. The original full-sample superiority claim remains unresolved.
+The 4-agent swarm answered 126/169 news questions correctly and averaged 76.00/100 on code. The highest observed news score came from stock Codex (140/169). The highest observed code score came from Arctic single agent (80.37/100). One investigator scored 116/169 on news and 74.53/100 on code. The swarm's code difference from one-shot retrieval was +8.09 points. Both paired intervals for adding investigators include zero. The shortened panel supports exploratory paired estimates. The original full-sample superiority claim remains unresolved.
 
 | Phase | Domain | Method | Graded / attempts | Quality [95% CI] | USD/question¹ | Median / p95 s | Errors |
 |---|---|---|---:|---:|---:|---:|---:|

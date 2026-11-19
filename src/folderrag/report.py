@@ -15,7 +15,7 @@ from .paths import DATA, ROOT, now, read, save
 from .provenance import displayed_citations, quote_audit
 from .readme import heldout_snapshot
 from .inventory import experiment_inventory
-from .closeout import findings, scope_note, selected_rows
+from .closeout import comparison_tables, findings, scope_note, selected_rows
 
 REPORTS = ROOT / "reports"
 OUT = ROOT / "results"
@@ -131,6 +131,15 @@ def dashboard_data(rows=None):
     ]
     if control_counts and all(n is not None for n in control_counts):
         targets["diagnostics"] = sum(control_counts)
+    if (
+        decision
+        and len(data["comparisons"]) == 8
+        and all(
+            r["n"] == decision["domain_counts"][r["domain"]]
+            for r in data["comparisons"]
+        )
+    ):
+        data["closeout_tables"] = comparison_tables(data)
     return data
 
 
@@ -380,24 +389,40 @@ def write_pdf(data, summary, date):
         )
     para("Results", "Heading2")
     if data["groups"]:
-        body = [["Phase", "Domain", "Method", "N", "Mean", "95% interval", "USD/q¹"]]
-        for r in data["groups"]:
-            scale = 100 if r["domain"] == "news" else 1
-            body.append(
-                [
-                    r["phase"],
-                    r["domain"],
-                    r["arm"],
-                    str(r["n"]),
-                    f"{scale * r['mean']:.1f}",
-                    f"{scale * r['low']:.1f} – {scale * r['high']:.1f}",
-                    f"{r['cost']:.4f}",
-                ]
+        if data.get("closeout_tables"):
+            tables = data["closeout_tables"]
+            for key, title in (
+                ("quality", "Answer quality on matched questions"),
+                ("resources", "Generation cost and median latency"),
+                ("sizes", "Agent count on development and held-out questions"),
+            ):
+                headers, values = tables[key]
+                para(title, "Heading3")
+                small_table([headers, *values])
+            para(
+                "News cells count exact matches and code cells give mean rubric points out of 100. Outage-free scores exclude the same questions from every method. Costs and times use all first attempts in each domain. Costs exclude grading and latency excludes index setup. Sizes two and eight have only development measurements."
             )
-        small_table(body)
-        para(
-            "News is expressed in percent with Wilson intervals. Code uses the rubric's 100-point scale with question-level bootstrap intervals. The cost column gives the mean conservative inference charge in US dollars. Grading is included separately in the study ledger."
-        )
+        else:
+            body = [
+                ["Phase", "Domain", "Method", "N", "Mean", "95% interval", "USD/q¹"]
+            ]
+            for r in data["groups"]:
+                scale = 100 if r["domain"] == "news" else 1
+                body.append(
+                    [
+                        r["phase"],
+                        r["domain"],
+                        r["arm"],
+                        str(r["n"]),
+                        f"{scale * r['mean']:.1f}",
+                        f"{scale * r['low']:.1f} – {scale * r['high']:.1f}",
+                        f"{r['cost']:.4f}",
+                    ]
+                )
+            small_table(body)
+            para(
+                "News uses Wilson intervals. Code uses the rubric's 100-point scale with question-level bootstrap intervals. Cost is the mean conservative inference charge. Grading is included separately in the study ledger."
+            )
         story.append(Image(str(REPORTS / "figures/quality.png"), width=470, height=216))
         if (REPORTS / "figures/swarm-size.png").exists():
             story.append(
@@ -490,7 +515,11 @@ def write_pdf(data, summary, date):
         )
     para(
         "Benchmark questions predate the generator and could have entered its training data. The generator and code judge share a model family. Interval estimates describe the sampled tasks. "
-        + ("The postponed closed-book and counterfactual controls leave dependence on file contents unresolved. Semantic support and uncited assertions remain ungraded." if data.get("closeout") else "Closed-book and counterfactual diagnostics probe dependence on file contents. A blinded support audit evaluates whether passages substantiate their claims and whether the answer includes uncited assertions.")
+        + (
+            "The postponed closed-book and counterfactual controls leave dependence on file contents unresolved. Semantic support and uncited assertions remain ungraded."
+            if data.get("closeout")
+            else "Closed-book and counterfactual diagnostics probe dependence on file contents. A blinded support audit evaluates whether passages substantiate their claims and whether the answer includes uncited assertions."
+        )
     )
     if data["twins"] or data["support"]:
         para("Evidence and interventions", "Heading2")
@@ -864,7 +893,17 @@ def build():
             scope_note(data["closeout"])
             + f" Every retained question has a grade for every method. The scores include {data['closeout']['first_attempt_generation_failures']} first-attempt generation failures.",
             summary
-            + "\n\nDifferences below subtract the comparator from the selected swarm. News uses percentage points and code uses rubric points. The six external comparisons and the two size comparisons use their prespecified, separate Holm families. These estimates and intervals are exploratory after the owner-directed stop.\n\n"
+            + (
+                "\n\n### Quality on matched questions\n\n"
+                + outcomes.grid(*data["closeout_tables"]["quality"])
+                + "\n\n### Mean generation cost and median latency on first attempts\n\n"
+                + outcomes.grid(*data["closeout_tables"]["resources"])
+                + "\n\n### Swarm size on each sample\n\n"
+                + outcomes.grid(*data["closeout_tables"]["sizes"])
+                if data.get("closeout_tables")
+                else ""
+            )
+            + "\n\n### Paired differences\n\nDifferences below subtract the comparator from the selected swarm. News uses percentage points and code uses rubric points. The six external comparisons and the two size comparisons use their prespecified, separate Holm families. These estimates and intervals are exploratory after the owner-directed stop.\n\n"
             + outcomes.grid(
                 [
                     "Domain",

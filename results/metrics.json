@@ -3382,5 +3382,177 @@
       "purpose": "Repeat eligible upstream failures once within the retry budget. Primary scores keep their first attempts.",
       "phase": "retry"
     }
-  ]
+  ],
+  "closeout_tables": {
+    "quality": [
+      [
+        "Method",
+        "News (n=169)",
+        "News outage-free (n=164)",
+        "Code (n=81)",
+        "Code outage-free (n=78)"
+      ],
+      [
+        [
+          "4-agent swarm",
+          "126/169 (74.6%)",
+          "126/164 (76.8%)",
+          "76.00",
+          "77.88"
+        ],
+        [
+          "1-agent harness",
+          "116/169 (68.6%)",
+          "116/164 (70.7%)",
+          "74.53",
+          "77.40"
+        ],
+        [
+          "Stock Codex",
+          "140/169 (82.8%)",
+          "140/164 (85.4%)",
+          "79.27",
+          "81.17"
+        ],
+        [
+          "Arctic single agent",
+          "132/169 (78.1%)",
+          "130/164 (79.3%)",
+          "80.37",
+          "82.35"
+        ],
+        [
+          "One-shot hybrid RAG",
+          "120/169 (71.0%)",
+          "119/164 (72.6%)",
+          "67.91",
+          "68.59"
+        ]
+      ]
+    ],
+    "resources": [
+      [
+        "Method",
+        "News USD / question",
+        "News median s",
+        "Code USD / question",
+        "Code median s"
+      ],
+      [
+        [
+          "4-agent swarm",
+          "$0.01739",
+          "138.2",
+          "$0.01721",
+          "146.5"
+        ],
+        [
+          "1-agent harness",
+          "$0.00593",
+          "75.7",
+          "$0.00552",
+          "74.7"
+        ],
+        [
+          "Stock Codex",
+          "$0.00521",
+          "70.4",
+          "$0.00463",
+          "72.4"
+        ],
+        [
+          "Arctic single agent",
+          "$0.00655",
+          "36.2",
+          "$0.00545",
+          "55.1"
+        ],
+        [
+          "One-shot hybrid RAG",
+          "$0.00079",
+          "7.7",
+          "$0.00079",
+          "9.2"
+        ]
+      ]
+    ],
+    "sizes": [
+      [
+        "Agents",
+        "Development news",
+        "Development code",
+        "Held-out news",
+        "Held-out code"
+      ],
+      [
+        [
+          "1",
+          "5/10",
+          "82.60 (n=10)",
+          "116/169",
+          "74.53 (n=81)"
+        ],
+        [
+          "2",
+          "6/10",
+          "71.60 (n=10)",
+          "Postponed",
+          "Postponed"
+        ],
+        [
+          "4",
+          "8/10",
+          "75.10 (n=10)",
+          "126/169",
+          "76.00 (n=81)"
+        ],
+        [
+          "8",
+          "6/10",
+          "78.90 (n=10)",
+          "Postponed",
+          "Postponed"
+        ]
+      ]
+    ],
+    "effects": [
+      [
+        "Comparator",
+        "News difference [95% CI], pp",
+        "Holm p",
+        "Code difference [95% CI]",
+        "Holm p"
+      ],
+      [
+        [
+          "1-agent harness",
+          "+5.92 [-1.18, +13.02]",
+          "0.2866",
+          "+1.47 [-1.20, +4.33]",
+          "0.3694"
+        ],
+        [
+          "Stock Codex",
+          "-8.28 [-14.20, -2.96]",
+          "0.0468",
+          "-3.27 [-6.81, +0.28]",
+          "0.2826"
+        ],
+        [
+          "Arctic single agent",
+          "-3.55 [-9.47, +2.37]",
+          "0.6899",
+          "-4.37 [-7.59, -1.20]",
+          "0.0468"
+        ],
+        [
+          "One-shot hybrid RAG",
+          "+3.55 [-2.96, +10.06]",
+          "0.6899",
+          "+8.09 [+3.44, +12.56]",
+          "0.0126"
+        ]
+      ]
+    ]
+  }
 }

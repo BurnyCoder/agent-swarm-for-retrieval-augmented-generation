@@ -55,7 +55,9 @@ def heldout_snapshot(data):
             table_rows.append([f"{title}, {label}", len(group), *values])
     if table_rows:
         lines.append(
-            grid(
+            grid(*data["closeout_tables"]["quality"])
+            if data.get("closeout_tables")
+            else grid(
                 [
                     "Matched panel",
                     "Questions",
@@ -72,7 +74,7 @@ def heldout_snapshot(data):
         if flagged:
             note += (
                 f" The primary scores retain {len(flagged)} provider-overload "
-                f"failure{'s' if len(flagged) != 1 else ''}. The outage-free rows exclude a question "
+                f"failure{'s' if len(flagged) != 1 else ''}. The outage-free scores exclude a question "
                 "from all five methods whenever any arm had a recorded overload failure."
             )
         lines.append(
@@ -93,7 +95,22 @@ def heldout_snapshot(data):
             f"One agent cited {recalls[1]:.1%} and stock Codex cited {recalls[2]:.1%}. "
             "[Citation and claim-support measurements](reports/experiments/grounding.md)"
         )
-    if news:
+    if data.get("closeout_tables"):
+        tables = data["closeout_tables"]
+        lines.extend(
+            [
+                "### Cost and latency on all first attempts",
+                grid(*tables["resources"]),
+                "Costs are mean upper estimates for answer generation. Latencies are medians in seconds and exclude index setup. The study ledger also includes grading.",
+                "### Four-agent swarm minus each comparator",
+                grid(*tables["effects"]),
+                "Positive differences favor the swarm. News uses percentage points and code uses rubric points out of 100. The intervals are paired and exploratory after the cutoff. Holm correction covers the six external comparisons together and the two single-agent comparisons separately.",
+                "### Swarm size on development and held-out questions",
+                grid(*tables["sizes"]),
+                "All four sizes answered the same development questions. The one- and four-agent systems also answered the same held-out panel. The other two held-out size conditions were postponed.",
+            ]
+        )
+    elif news:
         operating = [
             (
                 median(q[a]["seconds"] for q in news),
