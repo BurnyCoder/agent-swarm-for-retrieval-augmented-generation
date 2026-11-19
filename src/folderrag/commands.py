@@ -10,6 +10,7 @@ import uuid
 from pathlib import Path, PureWindowsPath
 
 from .paths import ROOT, now, read
+from .provenance import displayed_citations
 
 
 def source_links(source, index, citations):
@@ -114,6 +115,7 @@ def run():
             if case.trace.funding_error:
                 p.exit(1, case.trace.funding_error + "\n")
             raise
+        result["citations"] = displayed_citations(result["citations"])
         source_links(source, idx, result["citations"])
         result["index_seconds"] = round(prepared - began, 3)
         result["wall_seconds"] = round(time.monotonic() - began, 3)
