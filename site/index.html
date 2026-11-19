@@ -3,7 +3,8 @@
 <title>Luna folder swarm · experiment results</title><link rel="stylesheet" href="style.css"></head>
 <body><main><header><h1>Luna folder swarm</h1><p id="status" role="status">Loading measurements…</p></header>
 <section aria-label="Results"><h2>Answer quality</h2><div class="filters"><label>Phase <select id="phase"><option value="">All</option><option value="dev">Development</option><option value="test">Held out</option><option value="diagnostics">Diagnostics</option></select></label>
-<label>Corpus <select id="domain"><option value="">Both</option><option value="news">Documents</option><option value="code">Code</option></select></label></div>
+<label>Corpus <select id="domain"><option value="">Both</option><option value="news">Documents</option><option value="code">Code</option></select></label>
+<label>Method <select id="method"><option value="">All methods</option></select></label></div>
 <div class="scroll"><table><thead><tr><th>Phase</th><th>Corpus</th><th>Method</th><th>Graded</th><th>Quality and 95% CI</th><th>USD / question</th><th>Median time</th><th>Workers completed / requested</th></tr></thead><tbody id="scores"></tbody></table></div></section>
 <section><h2>Inspect an answer</h2><label>Search questions <input id="query" type="search" autocomplete="off"></label><select id="example" aria-label="Question and condition"></select><article id="detail"></article></section>
 <footer>News quality is exact-match accuracy. Code quality is the SWE-QA rubric score out of 100. Costs are conservative upper estimates.</footer></main>

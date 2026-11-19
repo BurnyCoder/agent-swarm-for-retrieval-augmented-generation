@@ -210,3 +210,61 @@ def test_baseline_entrypoints(tmp_path, method):
         result = answer(case, "What is the codeword?", method=method)
     assert result["answer"] == "Mallow"
     assert tracker.unit("baseline")["requests"] >= 1
+
+
+def test_normal_cli_repairs_invalid_quotes_and_reports_exhausted_budget(
+    tmp_path, monkeypatch, capsys
+):
+    import sys
+    from folderrag import commands, corpus, evaluate
+
+    source = tmp_path / "source"
+    source.mkdir()
+    (source / "facts.txt").write_text("No codeword is recorded.")
+    monkeypatch.setattr(corpus, "DATA", tmp_path / "data")
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "folderrag",
+            "ask",
+            "--folder",
+            str(source),
+            "--agents",
+            "1",
+            "--lexical-only",
+            "--json",
+            "What is the codeword?",
+        ],
+    )
+    for cap in (2.0, 0.01):
+        tracker = Ledger(tmp_path / f"{cap}.db", {"dev": cap})
+        trace = Trace(tmp_path / "run.jsonl", False)
+        with fake_api() as upstream:
+            monkeypatch.setattr(
+                evaluate,
+                "new_case",
+                lambda index, phase, unit: Case(
+                    index,
+                    tracker,
+                    phase,
+                    unit,
+                    trace,
+                    "fixture",
+                    time.monotonic() + 60,
+                    upstream,
+                ),
+            )
+            if cap > 1:
+                commands.run()
+                result = json.loads(capsys.readouterr().out)
+                assert (
+                    result["repaired"]
+                    and result["answer"] == "Insufficient information"
+                )
+                assert not result["citations"][0]["valid"]
+            else:
+                with pytest.raises(SystemExit):
+                    commands.run()
+                assert "budget" in capsys.readouterr().err.lower()
+                assert not tracker.totals()

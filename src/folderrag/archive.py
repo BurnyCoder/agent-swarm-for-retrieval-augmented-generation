@@ -22,7 +22,7 @@ def build_archives():
             )
         files.extend((DATA / "evidence").glob(phase + "-*.json.gz"))
         if phase == "diagnostics":
-            for name in ("twins", "support"):
+            for name in ("twins", "support", "audit-labels"):
                 files.extend((DATA / name).glob("*.json"))
         if phase == "dev":
             files.extend((DATA / "historical").glob("*.json"))

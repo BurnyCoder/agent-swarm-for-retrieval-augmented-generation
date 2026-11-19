@@ -7,6 +7,7 @@ import ast
 import functools
 import shutil
 from concurrent.futures import ThreadPoolExecutor
+import httpx
 
 from .agents import answer, direct
 from .benchdata import BENCH
@@ -140,10 +141,24 @@ def code_sites(path):
 
 
 def blind_labels(unit, task, fields):
-    case = new_case(None, "diagnostics", unit)
-    return json.loads(
-        direct(case.gateway("audit", 1, Evidence(), "lexical"), task, schema(fields))
-    )
+    checkpoint = DATA / "audit-labels" / (unit + ".json")
+    if checkpoint.exists():
+        return read(checkpoint)
+    for stage in ("diagnostics", "retry"):
+        case = new_case(None, stage, unit + "-" + stage)
+        try:
+            labels = json.loads(
+                direct(
+                    case.gateway("audit", 1, Evidence(), "lexical"),
+                    task,
+                    schema(fields),
+                )
+            )
+            save(checkpoint, labels)
+            return labels
+        except (ValueError, RuntimeError, httpx.HTTPError):
+            if stage == "retry" or case.trace.funding_error:
+                raise
 
 
 def support_audit(workers=3):

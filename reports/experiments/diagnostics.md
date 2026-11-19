@@ -8,3 +8,10 @@ The fixed first block tests the other sizes, controls, retrieval and verificatio
 
 ¹ Conservative inference charge using the cache-write upper rate for unclassified input tokens. Grading is included in the phase ledger.
 
+
+
+### Matched first-block differences
+
+Descriptive paired bootstrap intervals are in percentage points for news and rubric points for code.
+
+Awaiting the frozen selection.

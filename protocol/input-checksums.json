@@ -1,0 +1,149 @@
+{
+  "https://raw.githubusercontent.com/peng-weihan/SWE-QA-Bench/c13deac7a0d99b0ca2e593e004c4739475785b08/repo_commit.txt": {
+    "bytes": 663,
+    "sha256": "ef14c0547110daf20e5d95bf67615c49464001557532a2cdc5b24956ebf1412c"
+  },
+  "https://huggingface.co/datasets/yixuantt/MultiHopRAG/resolve/71ac0d0bd1f951d2d6b70311f7d2ae404e1ffa82/corpus.json": {
+    "bytes": 6785567,
+    "sha256": "20b61b5ab84de84a927420c5d265b7ec8d859ae49980699958a787ade9e4d28f"
+  },
+  "https://huggingface.co/datasets/yixuantt/MultiHopRAG/resolve/71ac0d0bd1f951d2d6b70311f7d2ae404e1ffa82/MultiHopRAG.json": {
+    "bytes": 5171312,
+    "sha256": "03cfb4926461f868684903aadc8024447bdda5bb3f6804741424cce338515bff"
+  },
+  "https://huggingface.co/datasets/swe-qa/SWE-QA-Benchmark/resolve/f048f07da234b39e32937f115d027c5b71acd54e/astropy.jsonl": {
+    "bytes": 80310,
+    "sha256": "67b852d9a4dfc9cf347b29e233b247623948ebf64f3510f3dc513ce62bab1c4a"
+  },
+  "https://codeload.github.com/astropy/astropy/tar.gz/0a041d3": {
+    "bytes": 6846356,
+    "sha256": "2b397d52de3bf3d98cfe6b0598b05a382b72bcd0d2773bd5664578e01e83af0c",
+    "commit": "0a041d38fbd0014298d4cf340d9f891c4522093f"
+  },
+  "https://huggingface.co/datasets/swe-qa/SWE-QA-Benchmark/resolve/f048f07da234b39e32937f115d027c5b71acd54e/django.jsonl": {
+    "bytes": 159324,
+    "sha256": "69b4052df489b9781031b6c8c28640b2043a3299ba290147441ecc8c6a62bdcd"
+  },
+  "https://codeload.github.com/django/django/tar.gz/14fc2e9": {
+    "bytes": 10855182,
+    "sha256": "d1030a06046f0126e554c4952b04bb4a7d8fa3c61cc7bda24f871944a358f783",
+    "commit": "14fc2e97036fc9d7acb55ada4f16f1aa3bdc5ec7"
+  },
+  "https://huggingface.co/datasets/swe-qa/SWE-QA-Benchmark/resolve/f048f07da234b39e32937f115d027c5b71acd54e/flask.jsonl": {
+    "bytes": 117842,
+    "sha256": "8e0ecf2163bcbb57282dac291c3801421ef4a7424a721159685945d7b836cb69"
+  },
+  "https://codeload.github.com/pallets/flask/tar.gz/85c5d93": {
+    "bytes": 714931,
+    "sha256": "59a58d03d370dc9e3aed9a6a90e35cedaf5accac3b5559e6d1e59e4033908c8e",
+    "commit": "85c5d93cbd049c4bd0679c36fd1ddcae8c37b642"
+  },
+  "https://huggingface.co/datasets/swe-qa/SWE-QA-Benchmark/resolve/f048f07da234b39e32937f115d027c5b71acd54e/matplotlib.jsonl": {
+    "bytes": 119485,
+    "sha256": "e43db166c2c2053447bddba3733df27d98ac615b06cce56c0161a1cd555de3ad"
+  },
+  "https://codeload.github.com/matplotlib/matplotlib/tar.gz/a5e1f60": {
+    "bytes": 35826119,
+    "sha256": "00861e08dfb477cfb422e103b12fb036ffb678a67d54d9c67f555f05c6e6ceae",
+    "commit": "a5e1f6086e92d5cc0a23f85685d03d85b89a8395"
+  },
+  "https://huggingface.co/datasets/swe-qa/SWE-QA-Benchmark/resolve/f048f07da234b39e32937f115d027c5b71acd54e/pylint.jsonl": {
+    "bytes": 112140,
+    "sha256": "e362c5de37c47f2bf28985173a21ff5e9bf4ae2302d333f495c6e9165ba97389"
+  },
+  "https://codeload.github.com/pylint-dev/pylint/tar.gz/44740e5": {
+    "bytes": 1483073,
+    "sha256": "f1807feac0a8480e4d8e612fe5476e116fd7694bf5b880d66bc3365f26799811",
+    "commit": "44740e5e5cdd2b80321a4f0ed4254213d058b9f6"
+  },
+  "https://huggingface.co/datasets/swe-qa/SWE-QA-Benchmark/resolve/f048f07da234b39e32937f115d027c5b71acd54e/pytest.jsonl": {
+    "bytes": 116062,
+    "sha256": "cbb235270f2a4a223493621a172978a2349a6e998cefec66e97be324d1c23c80"
+  },
+  "https://codeload.github.com/pytest-dev/pytest/tar.gz/5989efe": {
+    "bytes": 1515074,
+    "sha256": "c4dfa79deb7fa7391308206d1bdc5b2118baf57dc74ba076adbb7bf796f155da",
+    "commit": "5989efe3efec31a9d14f550d89903b6311dfc828"
+  },
+  "https://huggingface.co/datasets/swe-qa/SWE-QA-Benchmark/resolve/f048f07da234b39e32937f115d027c5b71acd54e/requests.jsonl": {
+    "bytes": 111316,
+    "sha256": "01606b45b6e92120f4ed429f402e01d173272902baf04353616090c13e3d0ad6"
+  },
+  "https://codeload.github.com/psf/requests/tar.gz/46e939b": {
+    "bytes": 4056148,
+    "sha256": "dc80a553c1923e34772fdcb33dc11f847bff299db4ce0de45ef6a43a353be9b5",
+    "commit": "46e939b5525d9c72b677340985582b04b128478a"
+  },
+  "https://huggingface.co/datasets/swe-qa/SWE-QA-Benchmark/resolve/f048f07da234b39e32937f115d027c5b71acd54e/scikit-learn.jsonl": {
+    "bytes": 123393,
+    "sha256": "2a789b2dcb0c11cd71d48aeddeb6b8e66c4623de7d65c7d08948068a6d0bfa75"
+  },
+  "https://codeload.github.com/scikit-learn/scikit-learn/tar.gz/adb1ae7": {
+    "bytes": 7199969,
+    "sha256": "3b738262d2510d01f057f89c8590a5b1d7e811a4010f5fed4ddfce80a228e0d1",
+    "commit": "adb1ae76d798e822984d4e312c90c6ca8f01a3df"
+  },
+  "https://huggingface.co/datasets/swe-qa/SWE-QA-Benchmark/resolve/f048f07da234b39e32937f115d027c5b71acd54e/sphinx.jsonl": {
+    "bytes": 118653,
+    "sha256": "348b9a481eb87a2163fe2a881d954e99fce4eb0d29cafbe4cb9b7c5fd8128dca"
+  },
+  "https://codeload.github.com/sphinx-doc/sphinx/tar.gz/6c9e320": {
+    "bytes": 8575676,
+    "sha256": "8ade4a9a03fd550f8cc4bd44768ad80a72b90de43c40e7f52320f762839407f4",
+    "commit": "6c9e3209c4ebc81c7c09f6a30eeaa4651f32f461"
+  },
+  "https://huggingface.co/datasets/swe-qa/SWE-QA-Benchmark/resolve/f048f07da234b39e32937f115d027c5b71acd54e/sqlfluff.jsonl": {
+    "bytes": 120845,
+    "sha256": "d68d09bb18d6d7be3274b2b6a6a02ef7b1c433e9bf09a7f628fb71750b1152f7"
+  },
+  "https://codeload.github.com/sqlfluff/sqlfluff/tar.gz/db9801b": {
+    "bytes": 3159224,
+    "sha256": "c916daa713968dfba3d18775d713a4e9becde68894d2e7dd2af88ba14ed12593",
+    "commit": "db9801b7eb7fd014e765117f63ee1b0675fa9f87"
+  },
+  "https://huggingface.co/datasets/swe-qa/SWE-QA-Benchmark/resolve/f048f07da234b39e32937f115d027c5b71acd54e/sympy.jsonl": {
+    "bytes": 114339,
+    "sha256": "e8e02178dd7a3e26becc165279fe92b0109615bf21083b64a8d7469d3f43a5f0"
+  },
+  "https://codeload.github.com/sympy/sympy/tar.gz/3c817ed": {
+    "bytes": 8026442,
+    "sha256": "4267c4b62b3cb292530ed23678d741c784136cb421521f13c621036004655db9",
+    "commit": "3c817ed8ab551d71e36907ce869afe5e4ca789ff"
+  },
+  "https://huggingface.co/datasets/swe-qa/SWE-QA-Benchmark/resolve/f048f07da234b39e32937f115d027c5b71acd54e/xarray.jsonl": {
+    "bytes": 124113,
+    "sha256": "183d9bd44be4535fa53d86518e30b77665253675820cbe95c7f8f561823908ba"
+  },
+  "https://codeload.github.com/pydata/xarray/tar.gz/40119bf": {
+    "bytes": 3010851,
+    "sha256": "7f47af5d52fc4b7ecc74c676ed2ceda7e6e7d22e81c5d143aa47f7d0f861f21b",
+    "commit": "40119bf35c53fc222934894d842cfc07b2e264bf"
+  },
+  "https://huggingface.co/datasets/swe-qa/SWE-QA-Benchmark/resolve/f048f07da234b39e32937f115d027c5b71acd54e/conan.jsonl": {
+    "bytes": 269145,
+    "sha256": "5a5e1f9498312a858ef15a55272802c2ed8ac12c4caf3d1e6fe49210ffc24bac"
+  },
+  "https://codeload.github.com/conan-io/conan/tar.gz/52f43d9": {
+    "bytes": 1309620,
+    "sha256": "0c2ab83748c79e2df27726aac3a56ad0211049340533d33f8eec84cb2c41d585",
+    "commit": "52f43d98fe44ab92d01317110488d0670c3e9e64"
+  },
+  "https://huggingface.co/datasets/swe-qa/SWE-QA-Benchmark/resolve/f048f07da234b39e32937f115d027c5b71acd54e/reflex.jsonl": {
+    "bytes": 41654,
+    "sha256": "3016f0430606f9a1332fd09e6a649466c5746366d4515cdfbf680fd230c3400d"
+  },
+  "https://codeload.github.com/reflex-dev/reflex/tar.gz/fe0f946": {
+    "bytes": 2859175,
+    "sha256": "fd03d8f6237c6f7e548a3914607dbb1507a805df11141a46e4163b873dcab4bb",
+    "commit": "fe0f946dc0c240c6c1e513318c21db407e191c78"
+  },
+  "https://huggingface.co/datasets/swe-qa/SWE-QA-Benchmark/resolve/f048f07da234b39e32937f115d027c5b71acd54e/streamlink.jsonl": {
+    "bytes": 42591,
+    "sha256": "59914d844f35de5f627c782cb5db7d320ed44f101619f95b186151951fe4740b"
+  },
+  "https://codeload.github.com/streamlink/streamlink/tar.gz/ab1f365": {
+    "bytes": 765351,
+    "sha256": "ddfefa7730bbd47cd28a0cda577aa36f1d0f6a8fea090aef17a84df8fae5915c",
+    "commit": "ab1f36560005253ca6a290a614730bf18a29a7f9"
+  }
+}

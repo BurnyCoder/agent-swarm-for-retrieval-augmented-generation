@@ -18,7 +18,8 @@ git archive --format=zip --output=.runtime/source.zip HEAD
 if ($LASTEXITCODE -ne 0) { throw "Source archive failed" }
 hf upload $dataset .runtime/source.zip source.zip --type dataset --commit-message "Archive tracked source $revision"
 if ($LASTEXITCODE -ne 0) { throw "Source publication failed" }
-hf upload $dataset protocol/hub-card.md README.md --type dataset --commit-message "Update research card"
+$card = if (Test-Path -LiteralPath results/hub-card.md) { 'results/hub-card.md' } else { 'protocol/hub-card.md' }
+hf upload $dataset $card README.md --type dataset --commit-message "Update research card"
 if ($LASTEXITCODE -ne 0) { throw "Card upload failed" }
 hf upload $space site . --type space --commit-message "Update private results explorer"
 if ($LASTEXITCODE -ne 0) { throw "Explorer upload failed" }

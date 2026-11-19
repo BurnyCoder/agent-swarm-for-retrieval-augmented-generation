@@ -138,6 +138,7 @@ def prepare():
     with concurrent.futures.ThreadPoolExecutor(4) as pool:
         for group in pool.map(code_repo, pins):
             rows.extend(group)
+    archive_inputs(pins)
     byid = {r["id"]: r for r in rows}
     dev = read(ROOT / "protocol/development.json")
     normalized = lambda q: " ".join(re.findall(r"\w+", q.casefold()))
@@ -195,6 +196,30 @@ def prepare():
         "balanced blocks.",
         flush=True,
     )
+
+
+def archive_inputs(pins):
+    """Fingerprint upstream downloads without exposing benchmark contents to any answering agent."""
+    urls = [PINS, NEWS + "corpus.json", NEWS + "MultiHopRAG.json"]
+    for pin in pins:
+        repo, rev = pin.split()
+        urls.extend(
+            [
+                SWE + repo.rsplit("/", 1)[-1] + ".jsonl",
+                f"https://codeload.github.com/{repo.removeprefix('https://github.com/')}/tar.gz/{rev}",
+            ]
+        )
+    manifest = {}
+    for url in urls:
+        raw = download(url)
+        row = dict(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())
+        if url.startswith("https://codeload.github.com/"):
+            with tarfile.open(fileobj=io.BytesIO(raw), mode="r:gz") as archive:
+                commit = archive.pax_headers.get("comment", "")
+                if re.fullmatch(r"[0-9a-f]{40}", commit):
+                    row["commit"] = commit
+        manifest[url] = row
+    save(ROOT / "protocol/input-checksums.json", manifest)
 
 
 if __name__ == "__main__":

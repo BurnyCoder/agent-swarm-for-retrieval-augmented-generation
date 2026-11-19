@@ -248,6 +248,20 @@ class Encoder:
             .to(self.device)
             .eval()
         )
+        save(
+            DATA / "runtime" / "encoder.json",
+            dict(
+                model=ENCODER,
+                revision=REVISION,
+                device=self.device,
+                accelerator=torch.cuda.get_device_name(0)
+                if self.device == "cuda"
+                else "CPU",
+                torch=torch.__version__,
+                cuda=torch.version.cuda,
+                utc=now(),
+            ),
+        )
         self.lock = threading.Lock()
 
     def encode(self, texts):

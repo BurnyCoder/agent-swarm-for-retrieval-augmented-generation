@@ -32,6 +32,8 @@ class Ledger:
         return sqlite3.connect(self.path, timeout=60)
 
     def reserve(self, phase, unit, agent, amount, tokens, agent_cap=32):
+        if not math.isfinite(amount) or amount < 0 or not 1 <= tokens <= 4096:
+            raise ValueError("Invalid budget reservation")
         with self.connect() as db:
             db.execute("begin immediate")
             used, pending = db.execute(
@@ -83,6 +85,15 @@ class Ledger:
                 p: v / 1e9
                 for p, v in db.execute(
                     "select phase,sum(usd) from calls group by phase"
+                )
+            }
+
+    def balances(self):
+        with self.connect() as db:
+            return {
+                state: usd / 1e9
+                for state, usd in db.execute(
+                    "select state,sum(usd) from calls group by state"
                 )
             }
 

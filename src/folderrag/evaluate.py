@@ -8,6 +8,7 @@ import json
 import math
 import os
 import random
+import subprocess
 import time
 from pathlib import Path
 
@@ -25,6 +26,26 @@ from .paths import DATA, LIMITS, ROOT, now, read, save
 SCORING = ("correctness", "completeness", "relevance", "clarity", "reasoning")
 SIZES = ("swarm1", "swarm2", "swarm4", "swarm8")
 BASE = ("stock", "arctic", "oneshot")
+FROZEN_FILES = (
+    "src/folderrag/benchdata.py",
+    "protocol/input-checksums.json",
+    "protocol/splits.json",
+    "protocol/sweqa_judge.txt",
+    "reports/preregistration.md",
+    "src/folderrag/agents.py",
+    "src/folderrag/gateway.py",
+    "src/folderrag/corpus.py",
+    "src/folderrag/evidence.py",
+    "src/folderrag/isolated/runner.py",
+    "src/folderrag/isolated/answer.schema.json",
+    "src/folderrag/evaluate.py",
+    "src/folderrag/analysis.py",
+    "src/folderrag/diagnostics.py",
+    "src/folderrag/ledger.py",
+    "src/folderrag/sandbox.py",
+    "src/folderrag/paths.py",
+    "uv.lock",
+)
 RUBRIC = (
     (ROOT / "protocol/sweqa_judge.txt").read_text(encoding="utf8").split("---", 1)[1]
 )
@@ -109,7 +130,9 @@ def measure(phase, q, arm, unit=None):
     dest.parent.mkdir(parents=True, exist_ok=True)
     with FileLock(str(dest) + ".lock"):
         if dest.exists():
-            return read(dest)
+            prior = read(dest)
+            if prior.get("score") is not None:
+                return prior
         dense = arm not in {"stock", "arctic", "closed", "random", "oracle", "lexical"}
         index = index_for(q["folder"], dense)
         if arm == "arctic":
@@ -241,6 +264,10 @@ def run_stage(phase, workers=2, limit=None):
             jobs.extend((questions[qid], a) for a in (*SIZES, *BASE))
     else:
         frozen = read(ROOT / "protocol/freeze.json")
+        if frozen.get("file_sha256") and frozen["file_sha256"] != frozen_hashes():
+            raise RuntimeError(
+                "Registered prompts, scorer, inputs or implementation differ from the committed freeze"
+            )
         size = f"swarm{frozen['size']}"
         if phase == "test":
             for block in splits["blocks"][: frozen["blocks"]]:
@@ -281,6 +308,11 @@ def run_stage(phase, workers=2, limit=None):
         jobs.extend(group)
     if limit:
         jobs = jobs[:limit]
+    elif jobs:
+        save(
+            DATA / "stages" / (phase + ".json"),
+            dict(phase=phase, planned=len(jobs), state="running", utc=now()),
+        )
     # Submit only one job per worker. A funding stop cannot enqueue every remaining case.
     with concurrent.futures.ThreadPoolExecutor(workers) as pool:
         pending = set()
@@ -293,9 +325,29 @@ def run_stage(phase, workers=2, limit=None):
                 pending, return_when=concurrent.futures.FIRST_COMPLETED
             )
             for completed in done:
-                completed.result()
+                try:
+                    completed.result()
+                except RuntimeError as error:
+                    if "budget" in str(error).lower() or "quota" in str(error).lower():
+                        save(
+                            DATA / "phase-stops" / (phase + ".json"),
+                            dict(reason=str(error), utc=now()),
+                        )
+                    raise
                 if (job := next(queue, None)) is not None:
                     pending.add(pool.submit(measure, phase, *job))
+    if not limit:
+        save(
+            DATA / "stages" / (phase + ".json"),
+            dict(phase=phase, planned=len(jobs), state="finished", utc=now()),
+        )
+
+
+def frozen_hashes():
+    return {
+        name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
+        for name in FROZEN_FILES
+    }
 
 
 def freeze():
@@ -305,8 +357,10 @@ def freeze():
     split = read(ROOT / "protocol/splits.json")
     rows = records("dev")
     expected = {(q, a) for q in split["legacy"].values() for a in (*SIZES, *BASE)}
-    if {(r["id"], r["arm"]) for r in rows} != expected or any(
-        r["score"] is None for r in rows
+    if (
+        len(rows) != len(expected)
+        or {(r["id"], r["arm"]) for r in rows} != expected
+        or any(r["score"] is None for r in rows)
     ):
         raise RuntimeError("Development comparisons or grading incomplete")
 
@@ -352,6 +406,10 @@ def freeze():
         "blocks": blocks,
         "dev_performance": performance,
         "estimated_block_upper_usd": estimate,
+        "source_commit": subprocess.check_output(
+            ["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True
+        ).strip(),
+        "file_sha256": frozen_hashes(),
         "split_sha256": hashlib.sha256(
             (ROOT / "protocol/splits.json").read_bytes()
         ).hexdigest(),

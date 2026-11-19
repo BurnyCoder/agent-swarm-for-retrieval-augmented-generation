@@ -9,3 +9,4 @@ The initial size-eight development trace contained genuine concurrent searches a
 | mhr_0570 | swarm8 | 1/7 | 7 | 0 | 91.227 |
 | mhr_2204 | swarm2 | 1/1 | 1 | 1 | 161.463 |
 | mhr_2204 | swarm4 | 0/3 | 3 | 1 | 103.096 |
+| mhr_2204 | swarm8 | 0/7 | 7 | 1 | 135.193 |
