@@ -78,10 +78,13 @@ def render_examples(data, directory):
         subset = [r for r in rows if r["id"] == qid]
         if subset:
             sections.extend(["## " + qid, subset[0]["question"]])
+            if subset[0].get("reference"):
+                sections.extend(["**Benchmark reference**", subset[0]["reference"]])
         for r in sorted(subset, key=lambda x: x["arm"]):
             sections.extend(
                 [
                     "### " + r["arm"],
+                    f"Recorded score {r.get('score', 'pending')} / {1 if r['domain'] == 'news' else 100}.",
                     r["answer"] or r.get("error", "No answer"),
                     r.get("explanation", ""),
                 ]

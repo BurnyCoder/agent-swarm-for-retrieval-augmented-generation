@@ -150,6 +150,8 @@ def swarms(data):
                 sum(r.get("workers_contributing", 0) for r in group),
                 max(r.get("peak_investigators", 0) for r in group),
                 sum(r.get("duplicate_worker_spans", 0) for r in group),
+                f"{mean(r.get('requests',0) for r in group):.1f}",
+                f"{mean(r.get('output_tokens',0) for r in group):.0f}",
             ]
         )
     return grid(
@@ -163,6 +165,8 @@ def swarms(data):
             "Supplied verified evidence",
             "Max simultaneous",
             "Repeated span reads",
+            "Mean requests",
+            "Mean output tokens",
         ],
         rows,
     )

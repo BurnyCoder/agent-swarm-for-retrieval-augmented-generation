@@ -41,6 +41,10 @@ def dashboard_data():
         "updated": now(),
         "budget": ledger().totals() or archived.get("budget", {}),
         "balances": ledger().balances() or archived.get("balances", {}),
+        "offset_audit": archived.get("offset_audit", {}),
+        "encoder_runtime": read(DATA / "runtime/encoder.json")
+        if (DATA / "runtime/encoder.json").exists()
+        else archived.get("encoder_runtime", {}),
         "groups": means(rows),
         "rows": rows,
         "pilot": records("dev", pilots=True) or archived.get("pilot", []),
@@ -406,6 +410,11 @@ def write_pdf(data, summary, date):
     para("Conclusions", "Heading2")
     para(html.escape(summary))
     para("Appendix · reproducible settings", "Heading2")
+    if data.get("encoder_runtime"):
+        h = data["encoder_runtime"]
+        para(
+            f"The local encoder ran on {html.escape(h['accelerator'])} with PyTorch {html.escape(h['torch'])} and device {html.escape(h['device'])}. The dollar estimates cover API generation and grading. Index setup is measured in seconds."
+        )
     para(
         "Each question has 300 seconds, at most 32 model requests and 48,000 aggregate output tokens. An individual request allows up to 4,096 output tokens at medium reasoning effort. Larger swarms divide 16 requests among their investigators and reserve the rest for the coordinator. The investigator's final allocated turn requests a structured handoff. The coordinator has one citation-repair opportunity within its allowance."
     )
@@ -477,6 +486,9 @@ def write_pdf(data, summary, date):
 
 def build():
     data = dashboard_data()
+    from .offset_audit import news_offsets
+
+    data["offset_audit"] = news_offsets() or data.get("offset_audit", {})
     date = dt.datetime.now(ZoneInfo("Europe/Berlin")).date().isoformat()
     summary = conclusions(data)
     figures(data)
@@ -604,6 +616,37 @@ def build():
             ),
         ),
     }
+    audit = data["offset_audit"]
+    if audit:
+        pages["offsets"] = (
+            "News citation address audit",
+            "Both chunkers processed the same immutable canonical news texts. An ambiguous original identifier points to multiple distinct passages. Every offset-indexed slice is compared with its source bytes after UTF-8 decoding.",
+            outcomes.grid(
+                [
+                    "Files",
+                    "Original spans",
+                    "Ambiguous line IDs",
+                    "Affected files",
+                    "Offset spans",
+                    "Duplicate offset IDs",
+                    "Incorrect slices",
+                ],
+                [
+                    [
+                        audit[k]
+                        for k in (
+                            "files",
+                            "original_spans",
+                            "original_ambiguous_ids",
+                            "original_ambiguous_files",
+                            "offset_spans",
+                            "duplicate_offset_ids",
+                            "incorrect_slices",
+                        )
+                    ]
+                ],
+            ),
+        )
     dest = REPORTS / "experiments"
     dest.mkdir(exist_ok=True)
     if examples:
