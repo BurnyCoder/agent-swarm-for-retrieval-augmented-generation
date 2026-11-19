@@ -13,6 +13,30 @@ function matches(row) {
     (!byId("method").value || row.arm === byId("method").value);
 }
 
+function renderInventory() {
+  const body = byId("experiment-rows");
+  const filter = byId("experiment-status");
+  const selection = filter.value;
+  const rows = data.inventory || [];
+  const statuses = [...new Set(rows.map(row => row.status))];
+  filter.replaceChildren(new Option("All statuses", ""));
+  for (const status of statuses) filter.append(new Option(status, status));
+  if (statuses.includes(selection)) filter.value = selection;
+  body.replaceChildren();
+  for (const row of rows) {
+    if (filter.value && row.status !== filter.value) continue;
+    const tr = el("tr", "");
+    for (const value of [row.name, row.kind, row.status, row.done + " / " + (row.planned ?? "pending"), row.purpose]) {
+      tr.append(el("td", value));
+    }
+    body.append(tr);
+  }
+}
+
+function openLinkedInventory() {
+  if (location.hash === "#experiments") byId("experiments").open = true;
+}
+
 function renderSizeChart() {
   const phase = byId("size-phase").value;
   const domain = byId("size-domain").value;
@@ -121,12 +145,18 @@ async function refresh() {
     const cost = data.balances ? "$"+(data.balances.settled||0).toFixed(2)+" settled upper estimate + $"+(data.balances.reserved||0).toFixed(2)+" reserved" : "$"+used.toFixed(2)+" charged or reserved";
     const run = data.operation?.state ? " · "+data.operation.action+" "+data.operation.state.replaceAll("_"," ") : "";
     byId("status").textContent = data.rows.length+" condition runs · "+cost+" of $50"+run+" · updated "+new Date(data.updated).toLocaleString();
+    renderInventory();
     renderSizeChart();
     render();
   } catch (e) { byId("status").textContent = e.message; }
+  finally {
+    if (["127.0.0.1","localhost"].includes(location.hostname)) setTimeout(refresh,20000);
+  }
 }
 for (const id of ["phase","domain","method","query"]) byId(id).addEventListener("input",render);
 for (const id of ["size-phase", "size-domain", "size-metric"]) byId(id).addEventListener("change", renderSizeChart);
 byId("example").addEventListener("change",details);
+byId("experiment-status").addEventListener("change",renderInventory);
+window.addEventListener("hashchange",openLinkedInventory);
+openLinkedInventory();
 refresh();
-if (["127.0.0.1","localhost"].includes(location.hostname)) setInterval(refresh,20000);

@@ -12,10 +12,10 @@ The frozen development choice is **4 agents**, including the coordinator. The co
 | dev | news | swarm2 | 10 | 10 | 10 | 10 | 1 | 0 | 8.6 | 3940 |
 | dev | news | swarm4 | 10 | 30 | 30 | 29 | 3 | 101 | 16.7 | 7520 |
 | dev | news | swarm8 | 10 | 70 | 70 | 65 | 7 | 36 | 20.0 | 10468 |
-| test | code | swarm1 | 74 | 0 | 0 | 0 | 0 | 0 | 5.3 | 2375 |
-| test | code | swarm4 | 74 | 222 | 214 | 208 | 3 | 394 | 15.5 | 7886 |
-| test | news | swarm1 | 156 | 0 | 0 | 0 | 0 | 0 | 5.1 | 2273 |
-| test | news | swarm4 | 156 | 468 | 453 | 428 | 3 | 1718 | 15.6 | 7118 |
+| test | code | swarm1 | 81 | 0 | 0 | 0 | 0 | 0 | 5.5 | 2395 |
+| test | code | swarm4 | 79 | 237 | 229 | 223 | 3 | 427 | 15.7 | 7855 |
+| test | news | swarm1 | 165 | 0 | 0 | 0 | 0 | 0 | 5.2 | 2286 |
+| test | news | swarm4 | 165 | 495 | 480 | 451 | 3 | 1790 | 15.6 | 7087 |
 
 ### First held-out block
 

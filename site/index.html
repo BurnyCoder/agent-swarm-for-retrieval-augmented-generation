@@ -2,6 +2,11 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Luna folder swarm · experiment results</title><link rel="stylesheet" href="style.css"></head>
 <body><main><header><h1>Luna folder swarm</h1><p id="status" role="status">Loading measurements…</p></header>
+<details id="experiments"><summary>Experiment inventory</summary>
+<label for="experiment-status">Experiment status
+<select id="experiment-status"><option value="">All statuses</option></select></label>
+<div class="scroll"><table><thead><tr><th>Experiment</th><th>Type</th><th>Status</th><th>Recorded / planned</th><th>What it tests</th></tr></thead><tbody id="experiment-rows"></tbody></table></div>
+</details>
 <section aria-labelledby="size-heading"><h2 id="size-heading">What changes with swarm size?</h2>
 <div class="filters">
 <label>Questions <select id="size-phase"><option value="dev">Development</option><option value="held">First held-out block</option></select></label>

@@ -18,16 +18,16 @@
 | dev | news | swarm2 | 10 | 30/33 (90.9%) | 10/10 (100.0%) | 86.1% | 78.7% |
 | dev | news | swarm4 | 10 | 36/36 (100.0%) | 10/10 (100.0%) | 92.6% | 84.3% |
 | dev | news | swarm8 | 10 | 36/37 (97.3%) | 10/10 (100.0%) | 88.9% | 86.1% |
-| test | code | arctic | 74 | 222/277 (80.1%) | 72/74 (97.3%) | — | — |
-| test | code | oneshot | 74 | 161/207 (77.8%) | 73/74 (98.6%) | — | — |
-| test | code | stock | 74 | 280/319 (87.8%) | 72/74 (97.3%) | — | — |
-| test | code | swarm1 | 74 | 280/298 (94.0%) | 71/74 (95.9%) | — | — |
-| test | code | swarm4 | 74 | 309/321 (96.3%) | 72/74 (97.3%) | — | — |
-| test | news | arctic | 159 | 414/465 (89.0%) | 143/159 (89.9%) | 95.6% | 78.3% |
-| test | news | oneshot | 158 | 315/334 (94.3%) | 141/158 (89.2%) | 71.1% | 61.8% |
-| test | news | stock | 156 | 430/478 (90.0%) | 151/156 (96.8%) | 82.1% | 82.1% |
-| test | news | swarm1 | 156 | 447/474 (94.3%) | 143/156 (91.7%) | 89.1% | 77.1% |
-| test | news | swarm4 | 156 | 533/542 (98.3%) | 150/156 (96.2%) | 93.2% | 85.3% |
+| test | code | arctic | 79 | 237/295 (80.3%) | 77/79 (97.5%) | — | — |
+| test | code | oneshot | 81 | 173/222 (77.9%) | 80/81 (98.8%) | — | — |
+| test | code | stock | 80 | 306/345 (88.7%) | 78/80 (97.5%) | — | — |
+| test | code | swarm1 | 81 | 305/323 (94.4%) | 78/81 (96.3%) | — | — |
+| test | code | swarm4 | 79 | 331/343 (96.5%) | 77/79 (97.5%) | — | — |
+| test | news | arctic | 166 | 427/481 (88.8%) | 148/166 (89.2%) | 95.7% | 78.2% |
+| test | news | oneshot | 166 | 327/349 (93.7%) | 147/166 (88.6%) | 71.0% | 61.8% |
+| test | news | stock | 166 | 455/509 (89.4%) | 161/166 (97.0%) | 82.6% | 82.6% |
+| test | news | swarm1 | 165 | 472/501 (94.2%) | 151/165 (91.5%) | 89.6% | 78.0% |
+| test | news | swarm4 | 165 | 561/572 (98.1%) | 159/165 (96.4%) | 93.6% | 86.0% |
 
 | Domain | Method | Audited | Citation support² | Factual assertions supported | Answers without citations | Gold facts shown | Definition citations | Call citations |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -39,4 +39,4 @@ For each citation, the replay checks its line and character offset in the immuta
 | Phase | Answers | Accepted citations | Exterior whitespace removed | Exact file location | Text delivered | Both verified | Missing exposure archives |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | dev | 140 | 456 | 1 | 456 | 456 | 456 | 0 |
-| test | 1155 | 3391 | 2 | 3391 | 3391 | 3391 | 0 |
+| test | 1228 | 3594 | 2 | 3594 | 3594 | 3594 | 0 |
