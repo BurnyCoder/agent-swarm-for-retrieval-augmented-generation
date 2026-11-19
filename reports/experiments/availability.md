@@ -4,13 +4,13 @@ The primary analysis retains the recorded first attempts. The secondary calculat
 
 | Domain | Method | Primary complete pairs | Without flagged questions | With technical repeats |
 | --- | --- | --- | --- | --- |
-| news | swarm4 | 45.8% (n=24) | 57.9% (n=19) | 57.9% (n=19) |
-| news | swarm1 | 37.5% (n=24) | 47.4% (n=19) | 47.4% (n=19) |
-| news | stock | 50.0% (n=24) | 63.2% (n=19) | 63.2% (n=19) |
-| news | arctic | 54.2% (n=24) | 57.9% (n=19) | 57.9% (n=19) |
-| news | oneshot | 41.7% (n=24) | 47.4% (n=19) | 47.4% (n=19) |
-| code | swarm4 | 55.88 (n=8) | 74.50 (n=6) | 74.50 (n=6) |
-| code | swarm1 | 53.75 (n=8) | 71.67 (n=6) | 71.67 (n=6) |
-| code | stock | 70.00 (n=8) | 78.33 (n=6) | 78.33 (n=6) |
-| code | arctic | 69.50 (n=8) | 78.17 (n=6) | 78.17 (n=6) |
-| code | oneshot | 69.00 (n=8) | 72.33 (n=6) | 72.33 (n=6) |
+| news | swarm4 | 74.4% (n=156) | 76.8% (n=151) | 76.8% (n=151) |
+| news | swarm1 | 67.3% (n=156) | 69.5% (n=151) | 69.5% (n=151) |
+| news | stock | 82.1% (n=156) | 84.8% (n=151) | 84.8% (n=151) |
+| news | arctic | 77.6% (n=156) | 78.8% (n=151) | 78.8% (n=151) |
+| news | oneshot | 71.8% (n=156) | 73.5% (n=151) | 73.5% (n=151) |
+| code | swarm4 | 75.53 (n=74) | 77.58 (n=71) | 77.58 (n=71) |
+| code | swarm1 | 73.92 (n=74) | 77.04 (n=71) | 77.04 (n=71) |
+| code | stock | 79.20 (n=74) | 81.28 (n=71) | 81.28 (n=71) |
+| code | arctic | 80.15 (n=74) | 82.31 (n=71) | 82.31 (n=71) |
+| code | oneshot | 68.30 (n=74) | 69.06 (n=71) | 69.06 (n=71) |
