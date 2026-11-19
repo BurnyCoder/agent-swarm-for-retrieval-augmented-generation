@@ -13,14 +13,16 @@ from .evaluate import BASE, SIZES, ledger, records
 from .benchdata import BENCH
 from .paths import DATA, ROOT, now, read, save
 from .provenance import displayed_citations, quote_audit
+from .readme import heldout_snapshot
 
 REPORTS = ROOT / "reports"
 OUT = ROOT / "results"
 SITE = ROOT / "site"
 
 
-def dashboard_data():
-    rows = records()
+def dashboard_data(rows=None):
+    if rows is None:
+        rows = records()
     if rows:
         # A provider-certified bound can narrow an unresolved charge after its original
         # answer record was saved. The private raw record retains its original estimate.
@@ -42,6 +44,7 @@ def dashboard_data():
             for r in rows
         ]
     archived = read(OUT / "metrics.json") if (OUT / "metrics.json").is_file() else {}
+    measured_at = now() if rows else archived.get("updated") or now()
     if not rows and (OUT / "cases.json").is_file():
         rows = read(OUT / "cases.json")
     if (BENCH / "cases.json").is_file() and rows:
@@ -62,7 +65,7 @@ def dashboard_data():
             len(BASE) + 2
         )
     return {
-        "updated": now(),
+        "updated": measured_at,
         "budget": ledger().totals() or archived.get("budget", {}),
         "balances": ledger().balances() or archived.get("balances", {}),
         "offset_audit": archived.get("offset_audit", {}),
@@ -537,12 +540,14 @@ def build():
         from .capacity import classify_failures
 
         classify_failures()
-    data = dashboard_data()
+    # Capture one set of original answers while other questions continue finishing.
+    raw_rows = records()
+    data = dashboard_data(raw_rows)
     from .offset_audit import news_offsets
 
     data["offset_audit"] = news_offsets() or data.get("offset_audit", {})
-    if (BENCH / "cases.json").is_file() and records():
-        data["quote_audit"] = quote_audit(records(), read(BENCH / "cases.json"), DATA)
+    if (BENCH / "cases.json").is_file() and raw_rows:
+        data["quote_audit"] = quote_audit(raw_rows, read(BENCH / "cases.json"), DATA)
     date = dt.datetime.now(ZoneInfo("Europe/Berlin")).date().isoformat()
     summary = conclusions(data)
     figures(data)
@@ -803,10 +808,13 @@ def build():
         prefix,
         flags=re.S,
     )
+    current = heldout_snapshot(data)
     if data["groups"]:
         opening, description, remainder = prefix.split("\n\n", 2)
         headline = summary
-        if not data["comparisons"]:
+        if current:
+            headline = current + "\n\n" + summary
+        elif not data["comparisons"]:
             devnews = sorted(
                 (
                     r
@@ -860,7 +868,12 @@ def build():
     doc.write_text(
         prefix
         + "\n\n<!-- generated -->\n## Measured results\n\n"
-        + summary
+        + (
+            "Each row uses every graded response available for that method. "
+            "During collection, methods can have different question counts. "
+            "Run `uv run folderrag report` to regenerate this snapshot from the saved records."
+            if current else summary
+        )
         + "\n\n"
         + md
         + (
