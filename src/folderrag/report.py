@@ -12,6 +12,7 @@ from .examples import matched_size_groups, render_examples, plot_swarm_sizes
 from .evaluate import BASE, SIZES, ledger, records
 from .benchdata import BENCH
 from .paths import DATA, ROOT, now, read, save
+from .provenance import displayed_citations, quote_audit
 
 REPORTS = ROOT / "reports"
 OUT = ROOT / "results"
@@ -26,6 +27,9 @@ def dashboard_data():
     if (BENCH / "cases.json").is_file() and rows:
         references = read(BENCH / "cases.json")
         rows = [{**r, "reference": references[r["id"]]["answer"]} for r in rows]
+    rows = [
+        {**r, "citations": displayed_citations(r.get("citations", []))} for r in rows
+    ]
     frozen = ROOT / "protocol/freeze.json"
     final = read(frozen) if frozen.exists() else {}
     split = read(ROOT / "protocol/splits.json")
@@ -42,6 +46,7 @@ def dashboard_data():
         "budget": ledger().totals() or archived.get("budget", {}),
         "balances": ledger().balances() or archived.get("balances", {}),
         "offset_audit": archived.get("offset_audit", {}),
+        "quote_audit": archived.get("quote_audit", {}),
         "encoder_runtime": read(DATA / "runtime/encoder.json")
         if (DATA / "runtime/encoder.json").exists()
         else archived.get("encoder_runtime", {}),
@@ -497,6 +502,8 @@ def build():
     from .offset_audit import news_offsets
 
     data["offset_audit"] = news_offsets() or data.get("offset_audit", {})
+    if (BENCH / "cases.json").is_file() and records():
+        data["quote_audit"] = quote_audit(records(), read(BENCH / "cases.json"), DATA)
     date = dt.datetime.now(ZoneInfo("Europe/Berlin")).date().isoformat()
     summary = conclusions(data)
     figures(data)
@@ -595,7 +602,41 @@ def build():
         "grounding": (
             "Source grounding",
             "¹ Mean per-question recall on questions with annotated files. Returned-file recall depends on path visibility in each tool interface. ² Citation support includes one failed opportunity for each answer without citations. Exact quote matching, assertion support, and annotated fact exposure have different denominators.",
-            outcomes.grounding(data) + "\n\n" + outcomes.support(data),
+            outcomes.grounding(data)
+            + "\n\n"
+            + outcomes.support(data)
+            + "\n\n### Independent replay of every accepted quote\n\n"
+            + "For each citation, the replay checks its line and character offset in the immutable file and searches the saved model-visible passages for the exact published text. Exterior whitespace is removed as in the original verifier. Raw answers remain in the private transcript archive.\n\n"
+            + outcomes.grid(
+                [
+                    "Phase",
+                    "Answers",
+                    "Accepted citations",
+                    "Exterior whitespace removed",
+                    "Exact file location",
+                    "Text delivered",
+                    "Both verified",
+                    "Missing exposure archives",
+                ],
+                [
+                    [
+                        phase,
+                        *(
+                            counts.get(k, 0)
+                            for k in (
+                                "answers",
+                                "verified",
+                                "trimmed",
+                                "exact_source",
+                                "delivered",
+                                "both",
+                                "missing_archives",
+                            )
+                        ),
+                    ]
+                    for phase, counts in sorted(data["quote_audit"].items())
+                ],
+            ),
         ),
         "counterfactuals": (
             "File interventions",
