@@ -44,15 +44,15 @@ def means(rows):
     return result
 
 
-def comparisons(rows, selected, target_blocks):
+def comparisons(rows, selected, target_blocks, stopped=False):
     test = {
         (r["id"], r["arm"]): r
         for r in rows
         if r["phase"] == "test" and r.get("score") is not None
     }
-    if (
-        not target_blocks
-        or sum(r["phase"] == "test" for r in rows) < target_blocks * (32 + 15) * 5
+    if not target_blocks or (
+        not stopped
+        and sum(r["phase"] == "test" for r in rows) < target_blocks * (32 + 15) * 5
     ):
         return []
     out = []

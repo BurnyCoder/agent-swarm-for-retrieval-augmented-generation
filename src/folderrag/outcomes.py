@@ -245,3 +245,125 @@ def operating_choices(data):
             f"For {domain}, {best['arm']} has the highest observed quality after breaking exact ties by cost and then median latency. Its conservative mean inference charge is ${best['cost']:.4f} per question."
         )
     return " ".join(out)
+
+
+def fixed_panel(data, ids, sizes=False):
+    """Compare each diagnostic with the same questions under its specified reference arm."""
+    import numpy as np
+
+    if not data["freeze"]:
+        return "Awaiting the frozen selection."
+    base = "swarm1" if sizes else f"swarm{data['freeze']['size']}"
+    rows = [
+        r
+        for r in data["rows"]
+        if r["id"] in ids
+        and r["phase"] in ("test", "diagnostics")
+        and r.get("score") is not None
+    ]
+    reference = {r["id"]: r for r in rows if r["arm"] == base}
+    comparisons = [
+        r
+        for r in rows
+        if r["id"] in reference
+        and (r["arm"].startswith("swarm") if sizes else r["phase"] == "diagnostics")
+    ]
+    out = []
+    for (domain, arm), group in group_by(comparisons, ["domain", "arm"]):
+        pairs = [(r, reference[r["id"]]) for r in group]
+        scale = 100 if domain == "news" else 1
+        changes = np.asarray([scale * (a["score"] - b["score"]) for a, b in pairs])
+        rng = np.random.default_rng(20261119)
+        draws = rng.choice(changes, (4000, len(changes))).mean(axis=1)
+        lo, hi = np.quantile(draws, [0.025, 0.975])
+        out.append(
+            [
+                domain,
+                arm,
+                len(group),
+                f"{scale * mean(r['score'] for r in group):.2f}",
+                f"{changes.mean():+.2f} [{lo:+.2f}, {hi:+.2f}]",
+                f"{mean(r['cost_upper_usd'] for r in group):.4f}",
+                f"{np.median([r['seconds'] for r in group]):.1f}",
+            ]
+        )
+    return grid(
+        [
+            "Domain",
+            "Condition",
+            "Pairs",
+            "Quality",
+            "Difference from " + base + " [95%]",
+            "USD / question",
+            "Median seconds",
+        ],
+        out,
+    )
+
+
+def coverage(data):
+    plan = {s["phase"]: s["planned"] for s in data["stages"]}
+    plan.update(data["targets"])
+    result = []
+    for phase in ("dev", "test", "diagnostics"):
+        rows = [r for r in data["rows"] if r["phase"] == phase]
+        n = plan.get(phase)
+        errors = [r["error"] for r in rows if r.get("error")]
+        result.append(
+            [
+                phase,
+                n if n is not None else "pending",
+                len(rows),
+                n - len(rows) if n is not None else "—",
+                len(errors),
+                sum(
+                    "timed out" in s.lower() or "deadline" in s.lower() for s in errors
+                ),
+                sum(r.get("score") is None for r in rows),
+            ]
+        )
+    return grid(
+        [
+            "Phase",
+            "Registered runs",
+            "Completed records",
+            "Pending/unrun",
+            "Generation failures",
+            "Timeouts",
+            "Missing grade",
+        ],
+        result,
+    )
+
+
+def strata(data):
+    development_repos = {
+        r["stratum"]
+        for r in data["rows"]
+        if r["phase"] == "dev" and r["domain"] == "code"
+    }
+    held = [
+        r for r in data["rows"] if r["phase"] == "test" and r.get("score") is not None
+    ]
+    rows = []
+    for (domain, stratum, arm), items in group_by(held, ["domain", "stratum", "arm"]):
+        score = mean(r["score"] for r in items)
+        rows.append(
+            [
+                domain,
+                stratum,
+                (
+                    "development repository"
+                    if stratum in development_repos
+                    else "new repository"
+                )
+                if domain == "code"
+                else "news type",
+                arm,
+                len(items),
+                f"{score:.1%}" if domain == "news" else f"{score:.2f}",
+            ]
+        )
+    return grid(
+        ["Domain", "Stratum", "Split membership", "Condition", "Graded", "Mean"], rows
+    )

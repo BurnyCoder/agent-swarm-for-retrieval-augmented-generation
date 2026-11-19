@@ -72,6 +72,8 @@ class Gateway:
         self.calls = 0
 
     def tool(self, name, args):
+        if self.agent != "coordinator" and not self.agent.startswith("investigator-"):
+            raise Limit("This comparison arm does not have the custom corpus tool")
         if time.monotonic() > self.deadline:
             raise Limit("deadline")
         if name == "search":
@@ -90,15 +92,6 @@ class Gateway:
     def request(self, payload, handler):
         if payload.get("model") != MODEL:
             raise ValueError("Unexpected model")
-        blocked = {
-            "web_search",
-            "web_search_preview",
-            "file_search",
-            "computer_use_preview",
-            "image_generation",
-            "code_interpreter",
-            "mcp",
-        }
         incoming_tools = list(payload.get("tools", []))
         for item in (
             payload.get("input", []) if isinstance(payload.get("input"), list) else []
@@ -111,7 +104,7 @@ class Gateway:
                 incoming_tools.extend(item["tools"])
 
         def hosted(tool):
-            return tool.get("type") in blocked or any(
+            return tool.get("type") not in {"namespace", "custom", "function"} or any(
                 hosted(t) for t in tool.get("tools", [])
             )
 
@@ -142,8 +135,8 @@ class Gateway:
             }
         payload["reasoning"] = {**(payload.get("reasoning") or {}), "effort": "medium"}
         payload["service_tier"] = "default"
-        payload["max_output_tokens"] = min(
-            int(payload.get("max_output_tokens") or 4096), 4096
+        payload["max_output_tokens"] = max(
+            1, min(int(payload.get("max_output_tokens") or 4096), 4096)
         )
         incoming = payload.get("input", [])
         if isinstance(incoming, list):

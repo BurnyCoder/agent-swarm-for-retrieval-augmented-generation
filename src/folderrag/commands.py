@@ -5,6 +5,7 @@ import json
 import os
 import re
 import subprocess
+import time
 import uuid
 from pathlib import Path, PureWindowsPath
 
@@ -77,6 +78,10 @@ def run():
     bench.add_argument("phase", choices=["dev", "test", "diagnostics"])
     bench.add_argument("--workers", type=int, default=2)
     bench.add_argument("--limit", type=int)
+    warm = sub.add_parser(
+        "warm", help="Build registered corpus indexes before timed questions"
+    )
+    warm.add_argument("phase", choices=["dev", "test"])
     serve = sub.add_parser("dashboard")
     serve.add_argument("--port", type=int, default=8765)
     a = p.parse_args()
@@ -90,18 +95,28 @@ def run():
         from .evaluate import new_case
 
         source = a.folder.resolve()
+        began = time.monotonic()
         idx = FolderIndex(snapshot(source), dense=not a.lexical_only)
+        prepared = time.monotonic()
         selected = ROOT / "protocol/freeze.json"
         size = a.agents or (read(selected)["size"] if selected.exists() else 4)
         unit = "ask-" + uuid.uuid4().hex
-        result = answer(
-            new_case(idx, "dev", unit),
-            a.question,
-            a.method,
-            size,
-            mode="lexical" if a.lexical_only else "hybrid",
-        )
+        case = new_case(idx, "dev", unit)
+        try:
+            result = answer(
+                case,
+                a.question,
+                a.method,
+                size,
+                mode="lexical" if a.lexical_only else "hybrid",
+            )
+        except RuntimeError:
+            if case.trace.funding_error:
+                p.exit(1, case.trace.funding_error + "\n")
+            raise
         source_links(source, idx, result["citations"])
+        result["index_seconds"] = round(prepared - began, 3)
+        result["wall_seconds"] = round(time.monotonic() - began, 3)
         if a.json:
             print(json.dumps(result, ensure_ascii=False, indent=2))
         else:
@@ -111,6 +126,23 @@ def run():
                     print(
                         f"- [{c['path']}, {c.get('location', 'line ' + str(c['line']))}]({c['source_uri']}) — {c['quote']}"
                     )
+    elif a.op == "warm":
+        from .evaluate import index_for
+        from .benchdata import BENCH
+        from .sandbox import warm_arctic
+
+        split = read(ROOT / "protocol/splits.json")
+        cases = read(BENCH / "cases.json")
+        if a.phase == "test" and not (ROOT / "protocol/freeze.json").is_file():
+            raise RuntimeError(
+                "Freeze development selection before loading held-out repositories"
+            )
+        ids = split["legacy"].values() if a.phase == "dev" else split["blocks"][0]
+        for folder in dict.fromkeys(cases[k]["folder"] for k in ids):
+            print(now(), "Indexing", folder, flush=True)
+            index = index_for(folder)
+            warm_arctic(index.root)
+            print(now(), "Ready", folder, len(index.spans), flush=True)
     elif a.op == "run":
         from .evaluate import run_stage
 

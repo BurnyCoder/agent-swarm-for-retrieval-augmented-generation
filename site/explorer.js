@@ -9,7 +9,8 @@ function el(tag, text) {
 }
 function matches(row) {
   return (!byId("phase").value || row.phase === byId("phase").value) &&
-    (!byId("domain").value || row.domain === byId("domain").value);
+    (!byId("domain").value || row.domain === byId("domain").value) &&
+    (!byId("method").value || row.arm === byId("method").value);
 }
 function details() {
   const row = filtered[Number(byId("example").value)];
@@ -17,8 +18,13 @@ function details() {
   detail.replaceChildren();
   if (!row) return;
   detail.append(el("h3", row.question), el("p", row.answer || row.error), el("p", row.explanation || ""));
+  if (row.reference) {
+    const reference = el("details","");
+    reference.append(el("summary","Reference answer and score"),el("p",row.reference),el("p","Score "+row.score+" / "+(row.domain==="news"?1:100)));
+    detail.append(reference);
+  }
   for (const c of row.citations || []) {
-    detail.append(el("blockquote", c.quote), el("small", c.path + " · " + (c.valid ? "verified text" : "unverified text")));
+    detail.append(el("blockquote", c.quote), el("small", c.path + (c.line ? " · line "+c.line : "") + " · " + (c.valid ? "verified text" : "unverified text")));
   }
 }
 function render() {
@@ -53,12 +59,17 @@ async function refresh() {
     const response = await fetch("data.json", {cache:"no-store"});
     if (!response.ok) throw new Error("Measurements unavailable");
     data = await response.json();
+    const method = byId("method"), selected = method.value;
+    method.replaceChildren(new Option("All methods",""));
+    for (const arm of [...new Set(data.rows.map(r=>r.arm))].sort()) method.append(new Option(arm,arm));
+    method.value = selected;
     const used = Object.values(data.budget).reduce((a,b)=>a+b,0);
-    byId("status").textContent = data.rows.length+" condition runs · $"+used.toFixed(2)+" charged or reserved of $50 · updated "+new Date(data.updated).toLocaleString();
+    const cost = data.balances ? "$"+(data.balances.settled||0).toFixed(2)+" settled upper estimate + $"+(data.balances.reserved||0).toFixed(2)+" reserved" : "$"+used.toFixed(2)+" charged or reserved";
+    byId("status").textContent = data.rows.length+" condition runs · "+cost+" of $50 · updated "+new Date(data.updated).toLocaleString();
     render();
   } catch (e) { byId("status").textContent = e.message; }
 }
-for (const id of ["phase","domain","query"]) byId(id).addEventListener("input",render);
+for (const id of ["phase","domain","method","query"]) byId(id).addEventListener("input",render);
 byId("example").addEventListener("change",details);
 refresh();
 if (["127.0.0.1","localhost"].includes(location.hostname)) setInterval(refresh,20000);

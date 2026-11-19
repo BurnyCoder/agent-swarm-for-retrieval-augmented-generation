@@ -50,6 +50,8 @@ def test_quoted_evidence_must_have_been_delivered():
 
 def test_atomic_budget_and_ambiguous_billing(tmp_path):
     ledger = Ledger(tmp_path / "ledger.db", {"dev": 0.50})
+    with pytest.raises(ValueError):
+        ledger.reserve("dev", "case", "worker", -1, 10)
 
     def reserve(i):
         try:
@@ -65,6 +67,33 @@ def test_atomic_budget_and_ambiguous_billing(tmp_path):
     ] == pytest.approx(0.30)
     ledger.settle(next(i for i in ids if i is not None), 0.02, 17, {})
     assert ledger.totals()["dev"] == pytest.approx(0.02)
+
+
+def test_baseline_tool_boundary_precedes_billing(tmp_path):
+    import time
+    from folderrag.gateway import Gateway, Trace
+    from folderrag.paths import MODEL
+
+    ledger = Ledger(tmp_path / "ledger", {"dev": 1})
+    gate = Gateway(
+        ledger,
+        "dev",
+        "q",
+        "stock",
+        2,
+        None,
+        Evidence(),
+        Trace(tmp_path / "trace", False),
+        "dummy",
+        time.monotonic() + 30,
+    )
+    with pytest.raises(Limit):
+        gate.tool("search", {"query": "anything"})
+    with pytest.raises(ValueError, match="Hosted tools"):
+        gate.request(
+            {"model": MODEL, "tools": [{"type": "unregistered_hosted_tool"}]}, None
+        )
+    assert not ledger.totals()
 
 
 def test_tool_truncation_and_gold_passage_visibility():
@@ -88,6 +117,65 @@ def test_tool_truncation_and_gold_passage_visibility():
 def test_swarm_sizes_count_the_coordinator():
     for n in (1, 2, 4, 8):
         assert len(set(assignments(n))) == n - 1
+
+
+def test_cli_run_resumes_persisted_answer_without_billing(tmp_path, monkeypatch):
+    import random, sys
+    from types import SimpleNamespace
+    from folderrag import commands, evaluate
+    from folderrag.paths import save, read
+
+    q = dict(
+        id="fixture",
+        question="Which one?",
+        domain="news",
+        answer="Green",
+        folder="fixture",
+        stratum="fixture",
+        facts=[],
+    )
+    monkeypatch.setattr(evaluate, "ROOT", tmp_path)
+    monkeypatch.setattr(evaluate, "BENCH", tmp_path / "benchmark")
+    monkeypatch.setattr(evaluate, "DATA", tmp_path / "data")
+    save(tmp_path / "protocol/splits.json", {"legacy": {"fixture": "fixture"}})
+    save(evaluate.BENCH / "cases.json", {"fixture": q})
+    methods = list((*evaluate.SIZES, *evaluate.BASE))
+    random.Random(20261119).shuffle(methods)
+    method = methods[0]
+    unit = (
+        ("dev-handoff-" if method in evaluate.SIZES[1:] else "dev-")
+        + "fixture-"
+        + method
+    )
+    output = evaluate.DATA / "records/dev" / (unit + ".json")
+    save(
+        output.with_suffix(".answer"),
+        dict(
+            answer="Green",
+            explanation="",
+            citations=[],
+            returned_files=[],
+            seconds=1,
+            cost_upper_usd=0,
+        ),
+    )
+    monkeypatch.setattr(
+        evaluate, "index_for", lambda *args: SimpleNamespace(root=tmp_path)
+    )
+    monkeypatch.setattr("folderrag.sandbox.warm_arctic", lambda *args: None)
+    monkeypatch.setattr(evaluate, "new_case", lambda *args: None)
+    monkeypatch.setattr(
+        evaluate,
+        "answer",
+        lambda *a, **k: pytest.fail("Resumed answer was dispatched again"),
+    )
+    monkeypatch.setattr(
+        sys, "argv", ["folderrag", "run", "dev", "--workers", "1", "--limit", "1"]
+    )
+    commands.run()
+    first = read(output)
+    commands.run()
+    assert first == read(output) and first["score"] == 1
 
 
 def test_arctic_native_numeric_answer_and_line_citation(tmp_path):

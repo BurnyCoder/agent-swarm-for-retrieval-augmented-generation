@@ -8,7 +8,9 @@ from zoneinfo import ZoneInfo
 
 from .analysis import comparisons, means
 from . import outcomes
-from .evaluate import ledger, records
+from .examples import render_examples
+from .evaluate import BASE, SIZES, ledger, records
+from .benchdata import BENCH
 from .paths import DATA, ROOT, now, read, save
 
 REPORTS = ROOT / "reports"
@@ -21,22 +23,48 @@ def dashboard_data():
     archived = read(OUT / "metrics.json") if (OUT / "metrics.json").is_file() else {}
     if not rows and (OUT / "cases.json").is_file():
         rows = read(OUT / "cases.json")
+    if (BENCH / "cases.json").is_file() and rows:
+        references = read(BENCH / "cases.json")
+        rows = [{**r, "reference": references[r["id"]]["answer"]} for r in rows]
     frozen = ROOT / "protocol/freeze.json"
     final = read(frozen) if frozen.exists() else {}
+    split = read(ROOT / "protocol/splits.json")
+    targets = {
+        "dev": len(split["legacy"]) * (len(SIZES) + len(BASE)),
+        "audit": len(split["blocks"][0]) * (len(BASE) + 2),
+    }
+    if final:
+        targets["test"] = sum(len(b) for b in split["blocks"][: final["blocks"]]) * (
+            len(BASE) + 2
+        )
     return {
         "updated": now(),
         "budget": ledger().totals() or archived.get("budget", {}),
+        "balances": ledger().balances() or archived.get("balances", {}),
         "groups": means(rows),
         "rows": rows,
         "pilot": records("dev", pilots=True) or archived.get("pilot", []),
         "freeze": final,
-        "comparisons": comparisons(rows, f"swarm{final['size']}", final["blocks"])
+        "targets": targets,
+        "comparisons": comparisons(
+            rows,
+            f"swarm{final['size']}",
+            final["blocks"],
+            (DATA / "phase-stops/test.json").exists(),
+        )
         if final
         else [],
         **{
             name: [read(p) for p in sorted((DATA / name).glob("*.json"))]
             or archived.get(name, [])
-            for name in ("historical", "twins", "support", "index-timings")
+            for name in (
+                "historical",
+                "twins",
+                "support",
+                "index-timings",
+                "smoke",
+                "stages",
+            )
         },
     }
 
@@ -203,45 +231,13 @@ def write_pdf(data, summary, date):
         author="Libor “Burny” Burian",
     )
     styles = getSampleStyleSheet()
+    styles["Heading2"].keepWithNext = True
     story = []
 
     def para(text, style="BodyText"):
         story.append(Paragraph(text, styles[style]))
 
-    para("Luna swarms for retrieval over files", "Title")
-    para("Libor “Burny” Burian · " + date)
-    para("Abstract", "Heading2")
-    para(html.escape(summary))
-    para("Motivation and method", "Heading2")
-    para(
-        "A reader can find the right filename and still miss the decisive passage. We compare independent Codex investigators with a coordinator, an identical single investigator, ordinary Codex, Arctic B2 and one-shot hybrid retrieval. All agents use GPT-6 Luna. Documents and code are evaluated separately."
-    )
-    para(
-        "A content-addressed snapshot supplies exact text ranges. Identifier-aware lexical retrieval and Qwen dense retrieval rank the same passages. Investigators explore in parallel. The coordinator receives verified excerpts and may read further before synthesizing its response."
-    )
-    story.append(
-        Image(str(REPORTS / "figures/architecture.png"), width=410, height=132)
-    )
-    para("Evaluation and falsification", "Heading2")
-    para(
-        "The development size sweep selects a swarm before opening held-out scores. MultiHop-RAG uses strict normalized short-answer exact match. SWE-QA uses blinded pointwise rubric grading. The preregistration requires positive paired differences against all three external baselines after Holm correction for a domain win. File recall, quoted passage delivery and entailment have distinct interpretations."
-    )
-    para("Results", "Heading2")
-    if data["groups"]:
-        body = [["Phase", "Domain", "Method", "N", "Mean", "95% interval", "USD/q¹"]]
-        for r in data["groups"]:
-            scale = 100 if r["domain"] == "news" else 1
-            body.append(
-                [
-                    r["phase"],
-                    r["domain"],
-                    r["arm"],
-                    str(r["n"]),
-                    f"{scale * r['mean']:.1f}",
-                    f"{scale * r['low']:.1f} – {scale * r['high']:.1f}",
-                    f"{r['cost']:.4f}",
-                ]
-            )
+    def small_table(body):
         t = Table(body, repeatRows=1, hAlign="LEFT")
         t.setStyle(
             TableStyle(
@@ -258,22 +254,198 @@ def write_pdf(data, summary, date):
             )
         )
         story.append(t)
+
+    para("Luna swarms for retrieval over files", "Title")
+    para("Libor “Burny” Burian · " + date)
+    para("Abstract", "Heading2")
+    para(html.escape(summary))
+    para("Motivation and method", "Heading2")
+    para(
+        "A reader can find the right filename and still miss the decisive passage. We compare independent Codex investigators with a coordinator, an identical single investigator, ordinary Codex, Arctic B2 and one-shot hybrid retrieval. All agents use GPT-6 Luna. Documents and code are evaluated separately."
+    )
+    para(
+        "A content-addressed snapshot supplies exact text ranges. Identifier-aware lexical retrieval and Qwen dense retrieval rank the same passages. Investigators explore in parallel. The coordinator receives verified excerpts and may read further before synthesizing its response."
+    )
+    para(
+        "The contribution is a matched test of delegation with independently observable worker handoffs. The decoder and embedding weights are frozen. The same Luna model, reasoning setting, corpus and total resource ceilings apply to every confirmatory arm."
+    )
+    story.append(
+        Image(str(REPORTS / "figures/architecture.png"), width=410, height=132)
+    )
+    para("Evaluation and falsification", "Heading2")
+    para(
+        "The development size sweep selects a swarm before opening held-out scores. MultiHop-RAG uses strict normalized short-answer exact match. SWE-QA uses blinded pointwise rubric grading. The preregistration requires positive paired differences against all three external baselines after Holm correction for a domain win. File recall, quoted passage delivery and entailment have distinct interpretations."
+    )
+    if data["freeze"]:
+        f = data["freeze"]
         para(
-            "News is expressed in percent; code uses the rubric's 100-point scale. ¹ Conservative inference cost."
+            f"The development rule selected {f['size']} total agents and admitted {f['blocks']} balanced blocks. A block contains 32 news questions and one question from each of 15 pinned repositories. Eleven repositories were reserved outside development."
+        )
+    para("Results", "Heading2")
+    if data["groups"]:
+        body = [["Phase", "Domain", "Method", "N", "Mean", "95% interval", "USD/q¹"]]
+        for r in data["groups"]:
+            scale = 100 if r["domain"] == "news" else 1
+            body.append(
+                [
+                    r["phase"],
+                    r["domain"],
+                    r["arm"],
+                    str(r["n"]),
+                    f"{scale * r['mean']:.1f}",
+                    f"{scale * r['low']:.1f} – {scale * r['high']:.1f}",
+                    f"{r['cost']:.4f}",
+                ]
+            )
+        small_table(body)
+        para(
+            "News is expressed in percent with Wilson intervals. Code uses the rubric's 100-point scale with question-level bootstrap intervals. The cost column gives the mean conservative inference charge in US dollars. Grading is included separately in the study ledger."
         )
         story.append(Image(str(REPORTS / "figures/quality.png"), width=470, height=216))
     else:
         para("The first registered release precedes measured outcomes.")
+    if data["comparisons"]:
+        para("Paired effects", "Heading2")
+        body = [
+            [
+                "Corpus",
+                "Comparator",
+                "Pairs",
+                "Difference",
+                "95% paired interval",
+                "Holm p",
+            ]
+        ]
+        for r in data["comparisons"]:
+            scale = 100 if r["domain"] == "news" else 1
+            body.append(
+                [
+                    r["domain"],
+                    r["comparator"],
+                    r["n"],
+                    f"{r['difference'] * scale:+.2f}",
+                    f"{r['low'] * scale:+.2f} to {r['high'] * scale:+.2f}",
+                    f"{r['holm_p']:.4g}",
+                ]
+            )
+        small_table(body)
+        para(
+            "Differences are percentage points for news and rubric points for code. Intervals resample matched questions within news type or repository. Code inference uses a sign-flip test. News inference uses the exact discordant-pair test. The three external comparators across two domains form the primary Holm family. The single-investigator comparison forms a separate family across domains."
+        )
+    if data["historical"]:
+        from statistics import mean
+
+        para("Historical bridge", "Heading2")
+        body = [
+            [
+                "Original model",
+                "Legacy condition",
+                "Corpus",
+                "Cases",
+                "Common-scorer mean",
+            ]
+        ]
+        for (domain, arm), group in outcomes.group_by(
+            data["historical"], ["domain", "arm"]
+        ):
+            score = mean(r["score"] for r in group)
+            body.append(
+                [
+                    "Haiku",
+                    {"M": "Swarm M", "B2": "Single B2"}.get(arm, arm),
+                    domain,
+                    len(group),
+                    f"{score:.1%}" if domain == "news" else f"{score:.1f}",
+                ]
+            )
+        small_table(body)
+        para(
+            "The bridge reuses the archived responses. Stricter extraction of the final news label and a different code judge can change the reported scores without any change in the generated answers."
+        )
     para("Discussion and limitations", "Heading2")
     para(
-        "Benchmark questions predate the generator. Closed-book and counterfactual diagnostics test dependence on file contents. The generator and code judge share a model family. Interval estimates describe the sampled tasks. A valid quote verifies provenance; the independent support audit tests its relationship to the claim."
+        "Benchmark questions predate the generator and could have entered its training data. Closed-book and counterfactual diagnostics probe dependence on file contents. The generator and code judge share a model family. Interval estimates describe the sampled tasks. Quote matching verifies textual provenance. A separate blinded support audit tests whether each passage substantiates the attached claim and whether the full answer includes uncited assertions."
     )
+    if data["twins"] or data["support"]:
+        para("Evidence and interventions", "Heading2")
+        if data["twins"]:
+            para(
+                "Paired folder edits produced the following observed answers. Each changed code checkout preserves other files from the pinned Requests repository."
+            )
+            small_table(
+                [["Corpus", "Expected", "Observed", "Exact match"]]
+                + [
+                    [r["domain"], r["expected"], r["answer"][:60], r["score"]]
+                    for r in data["twins"]
+                ]
+            )
+        if data["support"]:
+            body = [
+                [
+                    "Corpus",
+                    "Method",
+                    "Audited",
+                    "Claims supported / total",
+                    "Gold facts shown / total",
+                ]
+            ]
+            for (domain, arm), grp in outcomes.group_by(
+                data["support"], ["domain", "arm"]
+            ):
+                agg = lambda k: sum(r.get(k, 0) for r in grp)
+                body.append(
+                    [
+                        domain,
+                        arm,
+                        len(grp),
+                        f"{agg('claims_supported')}/{agg('n_claims')}",
+                        f"{agg('gold_facts_supported')}/{agg('gold_facts')}",
+                    ]
+                )
+            small_table(body)
+    para("Conclusions", "Heading2")
+    para(html.escape(summary))
+    para("Appendix · reproducible settings", "Heading2")
+    para(
+        "Each question has 300 seconds, at most 32 model requests and 48,000 aggregate output tokens. An individual request allows up to 4,096 output tokens at medium reasoning effort. Larger swarms divide 16 requests among their investigators and reserve the rest for the coordinator. The investigator's final allocated turn requests a structured handoff. The coordinator has one citation-repair opportunity within its allowance."
+    )
+    para(
+        "Passages contain up to 1,400 Unicode characters, with 160 characters of overlap. Exact offsets distinguish pieces of a single long line. Identifier splitting feeds SQLite FTS5 BM25. Qwen3-Embedding-0.6B uses left padding, last-token pooling and normalized cosine scores. Equal-weight reciprocal rank fusion uses a constant of 60. Original, random and annotated-evidence passages share the answer schema."
+    )
+    if data["groups"] and (REPORTS / "figures/examples.png").exists():
+        from reportlab.platypus import KeepTogether
+
+        picture = Image(str(REPORTS / "figures/examples.png"))
+        picture.drawHeight = min(250, 470 * picture.imageHeight / picture.imageWidth)
+        picture.drawWidth = (
+            picture.drawHeight * picture.imageWidth / picture.imageHeight
+        )
+        story.append(
+            KeepTogether(
+                [
+                    Paragraph("Fixed output examples", styles["Heading2"]),
+                    picture,
+                    Paragraph(
+                        "The manifest order fixes the first examples in each domain. The private explorer preserves each complete answer and its citations. A dash marks unavailable measurements.",
+                        styles["BodyText"],
+                    ),
+                ]
+            )
+        )
     para("Related work and reproducibility", "Heading2")
     for title, url in (
         ("MultiHop-RAG", "https://arxiv.org/abs/2401.15391"),
         ("SWE-QA", "https://aclanthology.org/2026.findings-acl.402/"),
         ("RISE", "https://arxiv.org/abs/2606.06880"),
         ("ALCE", "https://aclanthology.org/2023.emnlp-main.398/"),
+        (
+            "Qwen3-Embedding-0.6B model and pooling recipe",
+            "https://huggingface.co/Qwen/Qwen3-Embedding-0.6B",
+        ),
+        (
+            "Reciprocal rank fusion, Cormack et al.",
+            "https://cormack.uwaterloo.ca/cormacksigir09-rrf.pdf",
+        ),
         (
             "Protocol, experiment reports and source",
             "https://github.com/BurnyCoder/agent-swarm-for-retrieval-augmented-generation",
@@ -308,10 +480,16 @@ def build():
     date = dt.datetime.now(ZoneInfo("Europe/Berlin")).date().isoformat()
     summary = conclusions(data)
     figures(data)
+    examples = render_examples(data, REPORTS / "figures")
     save(OUT / "metrics.json", {k: v for k, v in data.items() if k != "rows"})
     save(OUT / "cases.json", data["rows"])
     save(SITE / "data.json", data)
     md = table(data["groups"])
+    card = (ROOT / "protocol/hub-card.md").read_text(encoding="utf8")
+    (OUT / "hub-card.md").write_text(
+        card + "\n\n## Current measurements\n\n" + summary + "\n\n" + md,
+        encoding="utf8",
+    )
     (OUT / "tables.md").write_text(md, encoding="utf8")
     comps = data["comparisons"]
     comparison = "\n".join(
@@ -325,6 +503,45 @@ def build():
     else:
         choice = "Selection is pending completion of the registered development panel."
     pages = {
+        "strata": (
+            "Generalization by repository and news type",
+            "Rows retain the frozen strata. Repository membership records whether an earlier code question from that repository was used during development. These small-cell estimates are descriptive.",
+            outcomes.strata(data),
+        ),
+        "coverage": (
+            "Execution coverage",
+            "Pending cases have no quality score. Completed generation failures receive the registered zero. Missing grader results are excluded from paired inference and block a complete-domain superiority claim.",
+            outcomes.coverage(data),
+        ),
+        "cli-smoke": (
+            "Normal Windows CLI checks",
+            "Both checks use the same two-file fixture. The positive question requires combining a route choice with a stop count. The missing-date question tests abstention. These checks establish end-to-end behavior on one fixture.",
+            outcomes.grid(
+                [
+                    "Question",
+                    "Expected",
+                    "Observed",
+                    "Agents",
+                    "Investigators completed",
+                    "Verified quotes",
+                    "Seconds",
+                    "USD upper",
+                ],
+                [
+                    [
+                        r["question"],
+                        r["expected"],
+                        r["answer"],
+                        r["agents"],
+                        r["investigators_completed"],
+                        len(r["citations"]),
+                        r["seconds"],
+                        r["cost_upper_usd"],
+                    ]
+                    for r in data["smoke"]
+                ],
+            ),
+        ),
         "handoff-pilot": (
             "Investigator turn-limit pilot",
             "The initial size-eight development trace contained genuine concurrent searches and exhausted investigator budgets before handoff. The final allocated investigator turn now disables tools and requests a source report. The prior multi-agent cases remain below and are excluded from size selection. Single-agent and external-baseline runs used identical implementations throughout.",
@@ -389,7 +606,13 @@ def build():
     }
     dest = REPORTS / "experiments"
     dest.mkdir(exist_ok=True)
+    if examples:
+        (dest / "output-examples.md").write_text(examples, encoding="utf8")
     for slug, (title, desc, body) in pages.items():
+        if slug == "swarm-sizes":
+            body += "\n\n### First held-out block\n\n" + outcomes.fixed_panel(
+                data, set(read(ROOT / "protocol/splits.json")["blocks"][0]), sizes=True
+            )
         (dest / (slug + ".md")).write_text(
             "# " + title + "\n\n" + desc + "\n\n" + body + "\n", encoding="utf8"
         )
@@ -420,18 +643,49 @@ def build():
             + "\n\n"
             + table(subset)
             + "\n"
-            + (comparison if phase == "test" else ""),
+            + (
+                comparison
+                if phase == "test"
+                else "\n\n### Matched first-block differences\n\nDescriptive paired bootstrap intervals are in percentage points for news and rubric points for code.\n\n"
+                + outcomes.fixed_panel(
+                    data, set(read(ROOT / "protocol/splits.json")["blocks"][0])
+                )
+                if phase == "diagnostics"
+                else ""
+            ),
             encoding="utf8",
         )
     write_pdf(data, summary, date)
     doc = ROOT / "README.md"
     prefix = doc.read_text(encoding="utf8").split("<!-- generated -->")[0].rstrip()
+
+    def milestone(label, done):
+        nonlocal prefix
+        for old in ("[ ]", "[x]"):
+            prefix = prefix.replace(
+                "- " + old + " " + label,
+                "- " + ("[x]" if done else "[ ]") + " " + label,
+            )
+
+    milestone("Complete the development sweep", bool(data["freeze"]))
+    complete = {s["phase"] for s in data["stages"] if s["state"] == "finished"}
+    milestone(
+        "Complete the paired confirmation",
+        {"test", "diagnostics"}.issubset(complete)
+        and len(data["twins"]) == 4
+        and len(data["support"]) == data["targets"]["audit"],
+    )
     doc.write_text(
         prefix
         + "\n\n<!-- generated -->\n## Measured results\n\n"
         + summary
         + "\n\n"
         + md
+        + (
+            "\n![Scores for fixed example questions](reports/figures/examples.png)\n\n[Read the actual answers and source quotations](reports/experiments/output-examples.md)\n"
+            if examples
+            else ""
+        )
         + "\n[Paper](reports/paper.pdf) · [All experiment reports](reports/summary.md)\n",
         encoding="utf8",
     )
