@@ -14,4 +14,5 @@ The fixed first block tests the other sizes, controls, retrieval and verificatio
 
 Descriptive paired bootstrap intervals are in percentage points for news and rubric points for code.
 
-Awaiting the frozen selection.
+| Domain | Condition | Pairs | Quality | Difference from swarm4 [95%] | USD / question | Median seconds |
+| --- | --- | --- | --- | --- | --- | --- |

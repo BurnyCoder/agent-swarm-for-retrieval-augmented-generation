@@ -5,6 +5,7 @@ Setup time includes opening an immutable corpus, constructing or loading a searc
 | Corpus or snapshot | Mode | Spans | Seconds | UTC |
 | --- | --- | --- | --- | --- |
 | 3cfa40b121d2 | arctic | — | 4.867 | 2026-11-19T14:15:00.014+00:00 |
+| 859311a0cf24 | arctic | — | 158.113 | 2026-11-19T14:23:27.897+00:00 |
 | a591f53b8ba3 | arctic | — | 10.178 | 2026-11-19T13:37:23.246+00:00 |
 | aa3807318c8b | arctic | — | 10.12 | 2026-11-19T14:12:58.509+00:00 |
 | de731153f2b6 | arctic | — | 12.324 | 2026-11-19T14:17:07.934+00:00 |
