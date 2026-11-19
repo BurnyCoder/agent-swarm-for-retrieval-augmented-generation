@@ -31,8 +31,11 @@ def dashboard_data():
         "comparisons": comparisons(rows, f"swarm{final['size']}", final["blocks"])
         if final
         else [],
-        **{name: [read(p) for p in sorted((DATA / name).glob("*.json"))] or archived.get(name, [])
-           for name in ("historical", "twins", "support")},
+        **{
+            name: [read(p) for p in sorted((DATA / name).glob("*.json"))]
+            or archived.get(name, [])
+            for name in ("historical", "twins", "support")
+        },
     }
 
 

@@ -8,6 +8,7 @@ from folderrag.corpus import snapshot, FolderIndex
 from folderrag.evidence import Evidence, validate, exact_match
 from folderrag.ledger import Ledger, Limit
 from folderrag.agents import assignments
+from folderrag.evidence import parse_answer
 
 
 def test_snapshot_keeps_offsets_and_rebuilds_after_changes(tmp_path):
@@ -69,3 +70,20 @@ def test_atomic_budget_and_ambiguous_billing(tmp_path):
 def test_swarm_sizes_count_the_coordinator():
     for n in (1, 2, 4, 8):
         assert len(set(assignments(n))) == n - 1
+
+
+def test_arctic_native_numeric_answer_and_line_citation(tmp_path):
+    evidence = Evidence()
+    (tmp_path / "schedule").write_text("Header\nCopper has 41 stops.\n")
+    evidence.see_shell("corpus://folder/schedule#L2-2 Copper has 41 stops.")
+    citation = {
+        "path": "schedule",
+        "span_id": "corpus://folder/schedule#L2-2",
+        "quote": "41 stops",
+        "claim": "41",
+    }
+    assert validate([citation], evidence, tmp_path)[0]["line"] == 2
+    assert not validate(
+        [{**citation, "span_id": "corpus://folder/schedule#L1-1"}], evidence, tmp_path
+    )[0]["valid"]
+    assert parse_answer('{"answer":41,"citations":[]}')["answer"] == "41"

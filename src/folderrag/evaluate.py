@@ -121,6 +121,16 @@ def measure(phase, q, arm, unit=None):
                 )
             except Exception as err:
                 case.trace.log("case_error", error=str(err))
+                if case.trace.funding_error:
+                    save(
+                        dest.with_suffix(".unrun"),
+                        {
+                            "unit": unit,
+                            "reason": case.trace.funding_error,
+                            **ledger().unit(unit),
+                        },
+                    )
+                    raise RuntimeError(case.trace.funding_error) from err
                 result = {
                     "answer": "",
                     "explanation": "",
@@ -229,9 +239,21 @@ def run_stage(phase, workers=2, limit=None):
         jobs.extend(group)
     if limit:
         jobs = jobs[:limit]
+    # Submit only one job per worker. A funding stop cannot enqueue every remaining case.
     with concurrent.futures.ThreadPoolExecutor(workers) as pool:
-        for _ in pool.map(lambda job: measure(phase, *job), jobs):
-            pass
+        pending = set()
+        queue = iter(jobs)
+        for _ in range(workers):
+            if (job := next(queue, None)) is not None:
+                pending.add(pool.submit(measure, phase, *job))
+        while pending:
+            done, pending = concurrent.futures.wait(
+                pending, return_when=concurrent.futures.FIRST_COMPLETED
+            )
+            for completed in done:
+                completed.result()
+                if (job := next(queue, None)) is not None:
+                    pending.add(pool.submit(measure, phase, *job))
 
 
 def freeze():

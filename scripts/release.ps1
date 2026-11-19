@@ -10,7 +10,14 @@ foreach ($dir in @('reports','protocol','results')) {
     hf upload $dataset $dir $dir --type dataset --commit-message "Update private research $dir"
     if ($LASTEXITCODE -ne 0) { throw "Upload failed for $dir" }
 }
-hf upload $dataset README.md README.md --type dataset --commit-message "Update research card"
+$revision = git rev-parse HEAD
+if ($LASTEXITCODE -ne 0) { throw "Cannot identify the source revision" }
+New-Item -ItemType Directory -Force .runtime | Out-Null
+git archive --format=zip --output=.runtime/source.zip HEAD
+if ($LASTEXITCODE -ne 0) { throw "Source archive failed" }
+hf upload $dataset .runtime/source.zip source.zip --type dataset --commit-message "Archive tracked source $revision"
+if ($LASTEXITCODE -ne 0) { throw "Source publication failed" }
+hf upload $dataset protocol/hub-card.md README.md --type dataset --commit-message "Update research card"
 if ($LASTEXITCODE -ne 0) { throw "Card upload failed" }
 hf upload $space site . --type space --commit-message "Update private results explorer"
 if ($LASTEXITCODE -ne 0) { throw "Explorer upload failed" }

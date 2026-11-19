@@ -23,6 +23,9 @@ class Evidence:
     def see_shell(self, text):
         with self.lock:
             self.shell_outputs.append(text)
+            self.returned_files.update(
+                re.findall(r"corpus://folder/([^#\s]+)#L\d+", text)
+            )
 
 
 def validate(citations, evidence, root=None):
@@ -41,9 +44,10 @@ def validate(citations, evidence, root=None):
             and quote in s["text"]
         ]
         verified = matches[0] if matches else None
+        legacy = re.fullmatch(r"corpus://folder/(.+)#L(\d+)(?:-(\d+))?", key)
         if (
             not verified
-            and not key
+            and (not key or (legacy and legacy[1] == path))
             and root
             and quote
             and any(quote in t for t in evidence.shell_outputs)
@@ -51,7 +55,13 @@ def validate(citations, evidence, root=None):
             p = (root / path).resolve()
             if p.is_relative_to(root.resolve()) and p.is_file():
                 text = p.read_text(encoding="utf8")
-                offset = text.find(quote)
+                if legacy:
+                    lines = text.splitlines(keepends=True)
+                    start = sum(map(len, lines[: int(legacy[2]) - 1]))
+                    end = sum(map(len, lines[: int(legacy[3] or legacy[2])]))
+                    offset = text.find(quote, start, end)
+                else:
+                    offset = text.find(quote)
                 if offset >= 0:
                     verified = {
                         "start": offset,
@@ -95,11 +105,11 @@ def parse_answer(text):
             continue
         if (
             isinstance(result, dict)
-            and isinstance(result.get("answer"), str)
+            and type(result.get("answer")) in (str, int, float, bool)
             and isinstance(result.get("citations"), list)
         ):
             return {
-                "answer": result["answer"],
+                "answer": str(result["answer"]),
                 "explanation": str(result.get("explanation", "")),
                 "citations": [
                     c

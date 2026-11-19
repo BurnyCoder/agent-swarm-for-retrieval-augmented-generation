@@ -23,8 +23,15 @@ class Trace:
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.console = console
+        self.funding_error = None
 
     def log(self, event, **values):
+        if event == "gateway_error" and values.get("error") == "phase budget":
+            self.funding_error = "Phase budget cannot cover the next reservation"
+        if event == "upstream_error" and "insufficient_quota" in values.get(
+            "message", ""
+        ):
+            self.funding_error = "The upstream project reported insufficient quota"
         line = json.dumps(
             {"utc": now(), "event": event, **values}, ensure_ascii=False, default=str
         )
@@ -113,6 +120,16 @@ class Gateway:
         if time.monotonic() >= self.deadline:
             raise Limit("deadline")
         payload = dict(payload)
+        if self.agent == "arctic":
+            schema_path = Path(__file__).with_name("isolated") / "answer.schema.json"
+            payload["text"] = {
+                "format": {
+                    "type": "json_schema",
+                    "name": "answer",
+                    "strict": True,
+                    "schema": json.loads(schema_path.read_text()),
+                }
+            }
         payload["reasoning"] = {**(payload.get("reasoning") or {}), "effort": "medium"}
         payload["service_tier"] = "default"
         payload["max_output_tokens"] = min(
