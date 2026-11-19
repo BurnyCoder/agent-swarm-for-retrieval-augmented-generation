@@ -14,6 +14,7 @@ from .benchdata import BENCH
 from .paths import DATA, ROOT, now, read, save
 from .provenance import displayed_citations, quote_audit
 from .readme import heldout_snapshot
+from .inventory import experiment_inventory
 
 REPORTS = ROOT / "reports"
 OUT = ROOT / "results"
@@ -47,6 +48,7 @@ def dashboard_data(rows=None):
     measured_at = now() if rows else archived.get("updated") or now()
     if not rows and (OUT / "cases.json").is_file():
         rows = read(OUT / "cases.json")
+    references = {}
     if (BENCH / "cases.json").is_file() and rows:
         references = read(BENCH / "cases.json")
         rows = [{**r, "reference": references[r["id"]]["answer"]} for r in rows]
@@ -59,12 +61,22 @@ def dashboard_data(rows=None):
     targets = {
         "dev": len(split["legacy"]) * (len(SIZES) + len(BASE)),
         "audit": len(split["blocks"][0]) * (len(BASE) + 2),
+        "oracle": (
+            sum(
+                q["domain"] == "news"
+                and bool(q["facts"])
+                and not q["stratum"].startswith("null")
+                for q in (references[k] for k in split["blocks"][0])
+            )
+            if references
+            else archived.get("targets", {}).get("oracle")
+        ),
     }
     if final:
         targets["test"] = sum(len(b) for b in split["blocks"][: final["blocks"]]) * (
             len(BASE) + 2
         )
-    return {
+    data = {
         "updated": measured_at,
         "budget": ledger().totals() or archived.get("budget", {}),
         "balances": ledger().balances() or archived.get("balances", {}),
@@ -105,6 +117,8 @@ def dashboard_data(rows=None):
             )
         },
     }
+    data["inventory"] = experiment_inventory(data, split)
+    return data
 
 
 def serve_dashboard(port):
@@ -575,6 +589,23 @@ def build():
     else:
         choice = "Selection is pending completion of the registered development panel."
     pages = {
+        "inventory": (
+            "Experiment inventory",
+            "Counts come from saved graded runs, audit records, or completed engineering checks as appropriate for each row. The five primary methods share every registered held-out question. The controls use the fixed first block. Technical repeats have their own records and budget. [Preregistration](../preregistration.md) · [Offline test coverage](offline.md)",
+            outcomes.grid(
+                ["Experiment", "Type", "Status", "Recorded / planned", "What it tests"],
+                [
+                    [
+                        i["name"],
+                        i["kind"],
+                        i["status"],
+                        f"{i['done']}/{i['planned'] if i['planned'] is not None else 'pending'}",
+                        i["purpose"],
+                    ]
+                    for i in data["inventory"]
+                ],
+            ),
+        ),
         "availability": (
             "Service availability and technical repeats",
             "The primary analysis retains the recorded first attempts. The secondary calculations below use only questions with all five arms graded. The unaffected panel excludes a question from every arm when any generation failure logged an explicit provider overload. The repeat panel substitutes an eligible technical repeat only when it completed successfully. An unresolved repeat removes that question from every arm in that panel. This sensitivity analysis was specified after an upstream incident. [Dated acquisition amendment](../provider-overload.md)",
@@ -872,7 +903,8 @@ def build():
             "Each row uses every graded response available for that method. "
             "During collection, methods can have different question counts. "
             "Run `uv run folderrag report` to regenerate this snapshot from the saved records."
-            if current else summary
+            if current
+            else summary
         )
         + "\n\n"
         + md
