@@ -12,6 +12,60 @@ function matches(row) {
     (!byId("domain").value || row.domain === byId("domain").value) &&
     (!byId("method").value || row.arm === byId("method").value);
 }
+
+function renderSizeChart() {
+  const phase = byId("size-phase").value;
+  const domain = byId("size-domain").value;
+  const metric = byId("size-metric").value;
+  const groups = (data.size_groups || []).filter(g => g.phase === phase && g.domain === domain);
+  const chart = byId("size-chart");
+  chart.replaceChildren();
+  const caption = byId("size-caption");
+  if (!groups.length) {
+    caption.textContent = "Awaiting a question scored at all four sizes in this panel.";
+    return;
+  }
+  const quality = metric === "mean";
+  const percent = domain === "news";
+  const maximum = quality ? (percent ? 1 : 100) : Math.max(...groups.map(g => g[metric]), 0.000001);
+  function format(value) {
+    if (metric === "cost") return "$" + value.toFixed(4);
+    if (metric === "p50") return value.toFixed(1) + " s";
+    return percent ? (value * 100).toFixed(1) + "%" : value.toFixed(1);
+  }
+  const questionCount = groups[0].n;
+  caption.textContent = "All four sizes answered the same " + questionCount +
+    (questionCount === 1 ? " question. " : " questions. ") +
+    (quality ? (percent ? "Strict exact match" : "Rubric score out of 100") + " with 95% intervals." :
+     metric === "cost" ? "US dollars per question, excluding grading." : "Elapsed seconds per question.");
+  for (const group of groups) {
+    const size = Number(group.arm.slice(5));
+    const row = el("div", "");
+    row.className = "size-row";
+    row.append(el("strong", size + (size === 1 ? " agent" : " agents")));
+    const track = el("div", "");
+    track.className = "size-track";
+    track.setAttribute("aria-hidden", "true");
+    const bar = el("span", "");
+    bar.className = "size-bar";
+    bar.style.width = (100 * group[metric] / maximum) + "%";
+    track.append(bar);
+    if (quality) {
+      const interval = el("span", "");
+      interval.className = "size-interval";
+      interval.style.left = (100 * group.low / maximum) + "%";
+      interval.style.width = (100 * (group.high - group.low) / maximum) + "%";
+      track.append(interval);
+    }
+    row.append(track, el("span", format(group[metric]) + (quality ?
+      " [" + format(group.low) + ", " + format(group.high) + "]" : "")));
+    chart.append(row);
+  }
+  const axis = el("div", "");
+  axis.className = "size-axis";
+  axis.append(el("span", format(0)), el("span", format(maximum)));
+  chart.append(axis);
+}
 function details() {
   const row = filtered[Number(byId("example").value)];
   const detail = byId("detail");
@@ -66,10 +120,12 @@ async function refresh() {
     const used = Object.values(data.budget).reduce((a,b)=>a+b,0);
     const cost = data.balances ? "$"+(data.balances.settled||0).toFixed(2)+" settled upper estimate + $"+(data.balances.reserved||0).toFixed(2)+" reserved" : "$"+used.toFixed(2)+" charged or reserved";
     byId("status").textContent = data.rows.length+" condition runs · "+cost+" of $50 · updated "+new Date(data.updated).toLocaleString();
+    renderSizeChart();
     render();
   } catch (e) { byId("status").textContent = e.message; }
 }
 for (const id of ["phase","domain","method","query"]) byId(id).addEventListener("input",render);
+for (const id of ["size-phase", "size-domain", "size-metric"]) byId(id).addEventListener("change", renderSizeChart);
 byId("example").addEventListener("change",details);
 refresh();
 if (["127.0.0.1","localhost"].includes(location.hostname)) setInterval(refresh,20000);

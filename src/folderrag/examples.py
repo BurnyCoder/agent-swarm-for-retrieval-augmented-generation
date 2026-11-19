@@ -1,48 +1,58 @@
 """Fixed-order examples: selection depends on registered identifiers, never answer quality."""
 
+from .analysis import means
 from .paths import ROOT, read
+
+
+def matched_size_groups(rows, first_block):
+    """Use the common four-size question set for each domain and study phase."""
+    arms = ("swarm1", "swarm2", "swarm4", "swarm8")
+    panels = []
+    for domain in ("news", "code"):
+        for phase in ("dev", "held"):
+            candidates = [
+                r
+                for r in rows
+                if r["domain"] == domain
+                and r["arm"] in arms
+                and r.get("score") is not None
+                and (
+                    r["phase"] == "dev"
+                    if phase == "dev"
+                    else r["id"] in first_block
+                    and r["phase"] in ("test", "diagnostics")
+                )
+            ]
+            common = set.intersection(
+                *[{r["id"] for r in candidates if r["arm"] == arm} for arm in arms]
+            )
+            panels.extend(
+                {**r, "phase": phase} for r in candidates if r["id"] in common
+            )
+    return means(panels)
 
 
 def plot_swarm_sizes(data, directory):
     """Only compare sizes on questions completed by all four systems within each panel."""
     import matplotlib.pyplot as plt
     import numpy as np
-    from .analysis import means
 
     sizes = (1, 2, 4, 8)
-    block = set(read(ROOT / "protocol/splits.json")["blocks"][0])
     fig, axes = plt.subplots(1, 2, figsize=(9, 3.7), layout="constrained", sharey=True)
     plotted = False
     for ax, domain in zip(axes, ("news", "code")):
-        for phase, offset, color in (
-            ("Development", -0.065, "#276b5d"),
-            ("Held-out block", 0.065, "#a44d2b"),
+        for phase, label, offset, color in (
+            ("dev", "Development", -0.065, "#276b5d"),
+            ("held", "Held-out block", 0.065, "#a44d2b"),
         ):
-            rowset = [
-                r
-                for r in data["rows"]
-                if r["domain"] == domain
-                and r["arm"] in {f"swarm{n}" for n in sizes}
-                and r.get("score") is not None
-                and (
-                    r["phase"] == "dev"
-                    if phase == "Development"
-                    else r["phase"] in ("test", "diagnostics") and r["id"] in block
-                )
+            rows = [
+                g
+                for g in data["size_groups"]
+                if g["phase"] == phase and g["domain"] == domain
             ]
-            shared = set.intersection(
-                *[{r["id"] for r in rowset if r["arm"] == f"swarm{n}"} for n in sizes]
-            )
-            if not shared:
+            if not rows:
                 continue
             plotted = True
-            grouped = {
-                r["arm"]: r
-                for r in means(
-                    [{**r, "phase": "panel"} for r in rowset if r["id"] in shared]
-                )
-            }
-            rows = [grouped[f"swarm{n}"] for n in sizes]
             scale = 100 if domain == "news" else 1
             ys = np.asarray([r["mean"] * scale for r in rows])
             lo = np.maximum(0, ys - np.asarray([r["low"] * scale for r in rows]))
@@ -55,7 +65,7 @@ def plot_swarm_sizes(data, directory):
                 markersize=4,
                 capsize=3,
                 color=color,
-                label=f"{phase} (n={len(shared)})",
+                label=f"{label} (n={rows[0]['n']})",
             )
         ax.set(
             xticks=range(4),

@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 
 from .analysis import comparisons, means
 from . import outcomes
-from .examples import render_examples, plot_swarm_sizes
+from .examples import matched_size_groups, render_examples, plot_swarm_sizes
 from .evaluate import BASE, SIZES, ledger, records
 from .benchdata import BENCH
 from .paths import DATA, ROOT, now, read, save
@@ -46,6 +46,7 @@ def dashboard_data():
         if (DATA / "runtime/encoder.json").exists()
         else archived.get("encoder_runtime", {}),
         "groups": means(rows),
+        "size_groups": matched_size_groups(rows, set(split["blocks"][0])),
         "rows": rows,
         "pilot": records("dev", pilots=True) or archived.get("pilot", []),
         "freeze": final,
