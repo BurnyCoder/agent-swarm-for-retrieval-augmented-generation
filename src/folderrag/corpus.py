@@ -326,6 +326,9 @@ class FolderIndex:
                                     ),
                                 )
                                 i += 1
+                # SQLite's context manager commits without closing. DrvFS requires
+                # closing the old filename before opening its atomic replacement.
+                con.close()
                 tmp.replace(self.db)
             with sqlite3.connect(self.db) as con:
                 con.row_factory = sqlite3.Row
