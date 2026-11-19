@@ -1,0 +1,29 @@
+# Preregistration · 2026-11-19
+
+**Author.** Libor “Burny” Burian. **Unit.** A question answered against one immutable folder snapshot. **Aim.** Improve grounded answer quality separately on news and code. The design was amended to include genuine swarms before the first generation, at the user's request.
+
+## Conditions and hypotheses
+
+Count the coordinator in sizes 1, 2, 4 and 8. At size 1 it investigates and answers directly. At larger sizes, independent Codex/Luna investigators get distinct search assignments and isolated histories, execute concurrently, and send findings and source spans to a Codex/Luna coordinator. Measure attempted, completed and evidence-contributing workers, peak concurrency, and duplicate passages. All paid roles use `gpt-6-luna` with medium reasoning. All arms share a question-level 300-second ceiling, at most 32 billable generation requests and 48,000 total output tokens, including hidden reasoning and repair, with at most 4,096 output tokens per request. Investigators share half the request ceiling; the coordinator has the remainder. Track actual consumption as well as ceilings.
+
+H1/H2. The selected multi-agent system improves strict document exact match and mean code rubric score against each of stock Codex, the Arctic B2 single-agent harness and one-shot hybrid RAG. Test six two-sided contrasts; declare a domain win only if all three effects are positive with Holm-adjusted p below .05. An adverse reliable difference contradicts that comparison; an interval crossing zero is inconclusive. Separately test the selected size against the identical one-agent harness on both domains with Holm across these two contrasts. Improvements over unrelated baselines alone do not establish a benefit from a swarm.
+
+## Splits and selection
+
+Development uses the archived 20 IDs (10 per domain). Run sizes 1, 2, 4 and 8 on the same ordered development panel. Select among 2, 4 and 8 by the unweighted mean of news accuracy and code score divided by 100, with ties resolved by lower measured cost, then latency, then smaller size. Freeze the selection and sample size in Git before held-out answers are opened. Also report the single-agent score.
+
+Use deterministic shuffled strata with seed 20261119. Exclude development IDs, normalized question duplicates and identical question texts across strata. Keep development confined to the four legacy repositories. Populate up to ten balanced blocks, each containing 32 news questions allocated proportionally to question type and one question from each of the 15 pinned code repositories. Keep benchmark labels, questions files, grader prompts and project instructions outside agent mounts. Counterfactual tests use isolated twin corpora with changed facts and deterministic expected answers.
+
+Use development costs only to freeze the number of test blocks. Estimate a block from the pilot cost of 32 news plus 15 code questions across the five confirmatory arms and code grading; multiply by 1.25. Take the largest whole number up to ten affordable under $34. If no block fits, report feasibility and use the prespecified development comparisons as exploratory. Start the same randomized arm set for every test case. Report missing, failed, timed-out and unrun cases separately. Completed model failures score zero; retry technical grader failures under the retry allocation or mark the code comparison incomplete. Preserve unprocessed blocks as missing rather than assigning fabricated scores.
+
+## Metrics and diagnostics
+
+News uses normalized exact equality of the complete short answer, case-, punctuation- and article-insensitive. Multi-answer polarity hedges fail. Code uses the five dimensions of the released SWE-QA rubric, each 1–20, scored pointwise by arm-blinded Luna. Use matched questions; exact McNemar for news, paired sign-flip permutations for mean code differences (equal questions per repository), Holm correction and seeded 95% paired bootstrap intervals, resampling within news strata and repositories for conditional intervals. Report a repository-clustered sensitivity estimate. Report p50/p95 latency, cost, failures, index build time, supported claims, cited/seen file recall and exact quote validity separately. Merely listing a path supplies no passage.
+
+On the first fixed held-out block, compare all four sizes and controls (closed book, length-budgeted random passages, non-null news gold evidence, lexical-only swarm, verification disabled). Repeat the selected system on the first four news and four code cases of that block. Audit citation support with the question, claim and excerpt only. Keep unsupported and missing evidence in denominators. Filtering null news questions applies only to gold-evidence diagnostics. Score archived responses with the common scorers separately. Primary analysis happens once after the selection freeze. Report negative results and same-family judge limitations.
+
+## Budget, publication and integrity
+
+Use USD 5 for development and bridge, 34 for confirmation including grading, 8 for diagnostics and repeats, and 3 for retries. The shared ledger reserves a worst-case charge transactionally before upstream requests; ambiguous billing holds its reservation. No paid built-in tools or external inference providers. Use the [official rate card](https://developers.openai.com/api/docs/models/gpt-6-luna). Store timestamped model-visible inputs, outputs and usage privately. Push protocol, then code and offline tests before paid work. Archive each milestone privately on GitHub and Hugging Face. A live local dashboard reports progress and uncertainty.
+
+Sources and limits are in the [literature review](literature-review.md). Test corpora and rubric come from [MultiHop-RAG](https://huggingface.co/datasets/yixuantt/MultiHopRAG) and [SWE-QA](https://github.com/peng-weihan/SWE-QA-Bench).
