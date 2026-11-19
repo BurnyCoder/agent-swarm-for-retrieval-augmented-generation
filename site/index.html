@@ -7,6 +7,15 @@
 <select id="experiment-status"><option value="">All statuses</option></select></label>
 <div class="scroll"><table><thead><tr><th>Experiment</th><th>Type</th><th>Status</th><th>Recorded / planned</th><th>What it tests</th></tr></thead><tbody id="experiment-rows"></tbody></table></div>
 </details>
+<section id="matched" aria-labelledby="matched-heading" hidden>
+<h2 id="matched-heading">Matched held-out results</h2>
+<label>Compare <select id="matched-view">
+<option value="quality">Answer quality</option><option value="resources">Cost and latency</option>
+<option value="effects">Four-agent swarm minus each comparator</option><option value="sizes">Swarm sizes across samples</option>
+</select></label>
+<p id="matched-note" aria-live="polite"></p>
+<div class="scroll"><table aria-labelledby="matched-heading" aria-describedby="matched-note"><thead></thead><tbody></tbody></table></div>
+</section>
 <section aria-labelledby="size-heading"><h2 id="size-heading">What changes with swarm size?</h2>
 <div class="filters">
 <label>Questions <select id="size-phase"><option value="dev">Development</option><option value="held">First held-out block</option></select></label>
