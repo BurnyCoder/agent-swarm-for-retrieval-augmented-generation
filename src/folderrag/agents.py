@@ -127,6 +127,38 @@ def prompt_for(question, role, spans=(), reports=()):
     return "\n\n".join(pieces)
 
 
+def oracle_sources(index, facts):
+    """Locate annotated facts in the actual article before exposing a citable source range."""
+    from .corpus import lexical
+
+    rows = {}
+    annotations = []
+    for fact in facts:
+        path, text = fact["path"], fact["fact"]
+        if not path or not text:
+            continue
+        article = index.root / path
+        if not article.is_file():
+            annotations.append(fact)
+            continue
+        offset = article.read_text(encoding="utf8").find(text)
+        if offset >= 0:
+            spans = index.read(path, offset, len(text))
+        else:
+            annotations.append(fact)
+            terms = set(lexical(text).split())
+            candidates = [s for s in index.spans if s["path"] == path]
+            spans = sorted(
+                candidates,
+                key=lambda s: (
+                    -len(terms & set(lexical(s["text"]).split())),
+                    s["start"],
+                ),
+            )[:1]
+        rows.update((s["id"], s) for s in spans)
+    return list(rows.values()), annotations
+
+
 def answer(
     case, question, method="custom", size=4, facts=(), verify=True, mode="hybrid"
 ):
@@ -228,6 +260,7 @@ def answer(
             prompt_for(question, "Investigate the mounted files and answer."),
         )
     else:
+        direct_role = "Answer from the supplied evidence."
         if method == "oneshot":
             rows = case.index.search(question, 8)
         elif method == "random":
@@ -238,17 +271,12 @@ def answer(
             )
             rows = rng.sample(case.index.spans, min(8, len(case.index.spans)))
         elif method == "oracle":
-            rows = [
-                {
-                    "id": str(i),
-                    "path": f["path"],
-                    "text": f["fact"],
-                    "start": 0,
-                    "end": len(f["fact"]),
-                    "line": 1,
-                }
-                for i, f in enumerate(facts)
-            ]
+            rows, annotations = oracle_sources(case.index, facts)
+            if annotations:
+                direct_role += (
+                    " The benchmark also supplies these annotations. Cite only the original source excerpts. "
+                    + json.dumps(annotations, ensure_ascii=False)
+                )
         elif method == "closed":
             rows = []
         else:
@@ -259,9 +287,7 @@ def answer(
             1,
             evidence,
             "direct",
-            prompt_for(
-                question, "Answer from the supplied evidence.", evidence.deliver(rows)
-            ),
+            prompt_for(question, direct_role, evidence.deliver(rows)),
         )
     checks = validate(raw["citations"], evidence, case.index.root)
     repaired = False

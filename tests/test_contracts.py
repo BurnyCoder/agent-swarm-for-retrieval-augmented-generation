@@ -119,6 +119,26 @@ def test_swarm_sizes_count_the_coordinator():
         assert len(set(assignments(n))) == n - 1
 
 
+def test_oracle_facts_cite_real_offsets_and_label_paraphrases(tmp_path):
+    from folderrag.agents import oracle_sources
+
+    source = tmp_path / "articles"
+    source.mkdir()
+    (source / "news.txt").write_text("Header\nThe copper schedule has 41 stops.\n")
+    index = FolderIndex(snapshot(source, tmp_path / "snapshots"), False)
+    literal = {"path": "news.txt", "fact": "The copper schedule has 41 stops."}
+    paraphrase = {"path": "news.txt", "fact": "Forty-one stops serve copper."}
+    rows, notes = oracle_sources(index, [literal, paraphrase])
+    assert notes == [paraphrase] and rows[0]["start"] == 7 and rows[0]["line"] == 2
+    ev = Evidence()
+    ev.deliver(rows)
+    cite = dict(path="news.txt", span_id=rows[0]["id"], quote=literal["fact"])
+    assert validate([cite], ev, index.root)[0]["valid"]
+    broken = Evidence()
+    broken.deliver([{**rows[0], "start": 0}])
+    assert not validate([cite], broken, index.root)[0]["valid"]
+
+
 def test_cli_run_resumes_persisted_answer_without_billing(tmp_path, monkeypatch):
     import random, sys
     from types import SimpleNamespace

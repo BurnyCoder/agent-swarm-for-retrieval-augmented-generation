@@ -91,6 +91,16 @@ def validate(citations, evidence, root=None):
             and evidence.witnessed(s, quote)
         ]
         verified = matches[0] if matches else None
+        if verified and root:
+            source = (root / path).resolve()
+            offset = verified["start"] + verified["text"].index(quote)
+            if (
+                not source.is_relative_to(root.resolve())
+                or not source.is_file()
+                or source.read_text(encoding="utf8")[offset : offset + len(quote)]
+                != quote
+            ):
+                verified = None
         legacy = re.fullmatch(r"corpus://folder/(.+)#L(\d+)(?:-(\d+))?", key)
         if (
             not verified
