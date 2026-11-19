@@ -524,6 +524,51 @@ src/requests/structures.py · verified
 
 src/requests/structures.py · verified
 
+### stock
+
+Recorded score 86 / 100.
+
+Validated native-string header names stored in a CaseInsensitiveDict
+
+PreparedRequest.prepare_headers validates each input name/value pair, converts each name to the native string type, and stores it in a fresh CaseInsensitiveDict. That mapping uses lowercase keys for case-insensitive lookup while retaining the original spelling of the most recently assigned key. Header values remain as supplied after validation.
+
+> self.headers = CaseInsensitiveDict()
+        if headers:
+            for header in headers.items():
+                # Raise exception on invalid header value.
+                check_header_validity(header)
+                name, value = header
+                self.headers[to_native_string(name)] = value
+
+src/requests/models.py · verified
+
+> # Use the lowercased key for lookups, but store the actual
+        # key alongside the value.
+        self._store[key.lower()] = (key, value)
+
+src/requests/structures.py · verified
+
+> if isinstance(header_part, str):
+        validator = _HEADER_VALIDATORS_STR[header_validator_index]
+    elif isinstance(header_part, bytes):
+        validator = _HEADER_VALIDATORS_BYTE[header_validator_index]
+    else:
+        raise InvalidHeader(
+
+src/requests/utils.py · verified
+
+> def to_native_string(string, encoding="ascii"):
+    """Given a string object, regardless of type, returns a representation of
+    that string in the native string type, encoding and decoding where
+    necessary. This assumes ASCII unless told otherwise.
+    """
+    if isinstance(string, builtin_str):
+        out = string
+    else:
+        out = string.decode(encoding)
+
+src/requests/_internal_utils.py · verified
+
 ### swarm1
 
 Recorded score 80 / 100.
@@ -543,3 +588,78 @@ src/requests/models.py · verified
 > self.headers[to_native_string(name)] = value
 
 src/requests/models.py · verified
+
+### swarm2
+
+Recorded score 75 / 100.
+
+PreparedRequest.prepare_headers()
+
+It initializes self.headers as a CaseInsensitiveDict, validates each input header, then converts each header name with to_native_string before storing it. The conversion is applied to names; the code stores each value unchanged.
+
+> self.headers = CaseInsensitiveDict()
+        if headers:
+            for header in headers.items():
+                # Raise exception on invalid header value.
+                check_header_validity(header)
+                name, value = header
+                self.headers[to_native_string(name)] = value
+
+src/requests/models.py · verified
+
+### swarm4
+
+Recorded score 83 / 100.
+
+Validated native-string insertion into a CaseInsensitiveDict
+
+`PreparedRequest.prepare_headers` creates a fresh `CaseInsensitiveDict`, validates each header pair, converts each header name with `to_native_string`, and stores the value under that converted name. The dictionary uses a lowercased lookup key while retaining the assigned spelling and value, so string and byte names are normalized for case-insensitive lookup.
+
+> self.headers[to_native_string(name)] = value
+
+src/requests/models.py · verified
+
+> self._store[key.lower()] = (key, value)
+
+src/requests/structures.py · verified
+
+> must be of type str or bytes
+
+src/requests/utils.py · verified
+
+### swarm8
+
+Recorded score 78 / 100.
+
+Native-string normalization into a CaseInsensitiveDict
+
+PreparedRequest validates each header pair, converts the name with to_native_string, then stores it in a CaseInsensitiveDict. The helper decodes byte strings using its default ASCII encoding. The dictionary uses lowercase keys for case-insensitive lookup while retaining the stored spelling for iteration. The tests cover mixed text and byte header names. CaseInsensitiveDict documents behavior as undefined for keys with equal lowercase forms.
+
+> check_header_validity(header)
+                name, value = header
+                self.headers[to_native_string(name)] = value
+
+src/requests/models.py · verified
+
+> def to_native_string(string, encoding="ascii"):
+    """Given a string object, regardless of type, returns a representation of
+    that string in the native string type, encoding and decoding where
+    necessary. This assumes ASCII unless told otherwise.
+
+src/requests/_internal_utils.py · verified
+
+> # Use the lowercased key for lookups, but store the actual
+        # key alongside the value.
+        self._store[key.lower()] = (key, value)
+
+src/requests/structures.py · verified
+
+> headers = {"unicode": "blah", b"byte": "blah"}
+
+tests/test_requests.py · verified
+
+> If the constructor, ``.update``, or equality comparison
+    operations are given keys that have equal ``.lower()``s, the
+    behavior is undefined.
+
+src/requests/structures.py · verified

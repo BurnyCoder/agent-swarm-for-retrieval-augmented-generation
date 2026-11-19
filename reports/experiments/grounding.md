@@ -4,13 +4,13 @@
 
 | Phase | Domain | Method | Answers | Literal quotes valid | Answers with citations | Gold files returned¹ | Gold files cited¹ |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| dev | code | arctic | 2 | 7/8 (87.5%) | 2/2 (100.0%) | — | — |
-| dev | code | oneshot | 2 | 6/6 (100.0%) | 2/2 (100.0%) | — | — |
-| dev | code | stock | 1 | 4/4 (100.0%) | 1/1 (100.0%) | — | — |
-| dev | code | swarm1 | 2 | 4/4 (100.0%) | 2/2 (100.0%) | — | — |
-| dev | code | swarm2 | 1 | 1/2 (50.0%) | 1/1 (100.0%) | — | — |
-| dev | code | swarm4 | 1 | 3/3 (100.0%) | 1/1 (100.0%) | — | — |
-| dev | code | swarm8 | 1 | 4/4 (100.0%) | 1/1 (100.0%) | — | — |
+| dev | code | arctic | 4 | 10/13 (76.9%) | 4/4 (100.0%) | — | — |
+| dev | code | oneshot | 5 | 13/13 (100.0%) | 5/5 (100.0%) | — | — |
+| dev | code | stock | 4 | 10/13 (76.9%) | 4/4 (100.0%) | — | — |
+| dev | code | swarm1 | 4 | 8/8 (100.0%) | 4/4 (100.0%) | — | — |
+| dev | code | swarm2 | 4 | 6/9 (66.7%) | 4/4 (100.0%) | — | — |
+| dev | code | swarm4 | 4 | 12/12 (100.0%) | 4/4 (100.0%) | — | — |
+| dev | code | swarm8 | 4 | 14/14 (100.0%) | 4/4 (100.0%) | — | — |
 | dev | news | arctic | 10 | 30/33 (90.9%) | 10/10 (100.0%) | 96.3% | 80.6% |
 | dev | news | oneshot | 10 | 24/26 (92.3%) | 9/10 (90.0%) | 73.1% | 66.7% |
 | dev | news | stock | 10 | 32/33 (97.0%) | 10/10 (100.0%) | 86.1% | 86.1% |

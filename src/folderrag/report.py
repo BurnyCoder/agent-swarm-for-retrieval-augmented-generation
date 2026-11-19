@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 
 from .analysis import comparisons, means
 from . import outcomes
-from .examples import render_examples
+from .examples import render_examples, plot_swarm_sizes
 from .evaluate import BASE, SIZES, ledger, records
 from .benchdata import BENCH
 from .paths import DATA, ROOT, now, read, save
@@ -306,6 +306,13 @@ def write_pdf(data, summary, date):
             "News is expressed in percent with Wilson intervals. Code uses the rubric's 100-point scale with question-level bootstrap intervals. The cost column gives the mean conservative inference charge in US dollars. Grading is included separately in the study ledger."
         )
         story.append(Image(str(REPORTS / "figures/quality.png"), width=470, height=216))
+        if (REPORTS / "figures/swarm-size.png").exists():
+            story.append(
+                Image(str(REPORTS / "figures/swarm-size.png"), width=460, height=189)
+            )
+            para(
+                "Within each panel, every displayed size answered the same questions. The unit on the horizontal axis includes the coordinator."
+            )
     else:
         para("The first registered release precedes measured outcomes.")
     if data["comparisons"]:
@@ -493,6 +500,7 @@ def build():
     summary = conclusions(data)
     figures(data)
     examples = render_examples(data, REPORTS / "figures")
+    sized = plot_swarm_sizes(data, REPORTS / "figures")
     save(OUT / "metrics.json", {k: v for k, v in data.items() if k != "rows"})
     save(OUT / "cases.json", data["rows"])
     save(SITE / "data.json", data)
@@ -701,6 +709,51 @@ def build():
     write_pdf(data, summary, date)
     doc = ROOT / "README.md"
     prefix = doc.read_text(encoding="utf8").split("<!-- generated -->")[0].rstrip()
+    import re
+
+    prefix = re.sub(
+        r"\n*<!-- result-headline -->.*?<!-- /result-headline -->",
+        "",
+        prefix,
+        flags=re.S,
+    )
+    if data["groups"]:
+        opening, description, remainder = prefix.split("\n\n", 2)
+        headline = summary
+        if not data["comparisons"]:
+            devnews = sorted(
+                (
+                    r
+                    for r in data["groups"]
+                    if r["phase"] == "dev"
+                    and r["domain"] == "news"
+                    and r["arm"].startswith("swarm")
+                ),
+                key=lambda r: int(r["arm"][5:]),
+            )
+            n_news = sum(
+                i.startswith("mhr_")
+                for i in read(ROOT / "protocol/splits.json")["legacy"].values()
+            )
+            if len(devnews) == 4 and all(r["n"] == n_news for r in devnews):
+                headline = (
+                    f"On the same {n_news} development news questions, exact-match accuracy was "
+                    + ", ".join(
+                        f"{r['mean']:.0%} with {r['arm'][5:]} agent{'s' if r['arm'] != 'swarm1' else ''}"
+                        for r in devnews
+                    )
+                    + ". "
+                    + summary
+                )
+        prefix = (
+            opening
+            + "\n\n"
+            + description
+            + "\n\n<!-- result-headline -->\n"
+            + headline
+            + " [Measured tables](results/tables.md)\n<!-- /result-headline -->\n\n"
+            + remainder
+        )
 
     def milestone(label, done):
         nonlocal prefix
@@ -724,6 +777,11 @@ def build():
         + summary
         + "\n\n"
         + md
+        + (
+            "\n![Answer quality by total Luna agent count](reports/figures/swarm-size.png)\n"
+            if sized
+            else ""
+        )
         + (
             "\n![Scores for fixed example questions](reports/figures/examples.png)\n\n[Read the actual answers and source quotations](reports/experiments/output-examples.md)\n"
             if examples

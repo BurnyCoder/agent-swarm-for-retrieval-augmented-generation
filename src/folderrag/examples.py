@@ -3,6 +3,78 @@
 from .paths import ROOT, read
 
 
+def plot_swarm_sizes(data, directory):
+    """Only compare sizes on questions completed by all four systems within each panel."""
+    import matplotlib.pyplot as plt
+    import numpy as np
+    from .analysis import means
+
+    sizes = (1, 2, 4, 8)
+    block = set(read(ROOT / "protocol/splits.json")["blocks"][0])
+    fig, axes = plt.subplots(1, 2, figsize=(9, 3.7), layout="constrained", sharey=True)
+    plotted = False
+    for ax, domain in zip(axes, ("news", "code")):
+        for phase, offset, color in (
+            ("Development", -0.065, "#276b5d"),
+            ("Held-out block", 0.065, "#a44d2b"),
+        ):
+            rowset = [
+                r
+                for r in data["rows"]
+                if r["domain"] == domain
+                and r["arm"] in {f"swarm{n}" for n in sizes}
+                and r.get("score") is not None
+                and (
+                    r["phase"] == "dev"
+                    if phase == "Development"
+                    else r["phase"] in ("test", "diagnostics") and r["id"] in block
+                )
+            ]
+            shared = set.intersection(
+                *[{r["id"] for r in rowset if r["arm"] == f"swarm{n}"} for n in sizes]
+            )
+            if not shared:
+                continue
+            plotted = True
+            grouped = {
+                r["arm"]: r
+                for r in means(
+                    [{**r, "phase": "panel"} for r in rowset if r["id"] in shared]
+                )
+            }
+            rows = [grouped[f"swarm{n}"] for n in sizes]
+            scale = 100 if domain == "news" else 1
+            ys = np.asarray([r["mean"] * scale for r in rows])
+            lo = np.maximum(0, ys - np.asarray([r["low"] * scale for r in rows]))
+            hi = np.maximum(0, np.asarray([r["high"] * scale for r in rows]) - ys)
+            ax.errorbar(
+                np.arange(4) + offset,
+                ys,
+                yerr=[lo, hi],
+                fmt="o-",
+                markersize=4,
+                capsize=3,
+                color=color,
+                label=f"{phase} (n={len(shared)})",
+            )
+        ax.set(
+            xticks=range(4),
+            xticklabels=sizes,
+            xlabel="Total agents, including coordinator",
+            ylim=(-2, 102),
+            title="News exact match (%)"
+            if domain == "news"
+            else "Code rubric score / 100",
+        )
+        ax.grid(axis="y", alpha=0.2)
+        if ax.lines:
+            ax.legend(frameon=False, fontsize=8)
+    if plotted:
+        fig.savefig(directory / "swarm-size.png", dpi=155)
+    plt.close(fig)
+    return plotted
+
+
 def selected_examples(data, per_domain=2):
     split = read(ROOT / "protocol/splits.json")
     held = any(r["phase"] == "test" for r in data["rows"])
