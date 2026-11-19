@@ -36,7 +36,7 @@ def dashboard_data():
                 "cost_upper_usd": charges.get(r["unit"], r["cost_upper_usd"]),
                 "grading_cost_upper_usd": sum(
                     charges.get(r["unit"] + "-grade-" + phase, 0.0)
-                    for phase in (r["phase"], "retry")
+                    for phase in {r["phase"], "retry"}
                 ),
             }
             for r in rows
