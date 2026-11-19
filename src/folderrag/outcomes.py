@@ -150,8 +150,8 @@ def swarms(data):
                 sum(r.get("workers_contributing", 0) for r in group),
                 max(r.get("peak_investigators", 0) for r in group),
                 sum(r.get("duplicate_worker_spans", 0) for r in group),
-                f"{mean(r.get('requests',0) for r in group):.1f}",
-                f"{mean(r.get('output_tokens',0) for r in group):.0f}",
+                f"{mean(r.get('requests', 0) for r in group):.1f}",
+                f"{mean(r.get('output_tokens', 0) for r in group):.0f}",
             ]
         )
     return grid(
@@ -249,6 +249,77 @@ def operating_choices(data):
             f"For {domain}, {best['arm']} has the highest observed quality after breaking exact ties by cost and then median latency. Its conservative mean inference charge is ${best['cost']:.4f} per question."
         )
     return " ".join(out)
+
+
+def availability(data):
+    """Hold all five arms to identical question sets when describing the service interruption."""
+    if not data["capacity-flags"]:
+        return "Awaiting a completed capacity-failure audit."
+    arms = (f"swarm{data['freeze']['size']}", "swarm1", "stock", "arctic", "oneshot")
+    flagged = {r["unit"] for r in data["capacity-flags"]}
+    repeats = {
+        r["original"]: r["repeated_score"]
+        for r in data["capacity-repeats"]
+        if not r["error"] and r["repeated_score"] is not None
+    }
+    cases = defaultdict(dict)
+    for row in data["rows"]:
+        if (
+            row["phase"] == "test"
+            and row["arm"] in arms
+            and row.get("score") is not None
+        ):
+            cases[row["id"]][row["arm"]] = row
+    output = []
+    for domain in ("news", "code"):
+        panel = [
+            q
+            for q in cases.values()
+            if all(a in q for a in arms) and q[arms[0]]["domain"] == domain
+        ]
+        unaffected = [
+            q for q in panel if all(r["unit"] not in flagged for r in q.values())
+        ]
+        restored = [
+            q
+            for q in panel
+            if all(r["unit"] not in flagged or r["unit"] in repeats for r in q.values())
+        ]
+
+        def cell(group, arm, replace=False):
+            if not group:
+                return "—"
+            values = [
+                repeats.get(q[arm]["unit"], q[arm]["score"])
+                if replace
+                else q[arm]["score"]
+                for q in group
+            ]
+            avg = mean(values)
+            return (
+                f"{avg:.1%}" if domain == "news" else f"{avg:.2f}"
+            ) + f" (n={len(group)})"
+
+        for arm in arms:
+            output.append(
+                [
+                    domain,
+                    arm,
+                    cell(panel, arm),
+                    cell(unaffected, arm),
+                    cell(restored, arm, True),
+                ]
+            )
+    return grid(
+        [
+            "Domain",
+            "Method",
+            "Primary complete pairs",
+            "Without flagged questions",
+            "With technical repeats",
+        ],
+        output,
+    )
 
 
 def fixed_panel(data, ids, sizes=False):

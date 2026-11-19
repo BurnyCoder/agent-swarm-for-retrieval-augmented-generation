@@ -6,6 +6,7 @@ param(
     [int]$ControlWorkers = 5,
     [int]$WaitForDevPid = 0,
     [switch]$QuietConsole,
+    [switch]$RecoverCapacity,
     [string]$ArcticVenv = '',
     [string]$DataRoot = 'D:\AI\luna-folderrag'
 )
@@ -69,10 +70,17 @@ $localFreeze = (git hash-object protocol/freeze.json)
 $remoteFreeze = (git rev-parse origin/main:protocol/freeze.json)
 if ($LASTEXITCODE -ne 0 -or $localFreeze -ne $remoteFreeze) { throw "The published freeze differs from the local selection" }
 if ($StartAt -ne 'diagnostics') {
-    Invoke-StudyCommand -Arguments @('run','test','--workers',"$TestWorkers")
+    $confirmation = @('guarded','test','--workers',"$TestWorkers")
+    if ($RecoverCapacity) { $confirmation += '--after-overload' }
+    Invoke-StudyCommand -Arguments $confirmation
+    Invoke-StudyCommand -Arguments @('guarded','capacity-retries','--workers','1')
     Publish-Milestone -Message 'Archive paired held-out Luna results and primary comparisons'
 }
-Invoke-StudyCommand -Arguments @('run','diagnostics','--workers',"$ControlWorkers")
-Invoke-StudyCommand -Arguments @('counterfactual')
-Invoke-StudyCommand -Arguments @('diagnostics-audit')
+$diagnostics = @('guarded','diagnostics','--workers',"$ControlWorkers")
+if ($RecoverCapacity -and $StartAt -eq 'diagnostics') { $diagnostics += '--after-overload' }
+Invoke-StudyCommand -Arguments $diagnostics
+Invoke-StudyCommand -Arguments @('guarded','capacity-retries','--workers','1')
+Invoke-StudyCommand -Arguments @('guarded','counterfactual','--workers','1')
+Invoke-StudyCommand -Arguments @('guarded','diagnostics-audit','--workers','3')
+foreach ($phase in @('dev','test','diagnostics','retry')) { Invoke-StudyCommand -Arguments @('reconcile',$phase) }
 Publish-Milestone -Message 'Publish fixed controls, repeat runs, evidence audits and dated paper'

@@ -73,12 +73,33 @@ def run():
         "counterfactual",
         "status",
         "archive",
+        "capacity-retries",
+        "capacity-probe",
     ):
         sub.add_parser(op)
     bench = sub.add_parser("run")
     bench.add_argument("phase", choices=["dev", "test", "diagnostics"])
     bench.add_argument("--workers", type=int, default=2)
     bench.add_argument("--limit", type=int)
+    billing = sub.add_parser(
+        "reconcile", help="Certify tighter upper bounds for stale reservations"
+    )
+    billing.add_argument("phase", choices=["dev", "test", "diagnostics", "retry"])
+    guarded = sub.add_parser(
+        "guarded", help="Run a registered phase with provider-overload backoff"
+    )
+    guarded.add_argument(
+        "action",
+        choices=[
+            "test",
+            "diagnostics",
+            "counterfactual",
+            "diagnostics-audit",
+            "capacity-retries",
+        ],
+    )
+    guarded.add_argument("--workers", type=int, default=2)
+    guarded.add_argument("--after-overload", action="store_true")
     warm = sub.add_parser(
         "warm", help="Build registered corpus indexes before timed questions"
     )
@@ -149,6 +170,23 @@ def run():
         from .evaluate import run_stage
 
         run_stage(a.phase, a.workers, a.limit)
+    elif a.op == "reconcile":
+        from .recovery import reconcile
+
+        reconcile(a.phase)
+    elif a.op == "guarded":
+        from .capacity import guard
+
+        guard(a.action, max(1, a.workers), a.after_overload)
+    elif a.op == "capacity-retries":
+        from .capacity import repeat_failed_capacity_cases
+
+        repeat_failed_capacity_cases()
+    elif a.op == "capacity-probe":
+        from .capacity import probe
+
+        ready, cooldown = probe()
+        print(json.dumps({"luna_capacity": ready, "retry_after_seconds": cooldown}))
     elif a.op == "freeze":
         from .evaluate import freeze
 
