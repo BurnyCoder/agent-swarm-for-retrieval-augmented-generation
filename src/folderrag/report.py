@@ -1,4 +1,4 @@
-"""One command regenerates the private explorer, all numerical tables, figures and PDF."""
+"""One command regenerates the explorer, all numerical tables, figures and PDF."""
 
 import datetime as dt
 import html
@@ -27,7 +27,7 @@ def dashboard_data(rows=None):
         rows = records()
     if rows:
         # A provider-certified bound can narrow an unresolved charge after its original
-        # answer record was saved. The private raw record retains its original estimate.
+        # answer record was saved. The raw record retains its original estimate.
         with ledger().connect() as db:
             charges = dict(
                 db.execute(
@@ -586,7 +586,7 @@ def write_pdf(data, summary, date):
                     Paragraph("Fixed output examples", styles["Heading2"]),
                     picture,
                     Paragraph(
-                        "The manifest order fixes the first examples in each domain. The private explorer preserves each complete answer and its citations. A dash marks unavailable measurements.",
+                        "The manifest order fixes the first examples in each domain. The results explorer preserves each complete answer and its citations. A dash marks unavailable measurements.",
                         styles["BodyText"],
                     ),
                 ]
@@ -812,7 +812,7 @@ def build():
             + "\n\n"
             + outcomes.support(data)
             + "\n\n### Independent replay of every accepted quote\n\n"
-            + "For each citation, the replay checks its line and character offset in the immutable file and searches the saved model-visible passages for the exact published text. Exterior whitespace is removed as in the original verifier. Raw answers remain in the private transcript archive.\n\n"
+            + "For each citation, the replay checks its line and character offset in the immutable file and searches the saved model-visible passages for the exact published text. Exterior whitespace is removed as in the original verifier. The [transcript archive](https://huggingface.co/datasets/BurnyCoder/luna-folder-swarm-results/tree/main/traces) contains the raw answers.\n\n"
             + outcomes.grid(
                 [
                     "Phase",

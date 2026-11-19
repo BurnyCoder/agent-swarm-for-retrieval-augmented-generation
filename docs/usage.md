@@ -1,8 +1,8 @@
 # Running the study
 
-The end-of-day release records a shortened held-out panel. The [cutoff manifest](../protocol/closeout.json) identifies every included question and every completed record outside the panel. The [experiment inventory](../reports/experiments/inventory.md) gives original targets and the status of each condition. On the study machine, a local stop record prevents the experiment commands from dispatching more model requests. Reporting, the dashboard, and private archival remain available.
+The end-of-day release records a shortened held-out panel. The [cutoff manifest](../protocol/closeout.json) identifies every included question and every completed record outside the panel. The [experiment inventory](../reports/experiments/inventory.md) gives original targets and the status of each condition. On the study machine, a local stop record prevents the experiment commands from dispatching more model requests. Reporting, the dashboard and archival remain available.
 
-Clone the private repository recursively so the Arctic comparator is available. Install uv, Codex CLI, bubblewrap and ripgrep in Linux or the Ubuntu WSL2 distribution. Use Python 3.12. Place `OPENAI_API_KEY` in the project-root `.env`. Windows uses a lightweight local uv environment and dispatches to the same Linux runtime. The launcher stores large files under `D:\AI\luna-folderrag` when available. Native Linux users can set `FOLDERRAG_HOME` to an empty dedicated directory. [uv](https://docs.astral.sh/uv/) · [Codex CLI](https://learn.chatgpt.com/docs/non-interactive-mode)
+Clone the repository recursively so the Arctic comparator is available. Install uv, Codex CLI, bubblewrap and ripgrep in Linux or the Ubuntu WSL2 distribution. Use Python 3.12. Place `OPENAI_API_KEY` in the project-root `.env`. Windows uses a lightweight local uv environment and dispatches to the same Linux runtime. The launcher stores large files under `D:\AI\luna-folderrag` when available. Native Linux users can set `FOLDERRAG_HOME` to an empty dedicated directory. [uv](https://docs.astral.sh/uv/) · [Codex CLI](https://learn.chatgpt.com/docs/non-interactive-mode)
 
 ```powershell
 uv run folderrag ask --folder D:\documents --agents 4 "Which sources describe the change, and where do they disagree?"
@@ -26,9 +26,9 @@ sh scripts/linux-run folderrag diagnostics-audit
 sh scripts/linux-run folderrag report
 ```
 
-Every generation logs its API-visible request and output to the terminal and timestamped private JSONL. Use terminal redirection for unattended runs. Completed condition records and intermediate answers are atomic and reusable after a restart. An ambiguous upstream bill retains the maximum reservation. The $50 ledger is shared across invocations on this machine. Keep the same data directory when resuming a study.
+Every generation logs its API-visible request and output to the terminal and timestamped local JSONL. Use terminal redirection for unattended runs. Completed condition records and intermediate answers are atomic and reusable after a restart. An ambiguous upstream bill retains the maximum reservation. The $50 ledger is shared across invocations on this machine. Keep the same data directory when resuming a study.
 
-The reporting command regenerates tables, figures, summary reports, paper PDF, and explorer data. The release script verifies both Hugging Face repositories are private before uploading an allowlist. The live dashboard reads local records; the private hosted explorer shows the last released milestone.
+The reporting command regenerates tables, figures, summary reports, paper PDF, and explorer data. The release script publishes committed research files and benchmark transcript archives to the public Hugging Face dataset and Space. The local dashboard reads local records. Both public explorers serve the released snapshot. [GitHub Pages](https://burnycoder.github.io/agent-swarm-for-retrieval-augmented-generation/) · [Hugging Face Space](https://huggingface.co/spaces/BurnyCoder/luna-folder-swarm-explorer)
 
 For upstream capacity errors, the study controller stops dispatch and resumes the frozen phase with a gradual increase in the number of concurrent questions. Use `scripts/study.ps1 -StartAt test -RecoverCapacity` after an interruption. `uv run folderrag reconcile test` uses the provider's free token counter to certify a tighter worst-case charge for stale reservations. The reserved amount still covers the full possible output, and the raw attempts are retained. [Recovery protocol](../reports/provider-overload.md)
 

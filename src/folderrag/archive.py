@@ -1,4 +1,4 @@
-"""Archive private benchmark transcripts while keeping interactive user folders out of releases."""
+"""Archive benchmark transcripts while keeping interactive user folders out of releases."""
 
 import tarfile
 

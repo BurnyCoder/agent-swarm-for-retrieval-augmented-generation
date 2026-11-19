@@ -34,7 +34,7 @@
 
 ### Independent replay of every accepted quote
 
-For each citation, the replay checks its line and character offset in the immutable file and searches the saved model-visible passages for the exact published text. Exterior whitespace is removed as in the original verifier. Raw answers remain in the private transcript archive.
+For each citation, the replay checks its line and character offset in the immutable file and searches the saved model-visible passages for the exact published text. Exterior whitespace is removed as in the original verifier. The [transcript archive](https://huggingface.co/datasets/BurnyCoder/luna-folder-swarm-results/tree/main/traces) contains the raw answers.
 
 | Phase | Answers | Accepted citations | Exterior whitespace removed | Exact file location | Text delivered | Both verified | Missing exposure archives |
 | --- | --- | --- | --- | --- | --- | --- | --- |

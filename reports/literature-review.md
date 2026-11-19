@@ -17,7 +17,7 @@ Libor “Burny” Burian · November 19, 2026
 
 The evaluation follows the [NeurIPS checklist](https://neurips.cc/public/guides/PaperChecklist) and [Lones's guide to ML pitfalls](https://arxiv.org/abs/2108.02497) for primary outcomes, partitioning, uncertainty and reproducibility. The method is a synthesis of existing components. The contribution to test is a paired, budgeted, cross-domain comparison with auditable handoffs.
 
-**Reuse and provenance.** The [Arctic fork](https://github.com/BurnyCoder/ArcticSwarm-folder-rag) and [SWE-QA benchmark code](https://github.com/peng-weihan/SWE-QA-Bench) declare Apache-2.0. BM25S and RISE declare MIT. The Qwen card declares Apache-2.0. Retain attribution for reused implementation and rubric text. Repository licenses, news article rights and benchmark annotations remain distinct. Release regeneration manifests and experiment outputs in private repositories.
+**Reuse and provenance.** The [Arctic fork](https://github.com/BurnyCoder/ArcticSwarm-folder-rag) and [SWE-QA benchmark code](https://github.com/peng-weihan/SWE-QA-Bench) declare Apache-2.0. BM25S and RISE declare MIT. The Qwen card declares Apache-2.0. Retain attribution for reused implementation and rubric text. Repository licenses, news article rights and benchmark annotations remain distinct. The original protocol specified private releases. The subsequent public release preserves source attribution. [Release decision](plan.md#public-release)
 
 ## Additional context on size, reviewed during development
 
