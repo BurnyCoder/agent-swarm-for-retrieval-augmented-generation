@@ -1,0 +1,15 @@
+#!/bin/sh
+# Both the Windows console launcher and native Linux users reach the same locked environment.
+set -eu
+if [ -d /mnt/d/AI ]; then
+    : "${FOLDERRAG_HOME:=/mnt/d/AI/luna-folderrag}"
+else
+    : "${FOLDERRAG_HOME:=$HOME/.local/share/luna-folderrag}"
+fi
+export FOLDERRAG_HOME
+export UV_PROJECT_ENVIRONMENT="${FOLDERRAG_VENV:-$FOLDERRAG_HOME/venv}"
+export UV_CACHE_DIR="${FOLDERRAG_UV_CACHE:-$FOLDERRAG_HOME/uv-cache}"
+export HF_HOME="${FOLDERRAG_HF_CACHE:-$FOLDERRAG_HOME/hf-cache}"
+export PYTHONUNBUFFERED=1 TOKENIZERS_PARALLELISM=false UV_LINK_MODE=copy
+export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+exec uv run --locked "$@"
