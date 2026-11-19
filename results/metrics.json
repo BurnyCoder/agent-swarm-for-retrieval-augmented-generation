@@ -1,10 +1,373 @@
 {
-  "updated": "2026-11-19T13:19:36.172+00:00",
-  "budget": {},
+  "updated": "2026-11-19T13:38:49.331+00:00",
+  "budget": {
+    "dev": 0.021513703
+  },
   "groups": [],
   "freeze": {},
   "comparisons": [],
-  "historical": [],
+  "historical": [
+    {
+      "id": "mhr_0075",
+      "arm": "B2",
+      "domain": "news",
+      "score": 1,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_0314",
+      "arm": "B2",
+      "domain": "news",
+      "score": 1,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_0570",
+      "arm": "B2",
+      "domain": "news",
+      "score": 0,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_0760",
+      "arm": "B2",
+      "domain": "news",
+      "score": 0,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_1743",
+      "arm": "B2",
+      "domain": "news",
+      "score": 1,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_2204",
+      "arm": "B2",
+      "domain": "news",
+      "score": 1,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_2239",
+      "arm": "B2",
+      "domain": "news",
+      "score": 1,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_2407",
+      "arm": "B2",
+      "domain": "news",
+      "score": 1,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_2498",
+      "arm": "B2",
+      "domain": "news",
+      "score": 0,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_2554",
+      "arm": "B2",
+      "domain": "news",
+      "score": 0,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "sweqa_django_09",
+      "arm": "B2",
+      "domain": "code",
+      "score": 85,
+      "requests": 1,
+      "cost_upper_usd": 0.00066425,
+      "output_tokens": 576
+    },
+    {
+      "id": "sweqa_django_42",
+      "arm": "B2",
+      "domain": "code",
+      "score": 95,
+      "requests": 1,
+      "cost_upper_usd": 0.0005085,
+      "output_tokens": 483
+    },
+    {
+      "id": "sweqa_flask_26",
+      "arm": "B2",
+      "domain": "code",
+      "score": 87,
+      "requests": 1,
+      "cost_upper_usd": 0.00045275,
+      "output_tokens": 240
+    },
+    {
+      "id": "sweqa_flask_31",
+      "arm": "B2",
+      "domain": "code",
+      "score": 88,
+      "requests": 1,
+      "cost_upper_usd": 0.0003475,
+      "output_tokens": 162
+    },
+    {
+      "id": "sweqa_flask_37",
+      "arm": "B2",
+      "domain": "code",
+      "score": 85,
+      "requests": 1,
+      "cost_upper_usd": 0.000406,
+      "output_tokens": 242
+    },
+    {
+      "id": "sweqa_pytest_15",
+      "arm": "B2",
+      "domain": "code",
+      "score": 68,
+      "requests": 1,
+      "cost_upper_usd": 0.000531,
+      "output_tokens": 319
+    },
+    {
+      "id": "sweqa_pytest_32",
+      "arm": "B2",
+      "domain": "code",
+      "score": 86,
+      "requests": 1,
+      "cost_upper_usd": 0.000816875,
+      "output_tokens": 710
+    },
+    {
+      "id": "sweqa_requests_00",
+      "arm": "B2",
+      "domain": "code",
+      "score": 92,
+      "requests": 1,
+      "cost_upper_usd": 0.00047225,
+      "output_tokens": 326
+    },
+    {
+      "id": "sweqa_requests_11",
+      "arm": "B2",
+      "domain": "code",
+      "score": 93,
+      "requests": 1,
+      "cost_upper_usd": 0.000456125,
+      "output_tokens": 299
+    },
+    {
+      "id": "sweqa_requests_32",
+      "arm": "B2",
+      "domain": "code",
+      "score": 91,
+      "requests": 1,
+      "cost_upper_usd": 0.000487625,
+      "output_tokens": 311
+    },
+    {
+      "id": "mhr_0075",
+      "arm": "M",
+      "domain": "news",
+      "score": 1,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_0314",
+      "arm": "M",
+      "domain": "news",
+      "score": 1,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_0570",
+      "arm": "M",
+      "domain": "news",
+      "score": 0,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_0760",
+      "arm": "M",
+      "domain": "news",
+      "score": 0,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_1743",
+      "arm": "M",
+      "domain": "news",
+      "score": 1,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_2204",
+      "arm": "M",
+      "domain": "news",
+      "score": 1,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_2239",
+      "arm": "M",
+      "domain": "news",
+      "score": 1,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_2407",
+      "arm": "M",
+      "domain": "news",
+      "score": 1,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_2498",
+      "arm": "M",
+      "domain": "news",
+      "score": 0,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "mhr_2554",
+      "arm": "M",
+      "domain": "news",
+      "score": 0,
+      "requests": 0,
+      "cost_upper_usd": 0.0,
+      "output_tokens": 0
+    },
+    {
+      "id": "sweqa_django_09",
+      "arm": "M",
+      "domain": "code",
+      "score": 75,
+      "requests": 1,
+      "cost_upper_usd": 0.001429,
+      "output_tokens": 547
+    },
+    {
+      "id": "sweqa_django_42",
+      "arm": "M",
+      "domain": "code",
+      "score": 86,
+      "requests": 1,
+      "cost_upper_usd": 0.000769875,
+      "output_tokens": 234
+    },
+    {
+      "id": "sweqa_flask_26",
+      "arm": "M",
+      "domain": "code",
+      "score": 77,
+      "requests": 1,
+      "cost_upper_usd": 0.001043876,
+      "output_tokens": 332
+    },
+    {
+      "id": "sweqa_flask_31",
+      "arm": "M",
+      "domain": "code",
+      "score": 82,
+      "requests": 1,
+      "cost_upper_usd": 0.001007125,
+      "output_tokens": 423
+    },
+    {
+      "id": "sweqa_flask_37",
+      "arm": "M",
+      "domain": "code",
+      "score": 68,
+      "requests": 1,
+      "cost_upper_usd": 0.000900375,
+      "output_tokens": 218
+    },
+    {
+      "id": "sweqa_pytest_15",
+      "arm": "M",
+      "domain": "code",
+      "score": 54,
+      "requests": 1,
+      "cost_upper_usd": 0.000867125,
+      "output_tokens": 397
+    },
+    {
+      "id": "sweqa_pytest_32",
+      "arm": "M",
+      "domain": "code",
+      "score": 74,
+      "requests": 1,
+      "cost_upper_usd": 0.001987126,
+      "output_tokens": 994
+    },
+    {
+      "id": "sweqa_requests_00",
+      "arm": "M",
+      "domain": "code",
+      "score": 80,
+      "requests": 1,
+      "cost_upper_usd": 0.00040175,
+      "output_tokens": 238
+    },
+    {
+      "id": "sweqa_requests_11",
+      "arm": "M",
+      "domain": "code",
+      "score": 82,
+      "requests": 1,
+      "cost_upper_usd": 0.0009845,
+      "output_tokens": 475
+    },
+    {
+      "id": "sweqa_requests_32",
+      "arm": "M",
+      "domain": "code",
+      "score": 73,
+      "requests": 1,
+      "cost_upper_usd": 0.00131325,
+      "output_tokens": 433
+    }
+  ],
   "twins": [],
   "support": []
 }
