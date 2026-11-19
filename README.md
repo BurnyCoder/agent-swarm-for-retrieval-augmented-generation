@@ -5,24 +5,61 @@ A private experiment in answering questions from files. Independent GPT-6 Luna i
 <!-- result-headline -->
 ## Current held-out results
 
-**2026-11-19 19:52 UTC.** The study has recorded **1,228/2,350 evaluations (52.3%)**. All five methods have scores on 244 questions. The development sweep selected 4 total agents, including the coordinator.
+**2026-11-19 20:02 UTC.** Closed for today. The study has recorded **1,250/1,250 evaluations (100.0%)**. All five methods have scores on 250 questions. The development sweep selected 4 total agents, including the coordinator.
 
-| Matched panel | Questions | 4-agent swarm | One agent | Stock Codex | Arctic single agent | One-shot RAG |
-| --- | --- | --- | --- | --- | --- | --- |
-| News, first attempts | 165 | 123/165 | 112/165 | 136/165 | 128/165 | 118/165 |
-| News, outage-free | 160 | 123/160 | 112/160 | 136/160 | 126/160 | 117/160 |
-| Code, first attempts | 79 | 75.96 | 74.39 | 79.33 | 80.37 | 67.75 |
-| Code, outage-free | 76 | 77.89 | 77.33 | 81.28 | 82.39 | 68.43 |
+Paid acquisition stopped at the owner's request after interim scores were visible. Today's panel uses the first 250 of the 470 questions in the frozen order (169 news and 81 code). The archive preserves 37 additional completed answers from 9 later questions outside the analysis. The spending ledger includes those answers and interrupted calls. The remaining questions, controls, repeats, changed-fact tests and semantic evidence audits are postponed. [Cutoff and frozen question IDs](protocol/closeout.json)
 
-News cells count exact matches. Code cells give the mean blinded rubric score out of 100. The primary scores retain 30 provider-overload failures. The outage-free rows exclude a question from all five methods whenever any arm had a recorded overload failure. [Paired outage analysis](reports/experiments/availability.md)
+The [experiment inventory](reports/experiments/inventory.md) lists completed studies, the five comparisons closed early against their original targets, and every postponed experiment with its purpose and run counts.
 
-Across 140 outage-free news questions with annotated sources, the swarm cited 86.4% of the reference files per question on average. One agent cited 78.0% and stock Codex cited 82.5%. [Citation and claim-support measurements](reports/experiments/grounding.md)
+| Method | News (n=169) | News outage-free (n=164) | Code (n=81) | Code outage-free (n=78) |
+| --- | --- | --- | --- | --- |
+| 4-agent swarm | 126/169 (74.6%) | 126/164 (76.8%) | 76.00 | 77.88 |
+| 1-agent harness | 116/169 (68.6%) | 116/164 (70.7%) | 74.53 | 77.40 |
+| Stock Codex | 140/169 (82.8%) | 140/164 (85.4%) | 79.27 | 81.17 |
+| Arctic single agent | 132/169 (78.1%) | 130/164 (79.3%) | 80.37 | 82.35 |
+| One-shot hybrid RAG | 120/169 (71.0%) | 119/164 (72.6%) | 67.91 | 68.59 |
 
-On the 160 matched outage-free news questions, the swarm took a median **139 seconds** at a mean upper cost of **$0.0171 per question**. Stock Codex took **70 seconds** at **$0.0052**.
+News cells count exact matches. Code cells give the mean blinded rubric score out of 100. The primary scores retain 30 provider-overload failures. The outage-free scores exclude a question from all five methods whenever any arm had a recorded overload failure. [Paired outage analysis](reports/experiments/availability.md)
 
-The study ledger shows **$9.56 settled** and **$3.59 reserved** against the $50 ceiling. The fixed evidence audit has 0/235 records. [Live local dashboard](http://127.0.0.1:8765) · [Private explorer](https://huggingface.co/spaces/BurnyCoder/luna-folder-swarm-explorer)
+Across 144 outage-free news questions with annotated sources, the swarm cited 86.2% of the reference files per question on average. One agent cited 78.1% and stock Codex cited 82.1%. [Citation and claim-support measurements](reports/experiments/grounding.md)
 
-The registered comparison is in progress. The available scores are descriptive. [Measured tables](results/tables.md)
+### Cost and latency on all first attempts
+
+| Method | News USD / question | News median s | Code USD / question | Code median s |
+| --- | --- | --- | --- | --- |
+| 4-agent swarm | $0.01739 | 138.2 | $0.01721 | 146.5 |
+| 1-agent harness | $0.00593 | 75.7 | $0.00552 | 74.7 |
+| Stock Codex | $0.00521 | 70.4 | $0.00463 | 72.4 |
+| Arctic single agent | $0.00655 | 36.2 | $0.00545 | 55.1 |
+| One-shot hybrid RAG | $0.00079 | 7.7 | $0.00079 | 9.2 |
+
+Costs are mean upper estimates for answer generation. Latencies are medians in seconds and exclude index setup. The study ledger also includes grading.
+
+### Four-agent swarm minus each comparator
+
+| Comparator | News difference [95% CI], pp | Holm p | Code difference [95% CI] | Holm p |
+| --- | --- | --- | --- | --- |
+| 1-agent harness | +5.92 [-1.18, +13.02] | 0.2866 | +1.47 [-1.20, +4.33] | 0.3694 |
+| Stock Codex | -8.28 [-14.20, -2.96] | 0.0468 | -3.27 [-6.81, +0.28] | 0.2826 |
+| Arctic single agent | -3.55 [-9.47, +2.37] | 0.6899 | -4.37 [-7.59, -1.20] | 0.0468 |
+| One-shot hybrid RAG | +3.55 [-2.96, +10.06] | 0.6899 | +8.09 [+3.44, +12.56] | 0.0126 |
+
+Positive differences favor the swarm. News uses percentage points and code uses rubric points out of 100. The intervals are paired and exploratory after the cutoff. Holm correction covers the six external comparisons together and the two single-agent comparisons separately.
+
+### Swarm size on development and held-out questions
+
+| Agents | Development news | Development code | Held-out news | Held-out code |
+| --- | --- | --- | --- | --- |
+| 1 | 5/10 | 82.60 (n=10) | 116/169 | 74.53 (n=81) |
+| 2 | 6/10 | 71.60 (n=10) | Postponed | Postponed |
+| 4 | 8/10 | 75.10 (n=10) | 126/169 | 76.00 (n=81) |
+| 8 | 6/10 | 78.90 (n=10) | Postponed | Postponed |
+
+All four sizes answered the same development questions. The one- and four-agent systems also answered the same held-out panel. The other two held-out size conditions were postponed.
+
+The study ledger shows **$9.96 settled** and **$0.77 reserved** against the $50 ceiling. The fixed semantic evidence audit has 0/235 records. [Live local dashboard](http://127.0.0.1:8765) · [Private explorer](https://huggingface.co/spaces/BurnyCoder/luna-folder-swarm-explorer)
+
+The 4-agent swarm answered 126/169 news questions correctly and averaged 76.00/100 on code. The highest observed news score came from stock Codex (140/169). The highest observed code score came from Arctic single agent (80.37/100). One investigator scored 116/169 on news and 74.53/100 on code. The swarm's code difference from one-shot retrieval was +8.09 points. Both paired intervals for adding investigators include zero. The shortened panel supports exploratory paired estimates. The original full-sample superiority claim remains unresolved. [Measured tables](results/tables.md)
 <!-- /result-headline -->
 
 The starting observation comes from a small, model-specific study. Its single agent outscored its swarm on repository questions. Its filename-recall measure leaves open whether an agent saw a passage that substantiates the answer. The present comparison holds the generation model fixed, includes ordinary Codex and one-shot retrieval, and measures passage delivery. [Arctic results](https://github.com/BurnyCoder/arcticswarm-folder-rag-research/blob/bd5b3ed98cde10e9c1f90795f2182d84ecd51ddc/results/day1/tables.md) · [Original collector](https://github.com/BurnyCoder/arcticswarm-folder-rag-research/blob/bd5b3ed98cde10e9c1f90795f2182d84ecd51ddc/src/folderrag/collect.py#L78)
@@ -50,12 +87,13 @@ Run `uv run folderrag ask --folder PATH --agents 4 "QUESTION"`. Choose 1, 2, 4 o
 - [x] Register the protocol and ordered, stratified evaluation design.
 - [x] Implement the swarm, four sizes, baselines, cost ledger, and source validation.
 - [x] Complete the development sweep and freeze the candidate size and affordable test set.
+- [x] Close today's shortened paired panel and archive its [results and intervals](reports/experiments/closeout.md).
 - [ ] Complete the paired confirmation, controls, intervention tests and evidence audit.
 
 <!-- generated -->
 ## Measured results
 
-Each row uses every graded response available for that method. During collection, methods can have different question counts. Run `uv run folderrag report` to regenerate this snapshot from the saved records.
+The held-out rows use the same closed question panel for every method. [Paired differences and 95% intervals](reports/experiments/closeout.md)
 
 | Phase | Domain | Method | Graded / attempts | Quality [95% CI] | USD/question¹ | Median / p95 s | Errors |
 |---|---|---|---:|---:|---:|---:|---:|
@@ -73,16 +111,16 @@ Each row uses every graded response available for that method. During collection
 | dev | news | swarm2 | 10 / 10 | 60.0% [31.3%, 83.2%] | 0.0091 | 154.1 / 251.0 | 0 |
 | dev | news | swarm4 | 10 / 10 | 80.0% [49.0%, 94.3%] | 0.0182 | 179.0 / 228.5 | 0 |
 | dev | news | swarm8 | 10 / 10 | 60.0% [31.3%, 83.2%] | 0.0222 | 148.3 / 225.8 | 0 |
-| test | code | arctic | 79 / 79 | 80.4 [76.7, 83.3] | 0.0055 | 55.1 / 140.9 | 2 |
+| test | code | arctic | 81 / 81 | 80.4 [76.7, 83.3] | 0.0055 | 55.1 / 142.8 | 2 |
 | test | code | oneshot | 81 / 81 | 67.9 [63.7, 71.9] | 0.0008 | 9.2 / 18.0 | 0 |
-| test | code | stock | 80 / 80 | 79.2 [75.5, 82.3] | 0.0046 | 71.4 / 123.0 | 2 |
+| test | code | stock | 81 / 81 | 79.3 [75.5, 82.2] | 0.0046 | 72.4 / 122.7 | 2 |
 | test | code | swarm1 | 81 / 81 | 74.5 [70.3, 78.2] | 0.0055 | 74.7 / 177.8 | 3 |
-| test | code | swarm4 | 79 / 79 | 76.0 [72.0, 79.2] | 0.0172 | 145.5 / 238.6 | 2 |
-| test | news | arctic | 166 / 166 | 77.7% [70.8%, 83.4%] | 0.0066 | 36.2 / 74.3 | 3 |
-| test | news | oneshot | 166 / 166 | 71.7% [64.4%, 78.0%] | 0.0008 | 7.7 / 12.0 | 4 |
-| test | news | stock | 166 / 166 | 82.5% [76.0%, 87.6%] | 0.0052 | 70.4 / 111.1 | 5 |
-| test | news | swarm1 | 165 / 165 | 67.9% [60.4%, 74.5%] | 0.0075 | 75.0 / 167.1 | 5 |
-| test | news | swarm4 | 165 / 165 | 74.5% [67.4%, 80.6%] | 0.0174 | 137.6 / 207.9 | 4 |
+| test | code | swarm4 | 81 / 81 | 76.0 [72.2, 79.3] | 0.0172 | 146.5 / 238.0 | 2 |
+| test | news | arctic | 169 / 169 | 78.1% [71.3%, 83.7%] | 0.0066 | 36.2 / 73.9 | 3 |
+| test | news | oneshot | 169 / 169 | 71.0% [63.8%, 77.3%] | 0.0008 | 7.7 / 11.9 | 4 |
+| test | news | stock | 169 / 169 | 82.8% [76.4%, 87.8%] | 0.0052 | 70.4 / 111.8 | 5 |
+| test | news | swarm1 | 169 / 169 | 68.6% [61.3%, 75.2%] | 0.0059 | 75.7 / 169.8 | 5 |
+| test | news | swarm4 | 169 / 169 | 74.6% [67.5%, 80.5%] | 0.0174 | 138.2 / 207.7 | 4 |
 
 ¹ Conservative inference charge using the cache-write upper rate for unclassified input tokens. Grading is included in the phase ledger.
 

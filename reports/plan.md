@@ -1,5 +1,9 @@
 # Execution plan
 
+## End-of-day disposition
+
+Acquisition is closed at the owner's requested cutoff. The [closeout report](experiments/closeout.md) records how the frozen question order was used and how completed records outside the cutoff were handled. The [experiment inventory](experiments/inventory.md) distinguishes completed studies, comparisons closed early relative to their original targets, and postponed controls, interventions and audits. No further run is scheduled.
+
 1. Register the scientific rationale, size-selection rule, paired evaluation, API limits and private release workflow.
 2. Materialize immutable folders and split manifests. Build a bounded Codex execution environment, hybrid local index, evidence ledger, Arctic adapter, controls and metered gateway.
 3. Test isolation, quotes, index invalidation, budgets, restart handling, scorers and the normal command without paid calls. Push a private source and artifact milestone.

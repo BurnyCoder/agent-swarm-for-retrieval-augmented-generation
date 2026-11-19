@@ -1,5 +1,7 @@
 # Running the study
 
+The end-of-day release records a shortened held-out panel. The [cutoff manifest](../protocol/closeout.json) identifies every included question and every completed record outside the panel. The [experiment inventory](../reports/experiments/inventory.md) gives original targets and the status of each condition. On the study machine, a local stop record prevents the experiment commands from dispatching more model requests. Reporting, the dashboard, and private archival remain available.
+
 Clone the private repository recursively so the Arctic comparator is available. Install uv, Codex CLI, bubblewrap and ripgrep in Linux or the Ubuntu WSL2 distribution. Use Python 3.12. Place `OPENAI_API_KEY` in the project-root `.env`. Windows uses a lightweight local uv environment and dispatches to the same Linux runtime. The launcher stores large files under `D:\AI\luna-folderrag` when available. Native Linux users can set `FOLDERRAG_HOME` to an empty dedicated directory. [uv](https://docs.astral.sh/uv/) · [Codex CLI](https://learn.chatgpt.com/docs/non-interactive-mode)
 
 ```powershell
