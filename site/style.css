@@ -3,3 +3,12 @@
 .filters{flex-wrap:wrap}
 details{margin:12px 0;border-block:1px solid #cbd5cf;padding:10px 0}
 summary{cursor:pointer;font-weight:600}
+#size-caption{color:#43564f;margin:20px 0 12px}
+#size-chart{--label:78px;--value:180px;max-width:900px}
+.size-row{display:grid;grid-template-columns:var(--label) minmax(40px,1fr) var(--value);align-items:center;gap:12px;min-height:36px;font-variant-numeric:tabular-nums}
+.size-track{height:18px;position:relative;background:#dae3dd;border-radius:2px}
+.size-bar{display:block;height:100%;background:#347362;border-radius:2px}
+.size-interval{position:absolute;top:4px;height:10px;border-inline:2px solid #122e25}
+.size-interval::after{content:"";position:absolute;inset:4px 0 auto;height:2px;background:#132e27;box-shadow:0 1px 0 #edf5ee}
+.size-axis{display:flex;justify-content:space-between;margin:3px calc(var(--value) + 12px) 0 calc(var(--label) + 12px);font-size:12px;color:#43564f}
+@media(max-width:640px){#size-chart{--label:53px;--value:115px}.size-row{font-size:.79rem;gap:7px}.size-axis{margin-inline:calc(var(--label) + 7px) calc(var(--value) + 7px)}}

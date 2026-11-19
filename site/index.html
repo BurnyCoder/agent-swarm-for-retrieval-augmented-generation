@@ -2,6 +2,13 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Luna folder swarm · experiment results</title><link rel="stylesheet" href="style.css"></head>
 <body><main><header><h1>Luna folder swarm</h1><p id="status" role="status">Loading measurements…</p></header>
+<section aria-labelledby="size-heading"><h2 id="size-heading">What changes with swarm size?</h2>
+<div class="filters">
+<label>Questions <select id="size-phase"><option value="dev">Development</option><option value="held">First held-out block</option></select></label>
+<label>Corpus <select id="size-domain"><option value="news">Documents</option><option value="code">Code</option></select></label>
+<label>Measure <select id="size-metric"><option value="mean">Answer quality</option><option value="cost">Mean inference cost</option><option value="p50">Median answer time</option></select></label>
+</div>
+<p id="size-caption" aria-live="polite"></p><div id="size-chart"></div></section>
 <section aria-label="Results"><h2>Answer quality</h2><div class="filters"><label>Phase <select id="phase"><option value="">All</option><option value="dev">Development</option><option value="test">Held out</option><option value="diagnostics">Diagnostics</option></select></label>
 <label>Corpus <select id="domain"><option value="">Both</option><option value="news">Documents</option><option value="code">Code</option></select></label>
 <label>Method <select id="method"><option value="">All methods</option></select></label></div>
