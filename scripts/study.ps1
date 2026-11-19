@@ -1,4 +1,4 @@
-# Resume the registered study at a phase boundary and publish only private milestones.
+# Resume the registered study at a phase boundary and publish the registered benchmark milestones.
 param(
     [ValidateSet('dev','freeze','test','diagnostics')][string]$StartAt = 'dev',
     [int]$DevWorkers = 5,
@@ -41,13 +41,13 @@ function Publish-Milestone([string]$Message) {
         if ($LASTEXITCODE -ne 0) { throw "Milestone commit failed" }
     }
     git push origin HEAD:main
-    if ($LASTEXITCODE -ne 0) { throw "Private GitHub milestone failed" }
+    if ($LASTEXITCODE -ne 0) { throw "GitHub milestone failed" }
     Invoke-StudyCommand -Arguments @('archive')
     & (Join-Path $PSScriptRoot 'release.ps1') -TranscriptArchives (Join-Path $DataRoot 'archives')
 }
 
 $remote = (gh repo view --json visibility --jq '.visibility').Trim()
-if ($LASTEXITCODE -ne 0 -or $remote -ne 'PRIVATE') { throw "The research remote must be private" }
+if ($LASTEXITCODE -ne 0 -or $remote -ne 'PUBLIC') { throw "The research repository must be public" }
 if ($WaitForDevPid -gt 0) {
     do {
         $running = wsl -d Ubuntu --exec ps -p "$WaitForDevPid" -o args=
@@ -65,7 +65,7 @@ if ($StartAt -in @('dev','freeze')) {
 }
 # The exact freeze used by the test must be present on the published branch.
 git fetch --quiet origin main
-if ($LASTEXITCODE -ne 0) { throw "Cannot verify the private freeze" }
+if ($LASTEXITCODE -ne 0) { throw "Cannot verify the published freeze" }
 $localFreeze = (git hash-object protocol/freeze.json)
 $remoteFreeze = (git rev-parse origin/main:protocol/freeze.json)
 if ($LASTEXITCODE -ne 0 -or $localFreeze -ne $remoteFreeze) { throw "The published freeze differs from the local selection" }
