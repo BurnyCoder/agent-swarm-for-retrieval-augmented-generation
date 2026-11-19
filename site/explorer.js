@@ -37,6 +37,32 @@ function openLinkedInventory() {
   if (location.hash === "#experiments") byId("experiments").open = true;
 }
 
+function renderMatchedComparison() {
+  const section = byId("matched");
+  const view = byId("matched-view").value;
+  const table = data.closeout_tables?.[view];
+  section.hidden = !table;
+  if (!table) return;
+  const notes = {
+    quality: "News counts strict exact matches. Code gives the mean blinded score out of 100. The outage-free columns exclude a question for every method if any method encountered provider overload.",
+    resources: "Each domain uses the same first attempts for all methods. Costs are mean upper estimates for answer generation. Times are medians in seconds and exclude index setup.",
+    effects: "Positive differences favor four agents. News uses percentage points and code uses rubric points. Paired intervals are exploratory after the early stop. Holm correction covers the six external comparisons together and the two one-agent comparisons separately.",
+    sizes: "All four sizes answered the same development questions. The one- and four-agent systems also answered the same held-out questions. Sizes include the coordinator when present."
+  };
+  byId("matched-note").textContent = notes[view];
+  const [head, cells] = table;
+  const header = el("tr", "");
+  for (const name of head) header.append(el("th", name));
+  section.querySelector("thead").replaceChildren(header);
+  const body = section.querySelector("tbody");
+  body.replaceChildren();
+  for (const values of cells) {
+    const row = el("tr", "");
+    for (const value of values) row.append(el("td", value));
+    body.append(row);
+  }
+}
+
 function renderSizeChart() {
   const phase = byId("size-phase").value;
   const domain = byId("size-domain").value;
@@ -46,7 +72,9 @@ function renderSizeChart() {
   chart.replaceChildren();
   const caption = byId("size-caption");
   if (!groups.length) {
-    caption.textContent = "Awaiting a question scored at all four sizes in this panel.";
+    caption.textContent = data.closeout?.closed_utc
+      ? "The held-out two- and eight-agent runs were postponed. The one- and four-agent results are in the matched comparison above."
+      : "Awaiting a question scored at all four sizes in this panel.";
     return;
   }
   const quality = metric === "mean";
@@ -144,8 +172,12 @@ async function refresh() {
     const used = Object.values(data.budget).reduce((a,b)=>a+b,0);
     const cost = data.balances ? "$"+(data.balances.settled||0).toFixed(2)+" settled upper estimate + $"+(data.balances.reserved||0).toFixed(2)+" reserved" : "$"+used.toFixed(2)+" charged or reserved";
     const run = data.operation?.state ? " · "+data.operation.action+" "+data.operation.state.replaceAll("_"," ") : "";
-    byId("status").textContent = data.rows.length+" condition runs · "+cost+" of $50"+run+" · updated "+new Date(data.updated).toLocaleString();
+    const count = data.closeout?.closed_utc
+      ? data.closeout.question_limit+" matched held-out questions · "+data.closeout.included_attempts.toLocaleString()+" held-out scores"
+      : data.rows.length+" condition runs";
+    byId("status").textContent = count+" · "+cost+" of $50"+run+" · updated "+new Date(data.updated).toLocaleString();
     renderInventory();
+    renderMatchedComparison();
     renderSizeChart();
     render();
   } catch (e) { byId("status").textContent = e.message; }
@@ -157,6 +189,7 @@ for (const id of ["phase","domain","method","query"]) byId(id).addEventListener(
 for (const id of ["size-phase", "size-domain", "size-metric"]) byId(id).addEventListener("change", renderSizeChart);
 byId("example").addEventListener("change",details);
 byId("experiment-status").addEventListener("change",renderInventory);
+byId("matched-view").addEventListener("change",renderMatchedComparison);
 window.addEventListener("hashchange",openLinkedInventory);
 openLinkedInventory();
 refresh();
