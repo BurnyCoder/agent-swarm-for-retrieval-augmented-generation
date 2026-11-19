@@ -237,5 +237,9 @@ def run(mode):
 if __name__ == "__main__":
     if sys.argv[1] == "mcp":
         mcp()
+    elif sys.argv[1] == "arctic-index":
+        from arcticswarm.tools.folder_corpus import FolderCorpusRetriever
+
+        FolderCorpusRetriever("/work", index_dir="/index").ensure_built()
     else:
         run(sys.argv[1])

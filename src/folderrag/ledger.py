@@ -13,6 +13,10 @@ class Limit(RuntimeError):
     """The request cannot be admitted under the registered limits."""
 
 
+class PendingFunds(Limit):
+    """Outstanding requests temporarily occupy the remaining phase allocation."""
+
+
 class Ledger:
     def __init__(self, path, limits):
         self.path = Path(path)
@@ -30,11 +34,17 @@ class Ledger:
     def reserve(self, phase, unit, agent, amount, tokens, agent_cap=32):
         with self.connect() as db:
             db.execute("begin immediate")
-            used = db.execute(
-                "select coalesce(sum(usd),0) from calls where phase=?", (phase,)
-            ).fetchone()[0]
+            used, pending = db.execute(
+                "select coalesce(sum(usd),0),coalesce(sum(case when state='reserved' "
+                "then usd else 0 end),0) from calls where phase=?",
+                (phase,),
+            ).fetchone()
             reserve = math.ceil(amount * 1e9)
             if used + reserve > round(self.limits[phase] * 1e9):
+                if pending and used - pending + reserve <= round(
+                    self.limits[phase] * 1e9
+                ):
+                    raise PendingFunds("phase budget")
                 raise Limit("phase budget")
             n, out = db.execute(
                 "select count(*),coalesce(sum(tokens),0) from calls where unit=? and state!='rejected'",

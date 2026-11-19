@@ -67,6 +67,24 @@ def test_atomic_budget_and_ambiguous_billing(tmp_path):
     assert ledger.totals()["dev"] == pytest.approx(0.02)
 
 
+def test_tool_truncation_and_gold_passage_visibility():
+    import json
+    from folderrag.diagnostics import visible_fragments
+
+    e = Evidence()
+    s = dict(id="p@0:12", path="p", start=0, end=12, text="a blue house", line=1)
+    e.offer([s])
+    cite = dict(path="p", span_id=s["id"], quote="blue house")
+    assert not validate([cite], e)[0]["valid"]
+    e.see_shell("Output:\n" + json.dumps([{"text": json.dumps([s])}]))
+    assert validate([cite], e)[0]["valid"]
+    gold = "The first five pairs of copper wires went missing on Tuesday."
+    assert visible_fragments(gold, ["pairs of copper wires went missing"]) == [
+        "pairs of copper wires went missing"
+    ]
+    assert visible_fragments(gold, ["an unrelated file name"]) == []
+
+
 def test_swarm_sizes_count_the_coordinator():
     for n in (1, 2, 4, 8):
         assert len(set(assignments(n))) == n - 1

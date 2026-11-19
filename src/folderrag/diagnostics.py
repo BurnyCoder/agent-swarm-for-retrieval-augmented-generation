@@ -2,6 +2,7 @@
 
 import json
 import re
+import gzip
 
 from .agents import answer, direct
 from .benchdata import BENCH
@@ -83,6 +84,30 @@ def counterfactual():
             )
 
 
+def visible_fragments(source, outputs):
+    """Recover contiguous 6-word-or-longer runs shared by a gold file and a displayed output."""
+    words = re.findall(r"\S+", source)
+    if len(words) < 6:
+        return [source] if any(source in text for text in outputs) else []
+    candidates = {}
+    for i in range(len(words) - 5):
+        candidates.setdefault(tuple(words[i : i + 6]), []).append(i)
+    fragments = set()
+    for text in outputs:
+        shown = text.split()
+        positions = {}
+        for j in range(len(shown) - 5):
+            matched = {}
+            for i in candidates.get(tuple(shown[j : j + 6]), ()):
+                matched[i] = positions.pop(i - 1, i)
+            for end, start in positions.items():
+                fragments.add(" ".join(words[start : end + 6]))
+            positions = matched
+        for end, start in positions.items():
+            fragments.add(" ".join(words[start : end + 6]))
+    return sorted(fragments, key=lambda s: (-len(s), s))
+
+
 def support_audit():
     """Judge each citation's support independently of address validity, then audit annotated news facts."""
     ids = set(read(ROOT / "protocol/splits.json")["blocks"][0])
@@ -103,19 +128,16 @@ def support_audit():
             for c in cites
         ]
         digest = {}
-        for ident in row.get("delivered_spans", []):
-            if "@" not in ident:
-                continue
-            path, _, rng = ident.rpartition("@")
-            if path not in {f["path"] for f in q["facts"]}:
-                continue
-            m = re.fullmatch(r"(\d+):(\d+)", rng)
-            if m:
-                root = index_for(q["folder"], False).root
-                f = (root / path).resolve()
-                if f.is_relative_to(root) and f.is_file():
-                    digest.setdefault(path, []).append(
-                        f.read_text(encoding="utf8")[int(m[1]) : int(m[2])]
+        exposure = DATA / "evidence" / (row["unit"] + ".json.gz")
+        if exposure.is_file() and q["facts"]:
+            with gzip.open(exposure, "rt", encoding="utf8") as file:
+                observed = json.load(file)
+            root = index_for(q["folder"], False).root
+            for path in {f["path"] for f in q["facts"] if f["path"]}:
+                source = root / path
+                if source.is_file():
+                    digest[path] = visible_fragments(
+                        source.read_text(encoding="utf8"), observed
                     )
         facts = [
             {
@@ -130,7 +152,9 @@ def support_audit():
         if usable:
             case = new_case(None, "diagnostics", "audit-" + row["unit"])
             prompt = (
-                "For each numbered claim, determine whether the provided excerpt alone supports it. Return the supported integer IDs.\n"
+                "For each numbered claim, determine whether the provided excerpt alone supports it. Return the supported integer IDs. Question: "
+                + q["question"]
+                + "\n"
                 + json.dumps(usable, ensure_ascii=False)
             )
             result = json.loads(

@@ -8,9 +8,9 @@ from dataclasses import dataclass
 
 import httpx
 
-from .evidence import Evidence, parse_answer, validate
+from .evidence import Evidence, archive_visible, parse_answer, validate
 from .gateway import Gateway, socket_for
-from .paths import MODEL, read
+from .paths import DATA, MODEL, read
 from .sandbox import TASK, execute
 
 SCHEMA = read(TASK / "answer.schema.json")
@@ -137,6 +137,7 @@ def answer(
     intervals = []
     seen_by_worker = []
     all_returned = set()
+    visible = set()
     if method == "custom":
         roles = assignments(size)
         seeds = case.index.search(question, min(16, max(5, 2 * len(roles))), mode)
@@ -173,7 +174,14 @@ def answer(
                 results = list(pool.map(investigate, enumerate(roles)))
             for name, raw, checks, local, timing, err in results:
                 intervals.append(timing)
-                seen_by_worker.append(set(local.spans))
+                seen_by_worker.append(
+                    {
+                        s["id"]
+                        for s in local.spans.values()
+                        if local.witnessed(s, s["text"])
+                    }
+                )
+                visible.update(local.texts())
                 all_returned.update(local.returned_files)
                 if err:
                     failures.append({"agent": name, "error": err})
@@ -269,7 +277,7 @@ def answer(
             question,
             "Repair unsupported quotations or abstain. Previous answer: "
             + json.dumps(raw, ensure_ascii=False),
-            list(evidence.spans.values())[-10:],
+            evidence.deliver(list(evidence.spans.values())[-10:]),
         )
         try:
             raw = agent(
@@ -294,6 +302,11 @@ def answer(
                 + ("; ".join(unsupported) or "no verified source for the conclusion")
             )
     all_returned.update(evidence.returned_files)
+    all_returned.update(c["path"] for c in checks if c["valid"])
+    if case.unit.startswith(("test-", "dev-", "diagnostics-")):
+        archive_visible(
+            DATA / "evidence" / (case.unit + ".json.gz"), visible | evidence.texts()
+        )
     overlaps = sum(len(s) for s in seen_by_worker) - len(set().union(*seen_by_worker))
     peak = max(
         (sum(a <= lo < b for a, b in intervals) for lo, _ in intervals), default=0
@@ -309,7 +322,9 @@ def answer(
         "worker_failures": failures,
         "repaired": repaired,
         "returned_files": sorted(all_returned),
-        "delivered_spans": list(evidence.spans),
+        "delivered_spans": [
+            s["id"] for s in evidence.spans.values() if evidence.witnessed(s, s["text"])
+        ],
         "seconds": round(time.monotonic() - start, 3),
         **case.ledger.unit(case.unit),
     }

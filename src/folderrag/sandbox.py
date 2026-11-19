@@ -6,6 +6,7 @@ import signal
 import subprocess
 import sys
 import time
+import tempfile
 from pathlib import Path
 
 from .paths import DATA, ROOT
@@ -92,7 +93,7 @@ def command(root, sock, mode):
         cache.mkdir(parents=True, exist_ok=True)
         cmd += [
             "--ro-bind",
-            sys.prefix,
+            os.environ.get("FOLDERRAG_ARCTIC_VENV", sys.prefix),
             "/venv",
             "--ro-bind",
             str(ROOT / "vendor/arctic/arcticswarm"),
@@ -155,3 +156,28 @@ def execute(root, sock, mode, prompt, deadline, trace, agent):
             os.killpg(proc.pid, signal.SIGKILL)
             proc.wait()
         thread.join(3)
+
+
+def warm_arctic(root):
+    """Build the pinned comparator's index under its actual mount path before timing queries."""
+    from filelock import FileLock
+    from .paths import now, save
+
+    marker = DATA / "index-timings" / ("arctic-" + root.name + ".json")
+    marker.parent.mkdir(parents=True, exist_ok=True)
+    with FileLock(str(marker) + ".lock"):
+        if marker.is_file():
+            return
+        start = time.monotonic()
+        with tempfile.NamedTemporaryFile() as unused_broker:
+            argv = command(root, unused_broker.name, "arctic")
+            subprocess.run([*argv[:-1], "arctic-index"], check=True)
+        save(
+            marker,
+            dict(
+                snapshot=root.name,
+                mode="arctic",
+                seconds=round(time.monotonic() - start, 3),
+                utc=now(),
+            ),
+        )

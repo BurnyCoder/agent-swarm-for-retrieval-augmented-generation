@@ -16,7 +16,7 @@ from filelock import FileLock
 
 from .agents import Case, answer, direct
 from .benchdata import BENCH
-from .corpus import FolderIndex, snapshot
+from .corpus import FolderIndex, encoder, snapshot
 from .evidence import Evidence, exact_match
 from .gateway import Trace
 from .ledger import Ledger
@@ -56,6 +56,7 @@ def ledger():
 @functools.lru_cache(maxsize=32)
 def index_for(folder, dense=True):
     # Corpus versions are immutable inputs. Reuse the snapshot only for these pinned inputs.
+    started = time.monotonic()
     marker = BENCH / "snapshots" / (folder + ".json")
     with FileLock(str(BENCH / ("snapshot-" + folder + ".lock"))):
         if marker.exists() and Path(read(marker)["path"]).is_dir():
@@ -63,7 +64,25 @@ def index_for(folder, dense=True):
         else:
             path = snapshot(BENCH / "sources" / folder)
             save(marker, {"path": str(path)})
-    return FolderIndex(path, dense=dense)
+    index = FolderIndex(path, dense=dense)
+    if dense and index.spans:
+        encoder().query("Find supporting passages")
+    # Capture setup independently of the identical generation deadline for each arm.
+    mode = "hybrid" if dense else "lexical"
+    save(
+        DATA
+        / "index-timings"
+        / (folder + "-" + mode + "-" + str(os.getpid()) + ".json"),
+        dict(
+            folder=folder,
+            snapshot=path.name,
+            mode=mode,
+            spans=len(index.spans),
+            seconds=round(time.monotonic() - started, 3),
+            utc=now(),
+        ),
+    )
+    return index
 
 
 def new_case(index, phase, unit):
@@ -92,6 +111,10 @@ def measure(phase, q, arm, unit=None):
             return read(dest)
         dense = arm not in {"stock", "arctic", "closed", "random", "oracle", "lexical"}
         index = index_for(q["folder"], dense)
+        if arm == "arctic":
+            from .sandbox import warm_arctic
+
+            warm_arctic(index.root)
         case = new_case(index, phase, unit)
         result_path = dest.with_suffix(".answer")
         if result_path.exists():

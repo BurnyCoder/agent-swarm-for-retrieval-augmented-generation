@@ -2,10 +2,49 @@
 
 import argparse
 import json
+import os
+import re
+import subprocess
 import uuid
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 
 from .paths import ROOT, now, read
+
+
+def source_links(source, index, citations):
+    """Return an original document link and the exact normalized text location for each quote."""
+
+    def host_path(path):
+        if os.environ.get("FOLDERRAG_LINKS_WINDOWS"):
+            return PureWindowsPath(
+                subprocess.check_output(["wslpath", "-w", str(path)], text=True).strip()
+            )
+        return path
+
+    original, canonical = host_path(source), host_path(index.root)
+    for citation in citations:
+        if not citation["valid"]:
+            continue
+        path = citation["path"]
+        line = citation["line"]
+        citation["text_uri"] = (canonical / path).as_uri() + f"#L{line}"
+        target = (original / path).as_uri()
+        suffix = Path(path).suffix.lower()
+        if suffix in {".pdf", ".docx", ".pptx", ".xlsx"}:
+            prefix = (index.root / path).read_text(encoding="utf8")[
+                : citation["offset"] + len(citation["quote"])
+            ]
+            labels = re.findall(
+                r"(?m)^\[((?:Page |Paragraph |Table |Slide |[^\n\]]+ row )[^\n\]]+)\]",
+                prefix,
+            )
+            if labels:
+                citation["location"] = labels[-1]
+                if suffix == ".pdf" and labels[-1].startswith("Page "):
+                    target += "#page=" + labels[-1].split()[-1]
+        else:
+            target += f"#L{line}"
+        citation["source_uri"] = target
 
 
 def run():
@@ -61,6 +100,7 @@ def run():
             size,
             mode="lexical" if a.lexical_only else "hybrid",
         )
+        source_links(source, idx, result["citations"])
         if a.json:
             print(json.dumps(result, ensure_ascii=False, indent=2))
         else:
@@ -68,7 +108,7 @@ def run():
             for c in result["citations"]:
                 if c["valid"]:
                     print(
-                        f"- [{c['path']}, line {c['line']}]({(source / c['path']).as_uri()}#L{c['line']}) — {c['quote']}"
+                        f"- [{c['path']}, {c.get('location', 'line ' + str(c['line']))}]({c['source_uri']}) — {c['quote']}"
                     )
     elif a.op == "run":
         from .evaluate import run_stage

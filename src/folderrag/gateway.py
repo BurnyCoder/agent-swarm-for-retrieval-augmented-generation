@@ -12,7 +12,7 @@ from pathlib import Path
 
 import httpx
 
-from .ledger import Limit, charge
+from .ledger import Limit, PendingFunds, charge
 from .paths import MODEL, now
 
 _print_lock = threading.Lock()
@@ -85,7 +85,7 @@ class Gateway:
         self.trace.log(
             "tool", agent=self.agent, name=name, arguments=args, returned=rows
         )
-        return self.evidence.deliver(rows)
+        return self.evidence.offer(rows)
 
     def request(self, payload, handler):
         if payload.get("model") != MODEL:
@@ -158,14 +158,21 @@ class Gateway:
                         )
         # The maximum full context and premium rates also bound server-side chained turns.
         worst = (1050000 * 0.25 + payload["max_output_tokens"] * 0.75) / 1e6
-        key = self.ledger.reserve(
-            self.phase,
-            self.unit,
-            self.agent,
-            worst,
-            payload["max_output_tokens"],
-            self.cap,
-        )
+        while True:
+            try:
+                key = self.ledger.reserve(
+                    self.phase,
+                    self.unit,
+                    self.agent,
+                    worst,
+                    payload["max_output_tokens"],
+                    self.cap,
+                )
+                break
+            except PendingFunds:
+                if time.monotonic() + 1 >= self.deadline:
+                    raise
+                time.sleep(1)
         self.calls += 1
         self.trace.log("request", agent=self.agent, request_id=key, body=payload)
         uri = self.upstream or "https://api.openai.com/v1/responses"

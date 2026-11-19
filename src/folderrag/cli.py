@@ -34,6 +34,8 @@ def main():
                     "--cd",
                     str(root),
                     "--",
+                    "env",
+                    "FOLDERRAG_LINKS_WINDOWS=1",
                     "sh",
                     "scripts/linux-run",
                     "folderrag",

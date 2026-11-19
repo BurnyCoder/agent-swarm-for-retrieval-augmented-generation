@@ -27,3 +27,7 @@ sh scripts/linux-run folderrag report
 Every generation logs its API-visible request and output to the terminal and timestamped private JSONL. Use terminal redirection for unattended runs. Completed condition records and intermediate answers are atomic and reusable after a restart. An ambiguous upstream bill retains the maximum reservation. The $50 ledger is shared across invocations on this machine. Keep the same data directory when resuming a study.
 
 The reporting command regenerates tables, figures, summary reports, paper PDF, and explorer data. The release script verifies both Hugging Face repositories are private before uploading an allowlist. The live dashboard reads local records; the private hosted explorer shows the last released milestone.
+
+On WSL, an optional `FOLDERRAG_ARCTIC_VENV` can point to a Linux-native environment containing the same locked Arctic dependencies. This avoids repeated library imports across the Windows filesystem boundary for the comparator. The model, tool configuration and deadlines are identical.
+
+The grounding audit records verbatim passages in prompts and the tool output present in subsequent model requests, including native shell output. It recovers contiguous runs of at least six whitespace-separated words from annotated news articles and sends up to 10,000 recovered characters per fact to the blinded support judge. Excerpts shorter than this threshold or beyond that audit window can be missed. Filename recall and source-support judgments are reported separately.
