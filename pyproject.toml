@@ -2,4 +2,43 @@
 name = "folderrag"
 version = "0.1.0"
 requires-python = ">=3.12"
-dependencies = []
+description = "Evidence-checked Luna swarms for questions over local files"
+readme = "README.md"
+authors = [{name = "Libor Burian"}]
+dependencies = [
+    "arcticswarm[folder]; sys_platform == 'linux'",
+    "numpy>=2; sys_platform == 'linux'",
+    "scipy>=1.14; sys_platform == 'linux'",
+    "httpx>=0.28; sys_platform == 'linux'",
+    "openai==2.41.0; sys_platform == 'linux'",
+    "anthropic==0.109.0; sys_platform == 'linux'",
+    "mcp==1.27.2; sys_platform == 'linux'",
+    "markitdown==0.1.6; sys_platform == 'linux'",
+    "pypdf>=6; sys_platform == 'linux'",
+    "transformers>=4.55,<5; sys_platform == 'linux'",
+    "torch==2.9.1; sys_platform == 'linux'",
+    "python-dotenv>=1; sys_platform == 'linux'",
+    "beautifulsoup4>=4.12; sys_platform == 'linux'",
+    "openpyxl>=3.1; sys_platform == 'linux'",
+    "python-docx>=1.1; sys_platform == 'linux'",
+    "python-pptx>=1.0; sys_platform == 'linux'",
+    "reportlab>=4; sys_platform == 'linux'",
+    "matplotlib>=3.9; sys_platform == 'linux'",
+    "filelock>=3.16; sys_platform == 'linux'",
+]
+
+[project.scripts]
+folderrag = "folderrag.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.uv.sources]
+arcticswarm = { path = "vendor/arctic" }
+
+[tool.uv]
+environments = ["sys_platform == 'win32' and platform_machine == 'AMD64'", "sys_platform == 'linux' and platform_machine == 'x86_64'"]
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14"]
+build-backend = "uv_build"

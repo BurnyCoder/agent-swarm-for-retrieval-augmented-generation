@@ -1,0 +1,7 @@
+# Offline verification
+
+The test suite drives the installed Codex CLI against a local scripted Responses service with zero upstream charges. At each registered swarm size it checks independent agent completions, overlapping investigation time, real MCP search dispatch, coordinator synthesis, and exact quote delivery. Additional cases drive the pinned Arctic agent, stock Codex, one-shot and controls. The scripted responses test wiring and provenance. Benchmark performance requires live model answers.
+
+The first integration test exposed two implementation faults. The empty sandbox needed an explicit Codex home, and the two read-only MCP tools needed a registered approval mode for noninteractive execution. A fixture in which every investigator emitted the same valid-looking quote caught the latter: only the investigator that had actually been shown that quote received credit. The fix annotates and permits the two owned read-only tools in the isolated CLI configuration. The test now invokes the MCP server from each investigator and checks the measured worker count. [Codex MCP configuration](https://learn.chatgpt.com/docs/config-file/config-reference)
+
+The fixtures also exercise changed files, long lines, invalid citations, strict short-answer scoring, symlink exclusion, network isolation and concurrent budget reservations that survive a restart. Reproduce with `sh scripts/linux-run pytest -q`.

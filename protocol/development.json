@@ -1,0 +1,82 @@
+[
+  {
+    "id": "mhr_0570",
+    "question": "Does the 'Business World' article suggesting that the 'Philippines government' could hinder private investment due to rising national debt align with the concern over the 'Philippines' debt-to-GDP ratio' expressed in another 'Business World' article, or do they present differing implications for the country's economy?"
+  },
+  {
+    "id": "mhr_2204",
+    "question": "Considering the information from an article by The Verge on the changes to AppleCare's service coverage and a report by Bloomberg on the financial performance of Apple's services division, which letter represents the first initial of the executive at Apple who is overseeing the division that includes AppleCare?"
+  },
+  {
+    "id": "mhr_1743",
+    "question": "Who is the individual accused of instructing Caroline Ellison to use $14 billion of customer funds to repay debts, claimed to have struggled with managing two major companies due to significant growth, and is alleged by the prosecution to have committed fraud for personal gains, as reported by both TechCrunch and The Verge?"
+  },
+  {
+    "id": "mhr_2498",
+    "question": "Has the focus of the 'Sporting News' on the interests of 'Bettors' in prop betting opportunities remained consistent between the report on FanDuel 'Prop Stars' picks for Chiefs-Jets Week 4 published on September 28, 2023, and the report on the best golf betting sites and apps published on October 13, 2023?"
+  },
+  {
+    "id": "mhr_2407",
+    "question": "Does the TechCrunch article suggest that Epic Games is facing a workforce reduction, while The Verge article focuses on Epic Games' portrayal in its legal battle, without mentioning any workforce changes?"
+  },
+  {
+    "id": "mhr_2239",
+    "question": "Who is the Silicon Valley prodigy recognized since his early twenties, who is not only backing a teen's AI startup as reported by TechCrunch but is also planning to launch a new venture, despite Fortune detailing his controversial departure from a board position?"
+  },
+  {
+    "id": "mhr_2554",
+    "question": "Does the Cnbc | World Business News Leader article suggest that Sam Bankman-Fried had a different approach to the composition of FTX's board compared to the TechCrunch articles' portrayal of his actions regarding the misuse of customer funds and committing fraud for personal gain?"
+  },
+  {
+    "id": "mhr_0314",
+    "question": "Is the reporting on the Northern Lights visibility in the UK by 'The Independent - Travel' inconsistent with the observations of the aurora borealis reported by 'Live Science: The Most Interesting Articles' between November 9, 2023, and December 21, 2023?"
+  },
+  {
+    "id": "mhr_0075",
+    "question": "Which institution, featured in articles from both 'Fortune' and 'The Sydney Morning Herald', has taken an aggressive stance on adjusting interest rates in response to economic data and inflation, particularly influencing the housing market reminiscent of the 1980s?"
+  },
+  {
+    "id": "mhr_0760",
+    "question": "Does the article from The Verge discussing the Microsoft Elite Series 2 “Core” version mention a reduction in features compared to the standard model, and does the article from The Verge on MacBook Pros indicate a reduction in prices for the new models?"
+  },
+  {
+    "id": "sweqa_flask_37",
+    "question": "Where in the serialization pipeline for the JSON tag class that handles Markup API objects are the lower-level helper functions that the conversion method delegates to?"
+  },
+  {
+    "id": "sweqa_requests_11",
+    "question": "What is the data integrity mechanism in the PreparedRequest class that maintains header normalization when CaseInsensitiveDict and to_native_string transformations are applied to heterogeneous input headers?"
+  },
+  {
+    "id": "sweqa_pytest_15",
+    "question": "How would you refactor a minimal test function like test_1 to implement a parameterized testing strategy that maintains backward compatibility while enabling data-driven test execution across multiple input scenarios?"
+  },
+  {
+    "id": "sweqa_django_42",
+    "question": "Where in the codebase is the validator execution logic implemented that allows ModelMultipleChoiceField to invoke custom validators during the clean() method call?"
+  },
+  {
+    "id": "sweqa_flask_31",
+    "question": "Why does the test that validates blueprint names cannot contain dots ensure that creating a modular route component with names containing dot characters raises a ValueError?"
+  },
+  {
+    "id": "sweqa_requests_32",
+    "question": "Why would the `host` method in `MockRequest` delegating to `get_host()` through a single-level indirection cause cumulative performance degradation when this method is invoked millions of times in a tight loop compared to direct attribute access, and how could this be optimized through caching or property memoization?"
+  },
+  {
+    "id": "sweqa_pytest_32",
+    "question": "Why would repeated invocations of pytester.getitem() followed by evaluate_xfail_marks() impact test suite performance, and what internal caching mechanisms could mitigate redundant AST parsing and mark evaluation across multiple test evaluations?"
+  },
+  {
+    "id": "sweqa_django_09",
+    "question": "What is the lazy rendering architecture of TemplateResponse that decouples the concerns of response construction from content materialization, and what architectural mechanisms enforce the invariant that iteration operations must occur only after rendering?"
+  },
+  {
+    "id": "sweqa_flask_26",
+    "question": "Why does the CLI helper class that manages Flask application loading provide both a direct callable factory parameter and an import path parameter as alternative instantiation mechanisms?"
+  },
+  {
+    "id": "sweqa_requests_00",
+    "question": "What is the semantic significance of the `no_proxy` keyword argument in `get_environ_proxies` overriding environment variable precedence, and what does returning a non-empty dictionary when this override is applied indicate?"
+  }
+]
