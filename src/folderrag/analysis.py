@@ -15,7 +15,12 @@ def means(rows):
         if not xs:
             continue
         rng = np.random.default_rng(20261119)
-        boot = np.mean(rng.choice(xs, size=(4000, len(xs))), axis=1)
+        if domain == "news":
+            interval = binomtest(int(sum(xs)), len(xs)).proportion_ci(method="wilson")
+            low, high = float(interval.low), float(interval.high)
+        else:
+            boot = np.mean(rng.choice(xs, size=(4000, len(xs))), axis=1)
+            low, high = map(float, np.quantile(boot, [0.025, 0.975]))
         times = [r["seconds"] for r in rs]
         result.append(
             dict(
@@ -25,8 +30,8 @@ def means(rows):
                 n=len(rs),
                 graded=len(xs),
                 mean=float(np.mean(xs)),
-                low=float(np.quantile(boot, 0.025)),
-                high=float(np.quantile(boot, 0.975)),
+                low=low,
+                high=high,
                 cost=float(np.mean([r["cost_upper_usd"] for r in rs])),
                 p50=float(np.median(times)),
                 p95=float(np.quantile(times, 0.95)),
@@ -45,6 +50,11 @@ def comparisons(rows, selected, target_blocks):
         for r in rows
         if r["phase"] == "test" and r.get("score") is not None
     }
+    if (
+        not target_blocks
+        or sum(r["phase"] == "test" for r in rows) < target_blocks * (32 + 15) * 5
+    ):
+        return []
     out = []
     for domain in ("news", "code"):
         for comp in ("stock", "arctic", "oneshot", "swarm1"):

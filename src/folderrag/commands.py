@@ -70,6 +70,7 @@ def run():
         "diagnostics-audit",
         "counterfactual",
         "status",
+        "archive",
     ):
         sub.add_parser(op)
     bench = sub.add_parser("run")
@@ -130,6 +131,10 @@ def run():
         from .diagnostics import support_audit
 
         support_audit()
+    elif a.op == "archive":
+        from .archive import build_archives
+
+        build_archives()
     elif a.op == "report":
         from .report import build
 

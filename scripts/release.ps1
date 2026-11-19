@@ -1,4 +1,5 @@
 # Publish only known, generated research artifacts to the owner's private repositories.
+param([string]$TranscriptArchives)
 $ErrorActionPreference = 'Stop'
 $dataset = 'BurnyCoder/luna-folder-swarm-results'
 $space = 'BurnyCoder/luna-folder-swarm-explorer'
@@ -21,3 +22,12 @@ hf upload $dataset protocol/hub-card.md README.md --type dataset --commit-messag
 if ($LASTEXITCODE -ne 0) { throw "Card upload failed" }
 hf upload $space site . --type space --commit-message "Update private results explorer"
 if ($LASTEXITCODE -ne 0) { throw "Explorer upload failed" }
+if ($TranscriptArchives) {
+    foreach ($phase in @('dev','test','diagnostics','retry')) {
+        $archive = Join-Path $TranscriptArchives ($phase + '.tar.gz')
+        if (Test-Path -LiteralPath $archive -PathType Leaf) {
+            hf upload $dataset $archive ("traces/" + $phase + '.tar.gz') --type dataset --commit-message "Archive private $phase transcripts"
+            if ($LASTEXITCODE -ne 0) { throw "Transcript upload failed for $phase" }
+        }
+    }
+}

@@ -3,6 +3,10 @@
 import json
 import re
 import gzip
+import ast
+import functools
+import shutil
+from concurrent.futures import ThreadPoolExecutor
 
 from .agents import answer, direct
 from .benchdata import BENCH
@@ -61,13 +65,19 @@ def counterfactual():
                 )
                 q = "How many stops are on the schedule used by the Brook service? Answer with one integer."
             else:
-                (source / "settings.py").write_text(
-                    f"DEFAULT = {value}\nDISABLED = 12\n"
+                # Hold every other file at the pinned development revision.
+                original = index_for("requests", False).root
+                shutil.copytree(original, source, dirs_exist_ok=True)
+                target = source / "src/requests/adapters.py"
+                content = target.read_text(encoding="utf8")
+                before = "DEFAULT_POOLSIZE = 10\n"
+                if content.count(before) != 1:
+                    raise ValueError("The pinned Requests constant changed")
+                target.write_text(
+                    content.replace(before, f"DEFAULT_POOLSIZE = {value}\n"),
+                    encoding="utf8",
                 )
-                (source / "service.py").write_text(
-                    "from settings import DEFAULT\ndef capacity():\n    return DEFAULT\n"
-                )
-                q = "What integer does capacity() return in this checkout? Answer with one integer."
+                q = "In this exact checkout, what pool_maxsize does the default HTTPS adapter mounted by a new Session receive? Answer with one integer."
             index = FolderIndex(snapshot(source))
             case = new_case(index, "diagnostics", unit)
             raw = answer(case, q, size=size)
@@ -78,6 +88,9 @@ def counterfactual():
                     "domain": domain,
                     "variant": variant,
                     "expected": value,
+                    "source_edit": "src/requests/adapters.py DEFAULT_POOLSIZE"
+                    if domain == "code"
+                    else "schedules.md copper stop count",
                     "score": int(exact_match(raw["answer"], value)),
                     **raw,
                 },
@@ -108,16 +121,40 @@ def visible_fragments(source, outputs):
     return sorted(fragments, key=lambda s: (-len(s), s))
 
 
-def support_audit():
+@functools.lru_cache(maxsize=128)
+def code_sites(path):
+    """Identify declaration lines and call expressions at exact validated citation locations."""
+    if path.suffix != ".py" or not path.is_file():
+        return set(), set()
+    try:
+        tree = ast.parse(path.read_text(encoding="utf8"))
+    except (ValueError, SyntaxError, RecursionError):
+        return set(), set()
+    definitions, calls = set(), set()
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.AsyncFunctionDef, ast.FunctionDef, ast.ClassDef)):
+            definitions.add(node.lineno)
+        elif isinstance(node, ast.Call):
+            calls.add(node.lineno)
+    return definitions, calls
+
+
+def blind_labels(unit, task, fields):
+    case = new_case(None, "diagnostics", unit)
+    return json.loads(
+        direct(case.gateway("audit", 1, Evidence(), "lexical"), task, schema(fields))
+    )
+
+
+def support_audit(workers=3):
     """Judge each citation's support independently of address validity, then audit annotated news facts."""
     ids = set(read(ROOT / "protocol/splits.json")["blocks"][0])
     cases = read(BENCH / "cases.json")
-    for row in records("test"):
-        if row["id"] not in ids:
-            continue
+
+    def audit(row):
         dest = DATA / "support" / (row["unit"] + ".json")
         if dest.exists():
-            continue
+            return
         q = cases[row["id"]]
         cites = row.get("citations", [])
         items = [
@@ -146,43 +183,93 @@ def support_audit():
             }
             for f in q["facts"]
         ]
-        pairs = items + facts
-        labels = [False] * len(pairs)
-        usable = [(i, x) for i, x in enumerate(pairs) if x["evidence"]]
-        if usable:
-            case = new_case(None, "diagnostics", "audit-" + row["unit"])
-            prompt = (
-                "For each numbered claim, determine whether the provided excerpt alone supports it. Return the supported integer IDs. Question: "
-                + q["question"]
-                + "\n"
-                + json.dumps(usable, ensure_ascii=False)
-            )
-            result = json.loads(
-                direct(
-                    case.gateway("audit", 1, Evidence(), "lexical"),
-                    prompt,
-                    schema(
-                        {
-                            "supported_ids": {
-                                "type": "array",
-                                "items": {"type": "integer"},
-                            }
-                        }
+        ids_field = {"type": "array", "items": {"type": "integer"}}
+        supported = set()
+        claims = []
+        usable = [(i, x) for i, x in enumerate(items) if x["evidence"]]
+        if row.get("answer"):
+            task = (
+                "Answer two independent questions using only the supplied text. First, return the citation IDs whose quote supports its attached claim. "
+                "Second, extract each distinct factual assertion in the entire answer and explanation, including assertions with no citation. "
+                "For each assertion give the IDs of the supplied quotes that jointly substantiate it, or an empty list. "
+                "Do not infer from outside knowledge. Exclude a bare abstention from factual assertions.\n"
+                + json.dumps(
+                    dict(
+                        question=q["question"],
+                        answer=row["answer"],
+                        explanation=row.get("explanation", ""),
+                        citations=usable,
                     ),
+                    ensure_ascii=False,
                 )
             )
+            result = blind_labels(
+                "audit-claims-" + row["unit"],
+                task,
+                {
+                    "supported_ids": ids_field,
+                    "claims": {
+                        "type": "array",
+                        "items": schema(
+                            {"claim": {"type": "string"}, "source_ids": ids_field}
+                        ),
+                    },
+                },
+            )
             allowed = {i for i, _ in usable}
-            for i in result["supported_ids"]:
-                if i in allowed:
-                    labels[i] = True
+            supported = allowed & set(result["supported_ids"])
+            claims = [
+                {
+                    "claim": c["claim"],
+                    "source_ids": sorted(allowed & set(c["source_ids"])),
+                }
+                for c in result["claims"]
+            ]
+        usable_facts = [(i, x) for i, x in enumerate(facts) if x["evidence"]]
+        fact_labels = set()
+        if usable_facts:
+            task = (
+                "For each numbered reference fact, determine whether its associated displayed excerpt alone establishes it. "
+                "Return the supported integer IDs.\n"
+                + json.dumps(
+                    dict(question=q["question"], pairs=usable_facts), ensure_ascii=False
+                )
+            )
+            fact_labels = {i for i, _ in usable_facts} & set(
+                blind_labels(
+                    "audit-facts-" + row["unit"], task, {"supported_ids": ids_field}
+                )["supported_ids"]
+            )
+        n_def = n_call = 0
+        if q["domain"] == "code":
+            root = index_for(q["folder"], False).root
+            for c in cites:
+                if c.get("valid"):
+                    defs, calls = code_sites(root / c["path"])
+                    lines = set(
+                        range(c["line"], c["line"] + c["quote"].count("\n") + 1)
+                    )
+                    n_def += bool(lines & defs)
+                    n_call += bool(lines & calls)
         save(
             dest,
             {
                 "unit": row["unit"],
+                "domain": q["domain"],
+                "arm": row["arm"],
                 "n_citations": len(cites),
-                "supported": sum(labels[: len(items)]),
+                "supported": len(supported),
+                "claims": claims,
+                "n_claims": len(claims),
+                "claims_supported": sum(bool(c["source_ids"]) for c in claims),
+                "definition_citations": n_def,
+                "call_citations": n_call,
                 "missing_citations": int(not cites),
                 "gold_facts": len(facts),
-                "gold_facts_supported": sum(labels[len(items) :]),
+                "gold_facts_supported": len(fact_labels),
             },
         )
+
+    with ThreadPoolExecutor(workers) as pool:
+        for _ in pool.map(audit, (r for r in records("test") if r["id"] in ids)):
+            pass

@@ -14,7 +14,7 @@ from pathlib import Path
 import numpy as np
 from filelock import FileLock
 
-from .paths import DATA, ENCODER, REVISION, save
+from .paths import DATA, ENCODER, REVISION, now, read, save
 
 SKIP = {
     ".git",
@@ -344,10 +344,19 @@ class FolderIndex:
             with FileLock(str(cache / "dense.lock")):
                 if not path.exists():
                     temp = path.with_suffix(".partial.npy")
-                    vectors = np.lib.format.open_memmap(
-                        temp, mode="w+", dtype=np.float16, shape=(len(self.spans), 1024)
+                    checkpoint = cache / (REVISION + ".progress.json")
+                    start_at = (
+                        read(checkpoint)["completed"]
+                        if temp.exists() and checkpoint.exists()
+                        else 0
                     )
-                    for start in range(0, len(self.spans), 24):
+                    vectors = np.lib.format.open_memmap(
+                        temp,
+                        mode="r+" if start_at else "w+",
+                        dtype=np.float16,
+                        shape=(len(self.spans), 1024),
+                    )
+                    for start in range(start_at, len(self.spans), 24):
                         batch = self.spans[start : start + 24]
                         vectors[start : start + len(batch)] = encoder().encode(
                             [
@@ -355,9 +364,21 @@ class FolderIndex:
                                 for s in batch
                             ]
                         )
+                        completed = start + len(batch)
+                        if completed % (24 * 32) == 0 or completed == len(self.spans):
+                            vectors.flush()
+                            save(
+                                checkpoint,
+                                dict(
+                                    completed=completed,
+                                    total=len(self.spans),
+                                    utc=now(),
+                                ),
+                            )
                     vectors.flush()
                     del vectors
                     temp.replace(path)
+                    checkpoint.unlink(missing_ok=True)
             self.matrix = np.load(path, mmap_mode="r")
 
     def search(self, query, k=5, mode="hybrid"):

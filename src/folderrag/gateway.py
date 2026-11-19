@@ -120,6 +120,16 @@ class Gateway:
         if time.monotonic() >= self.deadline:
             raise Limit("deadline")
         payload = dict(payload)
+        if self.agent.startswith("investigator-") and self.calls + 1 >= self.cap:
+            # The last allocated request must deliver findings to the coordinator.
+            payload["tool_choice"] = "none"
+            payload["input"] = [
+                *payload["input"],
+                {
+                    "role": "developer",
+                    "content": "This is your final allocated turn. Return the requested JSON now, including exact quotations from evidence already visible to you.",
+                },
+            ]
         if self.agent == "arctic":
             schema_path = Path(__file__).with_name("isolated") / "answer.schema.json"
             payload["text"] = {

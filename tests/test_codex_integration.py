@@ -47,6 +47,7 @@ class Scripted(http.server.BaseHTTPRequestHandler):
         inputs = request.get("input", [])
         if (
             isinstance(inputs, list)
+            and request.get("tool_choice") != "none"
             and any(x.get("type") == "additional_tools" for x in inputs)
             and not any(
                 x.get("type") in {"custom_tool_call_output", "function_call_output"}
@@ -176,6 +177,15 @@ def test_real_codex_swarm_and_isolation(tmp_path, size):
     assert (
         result["workers_contributing"] == size - 1 and result["citations"][0]["valid"]
     )
+    if size == 8:
+        requests = [json.loads(line) for line in trace.path.read_text().splitlines()]
+        finals = [
+            r["agent"]
+            for r in requests
+            if r["event"] == "request" and r["body"].get("tool_choice") == "none"
+        ]
+        # Five of seven investigators have a two-request allowance at this size.
+        assert set(finals) == {f"investigator-{i}" for i in range(3, 8)}
 
 
 @pytest.mark.parametrize("method", ["stock", "arctic", "oneshot", "closed", "random"])

@@ -7,6 +7,7 @@ import json
 from zoneinfo import ZoneInfo
 
 from .analysis import comparisons, means
+from . import outcomes
 from .evaluate import ledger, records
 from .paths import DATA, ROOT, now, read, save
 
@@ -27,6 +28,7 @@ def dashboard_data():
         "budget": ledger().totals() or archived.get("budget", {}),
         "groups": means(rows),
         "rows": rows,
+        "pilot": records("dev", pilots=True) or archived.get("pilot", []),
         "freeze": final,
         "comparisons": comparisons(rows, f"swarm{final['size']}", final["blocks"])
         if final
@@ -34,7 +36,7 @@ def dashboard_data():
         **{
             name: [read(p) for p in sorted((DATA / name).glob("*.json"))]
             or archived.get(name, [])
-            for name in ("historical", "twins", "support")
+            for name in ("historical", "twins", "support", "index-timings")
         },
     }
 
@@ -84,7 +86,7 @@ def conclusions(data):
     if not data["rows"]:
         return "The protocol and implementation are available. Paired experiments are pending."
     if not data["comparisons"]:
-        return "Available scores describe development cases. A held-out improvement has yet to be established."
+        return "The registered comparison is in progress. The available scores are descriptive."
     messages = []
     for domain in ("news", "code"):
         group = [
@@ -98,7 +100,7 @@ def conclusions(data):
             else "did not establish superiority across all three baselines"
         )
         messages.append(f"On {domain}, the selected swarm {outcome}.")
-    return " ".join(messages)
+    return " ".join(messages) + " " + outcomes.operating_choices(data)
 
 
 def figures(data):
@@ -317,12 +319,97 @@ def build():
         f"95% CI [{r['low']:.4f}, {r['high']:.4f}], Holm p={r['holm_p']:.4g}."
         for r in comps
     )
-    (REPORTS / "summary.md").write_text(
-        "# Experiment summary\n\n" + summary + "\n\n" + md + "\n" + comparison + "\n",
-        encoding="utf8",
-    )
+    freeze = data["freeze"]
+    if freeze:
+        choice = f"The frozen development choice is **{freeze['size']} agents**, including the coordinator. The cost rule admitted **{freeze['blocks']} balanced blocks**."
+    else:
+        choice = "Selection is pending completion of the registered development panel."
+    pages = {
+        "handoff-pilot": (
+            "Investigator turn-limit pilot",
+            "The initial size-eight development trace contained genuine concurrent searches and exhausted investigator budgets before handoff. The final allocated investigator turn now disables tools and requests a source report. The prior multi-agent cases remain below and are excluded from size selection. Single-agent and external-baseline runs used identical implementations throughout.",
+            outcomes.grid(
+                ["Case", "Size", "Returned / assigned", "Peak", "Score", "Seconds"],
+                [
+                    [
+                        r["id"],
+                        r["arm"],
+                        f"{r.get('workers_completed', 0)}/{r.get('workers_requested', 0)}",
+                        r.get("peak_investigators"),
+                        r.get("score"),
+                        r["seconds"],
+                    ]
+                    for r in data["pilot"]
+                ],
+            ),
+        ),
+        "historical": (
+            "Historical bridge",
+            "Saved Haiku answers receive the same strict news scorer and blinded Luna code grader used in the new study. The historical conditions are model and protocol specific.",
+            outcomes.bridge(data),
+        ),
+        "swarm-sizes": (
+            "Swarm size and participation",
+            choice
+            + " An investigator contributes when at least one of its source quotations passes validation. Peak concurrency counts overlapping investigator session lifetimes.",
+            outcomes.swarms(data),
+        ),
+        "grounding": (
+            "Source grounding",
+            "¹ Mean per-question recall on questions with annotated files. Returned-file recall depends on path visibility in each tool interface. ² Citation support includes one failed opportunity for each answer without citations. Exact quote matching, assertion support, and annotated fact exposure have different denominators.",
+            outcomes.grounding(data) + "\n\n" + outcomes.support(data),
+        ),
+        "counterfactuals": (
+            "File interventions",
+            "The two news schedules and two copies of the pinned Requests repository change one answer-determining value. Each twin uses a separate immutable snapshot and fresh swarm. These are narrow causal probes.",
+            outcomes.twins(data),
+        ),
+        "variability": (
+            "Independent repeat runs",
+            "The selected method runs again on the first four registered cases per domain. Code score changes include variability in both generation and grading.",
+            outcomes.repeats(data),
+        ),
+        "indexing": (
+            "Index setup and loading",
+            "Setup time includes opening an immutable corpus, constructing or loading a search index and initializing the local encoder when required. Concurrent loaders can wait on a shared build. These times are excluded from per-question latency.",
+            outcomes.grid(
+                ["Corpus or snapshot", "Mode", "Spans", "Seconds", "UTC"],
+                [
+                    [
+                        r.get("folder", r.get("snapshot", "")[:12]),
+                        r["mode"],
+                        r.get("spans", "—"),
+                        r["seconds"],
+                        r["utc"],
+                    ]
+                    for r in data["index-timings"]
+                ],
+            ),
+        ),
+    }
     dest = REPORTS / "experiments"
     dest.mkdir(exist_ok=True)
+    for slug, (title, desc, body) in pages.items():
+        (dest / (slug + ".md")).write_text(
+            "# " + title + "\n\n" + desc + "\n\n" + body + "\n", encoding="utf8"
+        )
+    linked = "\n".join(
+        f"- [{title}](experiments/{slug}.md)" for slug, (title, _, _) in pages.items()
+    )
+    (REPORTS / "summary.md").write_text(
+        "# Experiment summary\n\n"
+        + summary
+        + "\n\n"
+        + choice
+        + "\n\n"
+        + md
+        + "\n"
+        + comparison
+        + "\n\n"
+        + linked
+        + "\n",
+        encoding="utf8",
+    )
     for phase in ("dev", "test", "diagnostics"):
         subset = [r for r in data["groups"] if r["phase"] == phase]
         (dest / (phase + ".md")).write_text(

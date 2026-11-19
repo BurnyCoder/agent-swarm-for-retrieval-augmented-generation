@@ -103,7 +103,8 @@ def judge(case, q, reference, candidate):
 
 
 def measure(phase, q, arm, unit=None):
-    unit = unit or (phase + "-" + q["id"] + "-" + arm)
+    final_turn = phase == "dev" and arm in SIZES[1:]
+    unit = unit or (phase + ("-handoff-" if final_turn else "-") + q["id"] + "-" + arm)
     dest = DATA / "records" / phase / (unit + ".json")
     dest.parent.mkdir(parents=True, exist_ok=True)
     with FileLock(str(dest) + ".lock"):
@@ -208,9 +209,27 @@ def measure(phase, q, arm, unit=None):
         return row
 
 
-def records(phase=None):
+def pilot(row):
+    return (
+        row["phase"] == "dev"
+        and row["arm"] in SIZES[1:]
+        and not row["unit"].startswith("dev-handoff-")
+    )
+
+
+@functools.lru_cache(maxsize=5500)
+def record_version(path, modified_ns):
+    """Dashboard refreshes reuse immutable records until a file is atomically replaced."""
+    return read(path)
+
+
+def records(phase=None, pilots=False):
     root = DATA / "records"
-    return [read(p) for p in sorted(root.glob((phase or "*") + "/*.json"))]
+    return [
+        row
+        for p in sorted(root.glob((phase or "*") + "/*.json"))
+        if pilot(row := record_version(p, p.stat().st_mtime_ns)) == pilots
+    ]
 
 
 def run_stage(phase, workers=2, limit=None):
