@@ -1,4 +1,8 @@
-"""Interim README figures must compare the same original questions across all five arms."""
+"""README comparisons must use the same original questions across all five arms."""
+
+import json
+from pathlib import Path
+from statistics import mean
 
 from folderrag.readme import heldout_snapshot
 
@@ -40,6 +44,28 @@ def test_matched_scores_exclude_partial_questions_and_keep_failed_first_attempts
     assert "| News, outage-free | 1 | 1/1 | 1/1 | 1/1 |" in snapshot
     assert "19:30 UTC" in snapshot and "$0.82" in snapshot
     assert "1 provider" in snapshot
+
+
+def test_closed_readme_leads_with_the_measured_baseline_differences():
+    results = Path(__file__).resolve().parents[1] / "results"
+    data = json.loads((results / "metrics.json").read_text(encoding="utf8"))
+    data["rows"] = json.loads((results / "cases.json").read_text(encoding="utf8"))
+    lead, _ = heldout_snapshot(data).split("## Current held-out results")
+    scores = {
+        (domain, arm): [
+            row["score"]
+            for row in data["rows"]
+            if (row["phase"], row["domain"], row["arm"]) == ("test", domain, arm)
+        ]
+        for domain in ("news", "code")
+        for arm in ("stock", "oneshot", f"swarm{data['freeze']['size']}")
+    }
+    swarm = f"swarm{data['freeze']['size']}"
+    fewer = sum(scores["news", "stock"]) - sum(scores["news", swarm])
+    gain = mean(scores["code", swarm]) - mean(scores["code", "oneshot"])
+    assert f"{fewer:.0f} fewer than stock Codex" in lead
+    assert f"{gain:.1f} points higher than one-shot retrieval" in lead
+    assert "Arctic" in lead and "one agent" in lead and "unclear" in lead
 
 
 def test_offline_refresh_preserves_measurement_timestamp(tmp_path, monkeypatch):

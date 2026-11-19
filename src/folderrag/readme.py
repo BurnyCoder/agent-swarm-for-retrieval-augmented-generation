@@ -8,6 +8,55 @@ from .paths import LIMITS
 from .closeout import scope_note
 
 
+def _plain_comparison(data, panel, selected):
+    """Describe the closed panel in answers, points out of 100, and cost per answer."""
+    news = [q for q in panel if q[selected]["domain"] == "news"]
+    code = [q for q in panel if q[selected]["domain"] == "code"]
+
+    def correct(arm):
+        return sum(q[arm]["score"] for q in news)
+
+    def score(arm):
+        return mean(q[arm]["score"] for q in code)
+
+    def news_gap(arm):
+        count = round(correct(selected) - correct(arm))
+        if count == 0:
+            return "the same number as"
+        return f"{abs(count)} {'more' if count > 0 else 'fewer'} than"
+
+    def code_gap(arm):
+        points = round(score(selected) - score(arm), 1)
+        if points == 0:
+            return "about the same as"
+        return f"{abs(points):.1f} points {'higher' if points > 0 else 'lower'} than"
+
+    single_cost, swarm_cost = (
+        100 * mean(q[arm]["cost_upper_usd"] for q in panel)
+        for arm in ("swarm1", selected)
+    )
+    cost_ratio = f" (about {swarm_cost / single_cost:.2g} times as much)" if single_cost else ""
+    size_effects = [r for r in data["comparisons"] if r["comparator"] == "swarm1"]
+    uncertainty = (
+        " It is unclear whether adding agents improved answer quality on either task."
+        if len(size_effects) == 2 and all(r["low"] <= 0 <= r["high"] for r in size_effects)
+        else ""
+    )
+    return (
+        "## How the swarm compared\n\n"
+        f"**News.** The {data['freeze']['size']}-agent swarm answered {correct(selected):.0f} of {len(news)} questions correctly. "
+        f"That was {news_gap('stock')} stock Codex, {news_gap('arctic')} Arctic’s single agent, "
+        f"and {news_gap('oneshot')} one-shot retrieval, which searches once and then answers.\n\n"
+        f"**Code.** The swarm averaged {score(selected):.1f} out of 100 on {len(code)} questions. "
+        f"It scored {code_gap('oneshot')} one-shot retrieval, {code_gap('stock')} stock Codex, "
+        f"and {code_gap('arctic')} Arctic.\n\n"
+        f"**Did the extra agents help?** With one agent, the same system got {correct('swarm1'):.0f} news questions right "
+        f"and averaged {score('swarm1'):.1f} on code. Estimated generation cost averaged {single_cost:.2f}¢ per answer "
+        f"with one agent and {swarm_cost:.2f}¢ with the swarm{cost_ratio}. We stopped after seeing early results."
+        f"{uncertainty} [Scores, costs and uncertainty](reports/experiments/closeout.md)"
+    )
+
+
 def heldout_snapshot(data):
     """Show like-for-like comparisons and distinguish primary scores from outage sensitivity."""
     held = [r for r in data["rows"] if r["phase"] == "test"]
@@ -30,6 +79,8 @@ def heldout_snapshot(data):
         f"All five methods have scores on {len(paired):,} questions. "
         f"The development sweep selected {size} total agents, including the coordinator.",
     ]
+    if data.get("closeout_tables"):
+        lines.insert(0, _plain_comparison(data, paired, selected))
     if data.get("closeout"):
         lines.append(
             scope_note(data["closeout"])

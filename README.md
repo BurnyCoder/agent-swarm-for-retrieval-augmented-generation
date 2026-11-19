@@ -3,6 +3,14 @@
 A private experiment in answering questions from files. Independent GPT-6 Luna investigators use Codex to search a read-only folder. A coordinator checks their source excerpts and writes a cited answer. The experiment varies the total number of agents and measures answer quality, evidence support, time, and API cost on news and Python repositories.
 
 <!-- result-headline -->
+## How the swarm compared
+
+**News.** The 4-agent swarm answered 126 of 169 questions correctly. That was 14 fewer than stock Codex, 6 fewer than Arctic’s single agent, and 6 more than one-shot retrieval, which searches once and then answers.
+
+**Code.** The swarm averaged 76.0 out of 100 on 81 questions. It scored 8.1 points higher than one-shot retrieval, 3.3 points lower than stock Codex, and 4.4 points lower than Arctic.
+
+**Did the extra agents help?** With one agent, the same system got 116 news questions right and averaged 74.5 on code. Estimated generation cost averaged 0.58¢ per answer with one agent and 1.73¢ with the swarm (about 3 times as much). We stopped after seeing early results. It is unclear whether adding agents improved answer quality on either task. [Scores, costs and uncertainty](reports/experiments/closeout.md)
+
 ## Current held-out results
 
 **2026-11-19 20:02 UTC.** Closed for today. The study has recorded **1,250/1,250 evaluations (100.0%)**. All five methods have scores on 250 questions. The development sweep selected 4 total agents, including the coordinator.
@@ -58,8 +66,6 @@ Positive differences favor the swarm. News uses percentage points and code uses 
 All four sizes answered the same development questions. The one- and four-agent systems also answered the same held-out panel. The other two held-out size conditions were postponed.
 
 The study ledger shows **$9.96 settled** and **$0.77 reserved** against the $50 ceiling. The fixed semantic evidence audit has 0/235 records. [Live local dashboard](http://127.0.0.1:8765) · [Private explorer](https://huggingface.co/spaces/BurnyCoder/luna-folder-swarm-explorer)
-
-The 4-agent swarm answered 126/169 news questions correctly and averaged 76.00/100 on code. The highest observed news score came from stock Codex (140/169). The highest observed code score came from Arctic single agent (80.37/100). One investigator scored 116/169 on news and 74.53/100 on code. The swarm's code difference from one-shot retrieval was +8.09 points. Both paired intervals for adding investigators include zero. The shortened panel supports exploratory paired estimates. The original full-sample superiority claim remains unresolved. [Measured tables](results/tables.md)
 <!-- /result-headline -->
 
 The starting observation comes from a small, model-specific study. Its single agent outscored its swarm on repository questions. Its filename-recall measure leaves open whether an agent saw a passage that substantiates the answer. The present comparison holds the generation model fixed, includes ordinary Codex and one-shot retrieval, and measures passage delivery. [Arctic results](https://github.com/BurnyCoder/arcticswarm-folder-rag-research/blob/bd5b3ed98cde10e9c1f90795f2182d84ecd51ddc/results/day1/tables.md) · [Original collector](https://github.com/BurnyCoder/arcticswarm-folder-rag-research/blob/bd5b3ed98cde10e9c1f90795f2182d84ecd51ddc/src/folderrag/collect.py#L78)

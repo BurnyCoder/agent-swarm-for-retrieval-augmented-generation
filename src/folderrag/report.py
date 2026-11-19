@@ -1015,9 +1015,9 @@ def build():
     current = heldout_snapshot(data)
     if data["groups"]:
         opening, description, remainder = prefix.split("\n\n", 2)
-        headline = summary
+        headline = summary + " [Measured tables](results/tables.md)"
         if current:
-            headline = current + "\n\n" + summary
+            headline = current if data.get("closeout_tables") else current + "\n\n" + headline
         elif not data["comparisons"]:
             devnews = sorted(
                 (
@@ -1041,7 +1041,7 @@ def build():
                         for r in devnews
                     )
                     + ". "
-                    + summary
+                    + headline
                 )
         prefix = (
             opening
@@ -1049,7 +1049,7 @@ def build():
             + description
             + "\n\n<!-- result-headline -->\n"
             + headline
-            + " [Measured tables](results/tables.md)\n<!-- /result-headline -->\n\n"
+            + "\n<!-- /result-headline -->\n\n"
             + remainder
         )
 
