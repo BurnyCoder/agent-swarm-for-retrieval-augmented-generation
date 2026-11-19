@@ -1,6 +1,6 @@
 # Luna folder research swarm
 
-A private experiment in answering questions from files. Independent GPT-6 Luna investigators use Codex to search a read-only folder. A coordinator checks their source excerpts and writes a cited answer. The experiment varies the total number of agents and measures answer quality, evidence support, time, and API cost on news and Python repositories.
+An experiment in answering questions from files. Independent GPT-6 Luna investigators use Codex to search a read-only folder. A coordinator checks their source excerpts and writes a cited answer. The experiment varies the total number of agents and measures answer quality, evidence support, time, and API cost on news and Python repositories.
 
 <!-- result-headline -->
 ## How the swarm compared
@@ -65,7 +65,7 @@ Positive differences favor the swarm. News uses percentage points and code uses 
 
 All four sizes answered the same development questions. The one- and four-agent systems also answered the same held-out panel. The other two held-out size conditions were postponed.
 
-The study ledger shows **$9.96 settled** and **$0.77 reserved** against the $50 ceiling. The fixed semantic evidence audit has 0/235 records. [Live local dashboard](http://127.0.0.1:8765) · [Private explorer](https://huggingface.co/spaces/BurnyCoder/luna-folder-swarm-explorer)
+The study ledger shows **$9.96 settled** and **$0.77 reserved** against the $50 ceiling. The fixed semantic evidence audit has 0/235 records. [GitHub Pages explorer](https://burnycoder.github.io/agent-swarm-for-retrieval-augmented-generation/) · [Hugging Face Space](https://huggingface.co/spaces/BurnyCoder/luna-folder-swarm-explorer) · [Local dashboard instructions](docs/usage.md)
 <!-- /result-headline -->
 
 The starting observation comes from a small, model-specific study. Its single agent outscored its swarm on repository questions. Its filename-recall measure leaves open whether an agent saw a passage that substantiates the answer. The present comparison holds the generation model fixed, includes ordinary Codex and one-shot retrieval, and measures passage delivery. [Arctic results](https://github.com/BurnyCoder/arcticswarm-folder-rag-research/blob/bd5b3ed98cde10e9c1f90795f2182d84ecd51ddc/results/day1/tables.md) · [Original collector](https://github.com/BurnyCoder/arcticswarm-folder-rag-research/blob/bd5b3ed98cde10e9c1f90795f2182d84ecd51ddc/src/folderrag/collect.py#L78)
@@ -76,7 +76,7 @@ The starting observation comes from a small, model-specific study. Its single ag
 - [Literature review](reports/literature-review.md) and [state of the art](reports/state-of-the-art-review.md)
 - [Preregistration](reports/preregistration.md) and [implementation plan](reports/plan.md)
 - [Development amendments](reports/development-amendments.md), [CLI checks](reports/experiments/cli-smoke.md) and [archived Haiku answers under the common scorer](reports/experiments/historical.md)
-- [Private collection and encoder](https://huggingface.co/collections/BurnyCoder/luna-folder-swarm-research-6afef1463801afdd0f8b15c0) and [private research artifacts and transcripts](https://huggingface.co/datasets/BurnyCoder/luna-folder-swarm-results)
+- [Hugging Face collection and encoder](https://huggingface.co/collections/BurnyCoder/luna-folder-swarm-research-6afef1463801afdd0f8b15c0) and [research artifacts and transcripts](https://huggingface.co/datasets/BurnyCoder/luna-folder-swarm-results)
 
 ## Reproduction
 
@@ -86,7 +86,7 @@ Run `uv run folderrag ask --folder PATH --agents 4 "QUESTION"`. Choose 1, 2, 4 o
 
 ![Luna investigator and coordinator architecture](reports/figures/architecture.png)
 
-[Installation, live dashboard and reproduction commands](docs/usage.md) · [Frozen question manifest](protocol/splits.json) · [Private results and examples](https://huggingface.co/spaces/BurnyCoder/luna-folder-swarm-explorer)
+[Installation, live dashboard and reproduction commands](docs/usage.md) · [Frozen question manifest](protocol/splits.json) · [Explore answers and citations](https://burnycoder.github.io/agent-swarm-for-retrieval-augmented-generation/)
 
 ## Research milestones
 

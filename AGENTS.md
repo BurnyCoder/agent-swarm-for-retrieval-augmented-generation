@@ -1,6 +1,6 @@
 # Repository conventions
 
-The [preregistration](reports/preregistration.md) defines the primary comparisons, swarm-size selection, data partitions and spending limits. Log any change with its timestamp and whether outcomes had been seen. Keep study artifacts private. The dataset, explorer and collection belong to BurnyCoder.
+The [preregistration](reports/preregistration.md) defines the primary comparisons, swarm-size selection, data partitions and spending limits. Log any change with its timestamp and whether outcomes had been seen. Publish benchmark results, transcripts and the explorer to BurnyCoder’s public research repositories. Keep credentials and interactive users’ files local. [Public release decision](reports/plan.md#public-release)
 
 Use uv and the Linux execution path in [the usage guide](docs/usage.md). The Windows command forwards to WSL. Keep upstream credentials on the broker side of the namespace. Only benchmark corpora and explicit user-selected folders may enter an investigator's environment. Preserve source licenses and the pinned Arctic submodule.
 

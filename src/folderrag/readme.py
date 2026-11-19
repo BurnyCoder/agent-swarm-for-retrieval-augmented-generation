@@ -1,4 +1,4 @@
-"""Generate the dated README results from the same private snapshot as the paper."""
+"""Generate the dated README results from the same study snapshot as the paper."""
 
 from datetime import datetime, timezone
 from statistics import mean, median
@@ -180,6 +180,6 @@ def heldout_snapshot(data):
         f"The study ledger shows **${balances.get('settled', 0):.2f} settled** and "
         f"**${balances.get('reserved', 0):.2f} reserved** against the ${sum(LIMITS.values()):.0f} ceiling. "
         f"The fixed semantic evidence audit has {len(data['support'])}/{data['targets']['audit']} records. "
-        "[Live local dashboard](http://127.0.0.1:8765) · [Private explorer](https://huggingface.co/spaces/BurnyCoder/luna-folder-swarm-explorer)"
+        "[GitHub Pages explorer](https://burnycoder.github.io/agent-swarm-for-retrieval-augmented-generation/) · [Hugging Face Space](https://huggingface.co/spaces/BurnyCoder/luna-folder-swarm-explorer) · [Local dashboard instructions](docs/usage.md)"
     )
     return "\n\n".join(lines)
