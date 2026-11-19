@@ -1,5 +1,84 @@
 [
   {
+    "unit": "dev-handoff-mhr_0075-swarm2",
+    "phase": "dev",
+    "id": "mhr_0075",
+    "domain": "news",
+    "stratum": "inference_query",
+    "arm": "swarm2",
+    "question": "Which institution, featured in articles from both 'Fortune' and 'The Sydney Morning Herald', has taken an aggressive stance on adjusting interest rates in response to economic data and inflation, particularly influencing the housing market reminiscent of the 1980s?",
+    "utc": "2026-11-19T14:12:05.617+00:00",
+    "answer": "Federal Reserve",
+    "explanation": "The Sydney Morning Herald describes the Fed using high interest rates to push inflation down and says its rate decisions depend on incoming economic data. Fortune describes Fed Chair Jerome Powell’s rate hikes as among the most aggressive in the modern era and compares their effect on housing with the 1980s, when aggressive hikes to fight inflation sharply slowed home sales and construction.",
+    "citations": [
+      {
+        "claim": "The Sydney Morning Herald identifies the Fed as using high rates to reduce inflation.",
+        "path": "the-sydney-morning-herald/2023-10-01_asx-set-to-open-lower-as-wall-street-closes-september-with-m.md",
+        "quote": "The Fed is trying to push still-high inflation down to its target, and its main tool of high interest rates does that by trying to slow the economy",
+        "span_id": "the-sydney-morning-herald/2023-10-01_asx-set-to-open-lower-as-wall-street-closes-september-with-m.md@2600:2747",
+        "valid": true,
+        "offset": 2600,
+        "line": 13
+      },
+      {
+        "claim": "The Sydney Morning Herald says the Fed bases upcoming rate decisions on incoming economic data.",
+        "path": "the-sydney-morning-herald/2023-10-01_asx-set-to-open-lower-as-wall-street-closes-september-with-m.md",
+        "quote": "the Fed, which has insisted it will make upcoming decisions on interest rates based on what incoming data say about the economy.",
+        "span_id": "",
+        "valid": true,
+        "offset": 4381,
+        "line": 15
+      },
+      {
+        "claim": "Fortune characterizes Powell’s rate hikes as exceptionally aggressive.",
+        "path": "fortune/2023-10-20_the-housing-winter-arrives-early-as-existing-home-sales-cras.md",
+        "quote": "Current Fed Chair Jerome Powell has set the tone for the most aggressive global hiking of rates in the modern era.",
+        "span_id": "fortune/2023-10-20_the-housing-winter-arrives-early-as-existing-home-sales-cras.md@2993:4335",
+        "valid": true,
+        "offset": 4118,
+        "line": 29
+      },
+      {
+        "claim": "Fortune compares the housing slowdown with the early 1980s, when the Fed aggressively raised rates to fight inflation.",
+        "path": "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md",
+        "quote": "today’s housing market looks a lot more like the early 1980s than it does 2008. Back then, just like today, home prices had boomed for years before Fed officials were ultimately forced to hike interest rates aggressively in an attempt to fight inflation.",
+        "span_id": "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md@2326:3403",
+        "valid": true,
+        "offset": 3147,
+        "line": 31
+      }
+    ],
+    "workers_requested": 1,
+    "workers_completed": 1,
+    "workers_contributing": 1,
+    "peak_investigators": 1,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md",
+      "fortune/2023-10-20_the-housing-winter-arrives-early-as-existing-home-sales-cras.md",
+      "the-sydney-morning-herald/2023-10-01_asx-set-to-open-lower-as-wall-street-closes-september-with-m.md",
+      "the-sydney-morning-herald/2023-11-05_asx-to-rise-after-interest-rate-hopes-boost-us-shares.md",
+      "the-sydney-morning-herald/2023-12-05_asx-set-for-bright-start-despite-wall-street-slip-a-drops.md"
+    ],
+    "delivered_spans": [
+      "the-sydney-morning-herald/2023-10-01_asx-set-to-open-lower-as-wall-street-closes-september-with-m.md@2600:2747",
+      "fortune/2023-10-20_the-housing-winter-arrives-early-as-existing-home-sales-cras.md@2993:4335",
+      "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md@2326:3403",
+      "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md@3243:4514"
+    ],
+    "seconds": 84.973,
+    "requests": 7,
+    "cost_upper_usd": 0.00668885,
+    "output_tokens": 2603,
+    "score": 1,
+    "returned_gold_recall": 1.0,
+    "cited_gold_recall": 1.0,
+    "grading_cost_upper_usd": 0.0,
+    "reference": "Federal Reserve"
+  },
+  {
     "unit": "dev-handoff-mhr_0075-swarm4",
     "phase": "dev",
     "id": "mhr_0075",
@@ -714,6 +793,215 @@
     "cited_gold_recall": 1.0,
     "grading_cost_upper_usd": 0.0,
     "reference": "Align"
+  },
+  {
+    "unit": "dev-handoff-mhr_0760-swarm2",
+    "phase": "dev",
+    "id": "mhr_0760",
+    "domain": "news",
+    "stratum": "comparison_query",
+    "arm": "swarm2",
+    "question": "Does the article from The Verge discussing the Microsoft Elite Series 2 “Core” version mention a reduction in features compared to the standard model, and does the article from The Verge on MacBook Pros indicate a reduction in prices for the new models?",
+    "utc": "2026-11-19T14:12:44.820+00:00",
+    "answer": "Yes",
+    "explanation": "The Elite Series 2 Core is described as missing accessories included with the standard model. The MacBook article reports discounts on models it says are still quite new; it describes sale prices, rather than a permanent reduction in the models’ list prices.",
+    "citations": [
+      {
+        "claim": "The Core version includes fewer features and accessories than the standard Elite Series 2.",
+        "path": "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md",
+        "quote": "without the rear paddles, accessory charging case, or extra stick toppers and D-pad.",
+        "span_id": "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md@11284:11537",
+        "valid": true,
+        "offset": 11453,
+        "line": 71
+      },
+      {
+        "claim": "The MacBook article says models that are still quite new have begun receiving discounts and gives a $250 discount on a new 14-inch MacBook Pro.",
+        "path": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+        "quote": "While these models are still quite new, versions that actual humans buy have begun receiving discounts. The 14-inch MacBook Pro in its base configuration with the M3 Pro (11-core CPU / 14-core GPU), 18GB of RAM, and 512GB SSD is currently on sale for $1,749 ($250 off) at B&H Photo.",
+        "span_id": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7428:7710",
+        "valid": true,
+        "offset": 7428,
+        "line": 49
+      }
+    ],
+    "workers_requested": 1,
+    "workers_completed": 1,
+    "workers_contributing": 1,
+    "peak_investigators": 1,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md"
+    ],
+    "delivered_spans": [
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md@11284:11537",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7428:7710",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7268:8581",
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md@11124:12376",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@8421:9690"
+    ],
+    "seconds": 65.038,
+    "requests": 2,
+    "cost_upper_usd": 0.0032665,
+    "output_tokens": 1120,
+    "score": 1,
+    "returned_gold_recall": 1.0,
+    "cited_gold_recall": 1.0,
+    "grading_cost_upper_usd": 0.0,
+    "reference": "Yes"
+  },
+  {
+    "unit": "dev-handoff-mhr_0760-swarm4",
+    "phase": "dev",
+    "id": "mhr_0760",
+    "domain": "news",
+    "stratum": "comparison_query",
+    "arm": "swarm4",
+    "question": "Does the article from The Verge discussing the Microsoft Elite Series 2 “Core” version mention a reduction in features compared to the standard model, and does the article from The Verge on MacBook Pros indicate a reduction in prices for the new models?",
+    "utc": "2026-11-19T14:13:19.912+00:00",
+    "answer": "Yes; yes.",
+    "explanation": "The Elite Series 2 Core omits items included with the standard model. The MacBook article reports retailer discounts on new models; it does not say their starting prices were reduced.",
+    "citations": [
+      {
+        "claim": "The Core version omits features and accessories included with the standard Elite Series 2.",
+        "path": "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md",
+        "quote": "without the rear paddles, accessory charging case, or extra stick toppers and D-pad",
+        "span_id": "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md@11453:11536",
+        "valid": true,
+        "offset": 11453,
+        "line": 71
+      },
+      {
+        "claim": "The article reports a $250 retailer discount on a new MacBook Pro model.",
+        "path": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+        "quote": "The 14-inch MacBook Pro in its base configuration with the M3 Pro (11-core CPU / 14-core GPU), 18GB of RAM, and 512GB SSD is currently on sale for $1,749 ($250 off) at B&H Photo.",
+        "span_id": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7268:8581",
+        "valid": true,
+        "offset": 7532,
+        "line": 49
+      },
+      {
+        "claim": "The article gives starting prices for the new 14- and 16-inch MacBook Pros.",
+        "path": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+        "quote": "with prices starting at $1,999 for the 14-inch and $2,499 for the 16-inch",
+        "span_id": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7175:7248",
+        "valid": true,
+        "offset": 7175,
+        "line": 47
+      }
+    ],
+    "workers_requested": 3,
+    "workers_completed": 3,
+    "workers_contributing": 3,
+    "peak_investigators": 3,
+    "duplicate_worker_spans": 8,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "engadget/2023-11-24_the-best-apple-black-friday-deals-on-ipads-airpods-apple-wat.md",
+      "engadget/2023-11-27_the-best-apple-cyber-monday-deals-of-2023-save-on-airpods-ip.md",
+      "polygon/2023-11-17_the-best-controllers-for-pc-gaming.md",
+      "techcrunch/2023-11-06_apple-16-inch-m3-max-macbook-pro-review-a-desktop-among-lapt.md",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md",
+      "wired/2023-11-25_54-best-apple-black-friday-deals-2023-ipad-apple-watch-airpo.md"
+    ],
+    "delivered_spans": [
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md@11453:11536",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@6654:6738",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7434:7530",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7175:7248",
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md@11284:11537",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7175:7249",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7268:8581",
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md@11124:12376",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@8421:9690"
+    ],
+    "seconds": 117.254,
+    "requests": 15,
+    "cost_upper_usd": 0.014734027,
+    "output_tokens": 6260,
+    "score": 0,
+    "returned_gold_recall": 1.0,
+    "cited_gold_recall": 1.0,
+    "grading_cost_upper_usd": 0.0,
+    "reference": "Yes"
+  },
+  {
+    "unit": "dev-handoff-mhr_0760-swarm8",
+    "phase": "dev",
+    "id": "mhr_0760",
+    "domain": "news",
+    "stratum": "comparison_query",
+    "arm": "swarm8",
+    "question": "Does the article from The Verge discussing the Microsoft Elite Series 2 “Core” version mention a reduction in features compared to the standard model, and does the article from The Verge on MacBook Pros indicate a reduction in prices for the new models?",
+    "utc": "2026-11-19T14:13:38.403+00:00",
+    "answer": "Yes to both.",
+    "explanation": "The Elite Series 2 Core is described as missing items included with the standard model. The MacBook article reports sale discounts on the new models; it does not say their launch prices were reduced compared with earlier models.",
+    "citations": [
+      {
+        "claim": "The Core version omits features and accessories included with the standard Elite Series 2.",
+        "path": "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md",
+        "quote": "without the rear paddles, accessory charging case, or extra stick toppers and D-pad.",
+        "span_id": "",
+        "valid": true,
+        "offset": 11453,
+        "line": 71
+      },
+      {
+        "claim": "The article reports discounts on the new MacBook Pro models.",
+        "path": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+        "quote": "While these models are still quite new, versions that actual humans buy have begun receiving discounts. The 14-inch MacBook Pro in its base configuration with the M3 Pro (11-core CPU / 14-core GPU), 18GB of RAM, and 512GB SSD is currently on sale for $1,749 ($250 off)",
+        "span_id": "",
+        "valid": true,
+        "offset": 7428,
+        "line": 49
+      }
+    ],
+    "workers_requested": 7,
+    "workers_completed": 7,
+    "workers_contributing": 6,
+    "peak_investigators": 7,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "engadget/2023-11-24_the-best-apple-black-friday-deals-on-ipads-airpods-apple-wat.md",
+      "engadget/2023-11-27_the-best-apple-cyber-monday-deals-of-2023-save-on-airpods-ip.md",
+      "polygon/2023-11-17_the-best-controllers-for-pc-gaming.md",
+      "techcrunch/2023-11-06_apple-16-inch-m3-max-macbook-pro-review-a-desktop-among-lapt.md",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md",
+      "wired/2023-10-10_41-best-prime-day-apple-deals-2023.md",
+      "wired/2023-10-10_78-absolute-best-october-prime-day-deals-2023.md",
+      "wired/2023-11-25_54-best-apple-black-friday-deals-2023-ipad-apple-watch-airpo.md"
+    ],
+    "delivered_spans": [
+      "polygon/2023-11-17_the-best-controllers-for-pc-gaming.md@3738:3866",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7532:7710",
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md@11453:11537",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@6197:6257",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7175:7249",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@8432:8546",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@1160:1243",
+      "techcrunch/2023-11-06_apple-16-inch-m3-max-macbook-pro-review-a-desktop-among-lapt.md@3180:3256",
+      "engadget/2023-11-27_the-best-apple-cyber-monday-deals-of-2023-save-on-airpods-ip.md@7938:8053",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7268:8581",
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md@11124:12376",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@8421:9690"
+    ],
+    "seconds": 90.089,
+    "requests": 18,
+    "cost_upper_usd": 0.019983967,
+    "output_tokens": 11129,
+    "score": 0,
+    "returned_gold_recall": 1.0,
+    "cited_gold_recall": 1.0,
+    "grading_cost_upper_usd": 0.0,
+    "reference": "Yes"
   },
   {
     "unit": "dev-handoff-mhr_1743-swarm2",
@@ -2424,6 +2712,314 @@
     "reference": "Yes"
   },
   {
+    "unit": "dev-handoff-sweqa_flask_37-swarm2",
+    "phase": "dev",
+    "id": "sweqa_flask_37",
+    "domain": "code",
+    "stratum": "flask",
+    "arm": "swarm2",
+    "question": "Where in the serialization pipeline for the JSON tag class that handles Markup API objects are the lower-level helper functions that the conversion method delegates to?",
+    "utc": "2026-11-19T14:13:45.095+00:00",
+    "answer": "Insufficient information",
+    "explanation": "`TagMarkup.to_json` calls `value.__html__()` and passes its result to `str`. Unsupported: `TagMarkup` is described as handling objects with a `__html__` method.",
+    "citations": [
+      {
+        "claim": "`TagMarkup.to_json` calls `value.__html__()` and passes its result to `str`.",
+        "path": "src/flask/json/tag.py",
+        "quote": "return str(value.__html__())",
+        "span_id": "src/flask/json/tag.py@5199:5227",
+        "valid": true,
+        "offset": 5199,
+        "line": 185
+      },
+      {
+        "claim": "`TagMarkup` is described as handling objects with a `__html__` method.",
+        "path": "src/flask/json/tag.py",
+        "quote": "having a ``__html__`` method to the result of that method.",
+        "span_id": "src/flask/json/tag.py@4883:6262",
+        "valid": false,
+        "offset": null,
+        "line": null
+      }
+    ],
+    "workers_requested": 1,
+    "workers_completed": 1,
+    "workers_contributing": 1,
+    "peak_investigators": 1,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": true,
+    "returned_files": [
+      "src/flask/json/tag.py"
+    ],
+    "delivered_spans": [
+      "src/flask/json/tag.py@5199:5227",
+      "src/flask/json/tag.py@3683:5043",
+      "src/flask/json/tag.py@4883:6262",
+      "src/flask/json/tag.py@1227:2603"
+    ],
+    "seconds": 57.045,
+    "requests": 3,
+    "cost_upper_usd": 0.00504125,
+    "output_tokens": 1957,
+    "dimensions": {
+      "correctness": 12,
+      "completeness": 8,
+      "relevance": 14,
+      "clarity": 10,
+      "reasoning": 9
+    },
+    "score": 53,
+    "grading_cost_upper_usd": 0.000315,
+    "reference": "In the TagMarkup serialization pipeline, the lower-level helper functions that the `to_json` method delegates to are located **directly within the `to_json` method implementation itself**, specifically at the point where it invokes `value.__html__()`.\n\nHere's the pipeline flow:\n\n1. **Entry point**: `TaggedJSONSerializer.tag()` (line 289-295 in `src/flask/json/tag.py`) iterates through registered tags in order and calls `tag.check(value)` to determine if a tag should handle the value.\n\n2. **Verification**: `TagMarkup.check()` (line 181-182) uses `getattr(value, \"__html__\", None)` with `callable()` verification to safely check if the value has a callable `__html__` method.\n\n3. **Tagging**: If `check()` returns `True`, `JSONTag.tag()` (line 87-90) is called, which wraps the result of `to_json()` with the tag key `\" m\"`.\n\n4. **Conversion**: `TagMarkup.to_json()` (line 184-185) is invoked, which contains the delegation to the lower-level helper:\n   ```python\n   def to_json(self, value: t.Any) -> t.Any:\n       return str(value.__html__())\n   ```\n\n5. **Lower-level helper**: The `__html__()` method on the value object itself is the lower-level helper function. This method is called directly within `to_json()` at line 185.\n\nThe `__html__()` method is not part of TagMarkup's implementation but is expected to exist on the value object being serialized. TagMarkup acts as an adapter that calls this method to obtain the HTML string representation, which is then converted to a string and returned as the JSON-serializable value.\n\nRegarding the safety relationship: The `check()` method's use of `getattr(value, \"__html__\", None)` with `callable()` verification ensures that:\n- No `AttributeError` occurs if `__html__` doesn't exist (getattr returns `None` instead)\n- No `TypeError` occurs if `__html__` exists but isn't callable (callable() returns `False`)\n- Only values with a valid, callable `__html__` method reach `to_json()`, where it safely invokes `value.__html__()` without error handling needed\n</start_of_answer>"
+  },
+  {
+    "unit": "dev-handoff-sweqa_flask_37-swarm4",
+    "phase": "dev",
+    "id": "sweqa_flask_37",
+    "domain": "code",
+    "stratum": "flask",
+    "arm": "swarm4",
+    "question": "Where in the serialization pipeline for the JSON tag class that handles Markup API objects are the lower-level helper functions that the conversion method delegates to?",
+    "utc": "2026-11-19T14:15:44.256+00:00",
+    "answer": "TagMarkup.to_json",
+    "explanation": "In `src/flask/json/tag.py`, the conversion method directly calls the input object's `__html__()` method and passes its result to Python's `str()`. These are not separate Flask helper functions. In the pipeline, the serializer selects the matching tag and calls `tag()`, whose base implementation wraps the `to_json` result with the tag key.",
+    "citations": [
+      {
+        "claim": "TagMarkup.to_json delegates to the object's __html__ method and str.",
+        "path": "src/flask/json/tag.py",
+        "quote": "return str(value.__html__())",
+        "span_id": "src/flask/json/tag.py@5199:5227",
+        "valid": true,
+        "offset": 5199,
+        "line": 185
+      },
+      {
+        "claim": "The serializer chooses a matching tag and invokes its tag method.",
+        "path": "src/flask/json/tag.py",
+        "quote": "if tag.check(value):\n                return tag.tag(value)",
+        "span_id": "src/flask/json/tag.py@8095:8153",
+        "valid": true,
+        "offset": 8095,
+        "line": 292
+      },
+      {
+        "claim": "The base tag method wraps the conversion result with its key.",
+        "path": "src/flask/json/tag.py",
+        "quote": "return {self.key: self.to_json(value)}",
+        "span_id": "src/flask/json/tag.py@2762:2800",
+        "valid": true,
+        "offset": 2762,
+        "line": 90
+      }
+    ],
+    "workers_requested": 3,
+    "workers_completed": 3,
+    "workers_contributing": 3,
+    "peak_investigators": 3,
+    "duplicate_worker_spans": 18,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "docs/quickstart.rst",
+      "src/flask/json/__init__.py",
+      "src/flask/json/provider.py",
+      "src/flask/json/tag.py",
+      "src/flask/sessions.py",
+      "tests/test_json.py",
+      "tests/test_json_tag.py",
+      "tests/test_templating.py",
+      "uv.lock"
+    ],
+    "delivered_spans": [
+      "src/flask/json/tag.py@5199:5227",
+      "src/flask/json/tag.py@5285:5305",
+      "src/flask/json/tag.py@1469:1498",
+      "src/flask/json/tag.py@8095:8153",
+      "src/flask/json/tag.py@2762:2800",
+      "src/flask/json/tag.py@5199:5305",
+      "src/flask/json/tag.py@9059:9111",
+      "src/flask/sessions.py@15077:15136",
+      "src/flask/json/tag.py@3683:5043",
+      "src/flask/json/tag.py@4883:6262",
+      "src/flask/json/tag.py@1227:2603"
+    ],
+    "seconds": 127.093,
+    "requests": 15,
+    "cost_upper_usd": 0.016106652,
+    "output_tokens": 6286,
+    "dimensions": {
+      "correctness": 18,
+      "completeness": 12,
+      "relevance": 19,
+      "clarity": 19,
+      "reasoning": 15
+    },
+    "score": 83,
+    "grading_cost_upper_usd": 0.000327625,
+    "reference": "In the TagMarkup serialization pipeline, the lower-level helper functions that the `to_json` method delegates to are located **directly within the `to_json` method implementation itself**, specifically at the point where it invokes `value.__html__()`.\n\nHere's the pipeline flow:\n\n1. **Entry point**: `TaggedJSONSerializer.tag()` (line 289-295 in `src/flask/json/tag.py`) iterates through registered tags in order and calls `tag.check(value)` to determine if a tag should handle the value.\n\n2. **Verification**: `TagMarkup.check()` (line 181-182) uses `getattr(value, \"__html__\", None)` with `callable()` verification to safely check if the value has a callable `__html__` method.\n\n3. **Tagging**: If `check()` returns `True`, `JSONTag.tag()` (line 87-90) is called, which wraps the result of `to_json()` with the tag key `\" m\"`.\n\n4. **Conversion**: `TagMarkup.to_json()` (line 184-185) is invoked, which contains the delegation to the lower-level helper:\n   ```python\n   def to_json(self, value: t.Any) -> t.Any:\n       return str(value.__html__())\n   ```\n\n5. **Lower-level helper**: The `__html__()` method on the value object itself is the lower-level helper function. This method is called directly within `to_json()` at line 185.\n\nThe `__html__()` method is not part of TagMarkup's implementation but is expected to exist on the value object being serialized. TagMarkup acts as an adapter that calls this method to obtain the HTML string representation, which is then converted to a string and returned as the JSON-serializable value.\n\nRegarding the safety relationship: The `check()` method's use of `getattr(value, \"__html__\", None)` with `callable()` verification ensures that:\n- No `AttributeError` occurs if `__html__` doesn't exist (getattr returns `None` instead)\n- No `TypeError` occurs if `__html__` exists but isn't callable (callable() returns `False`)\n- Only values with a valid, callable `__html__` method reach `to_json()`, where it safely invokes `value.__html__()` without error handling needed\n</start_of_answer>"
+  },
+  {
+    "unit": "dev-handoff-sweqa_flask_37-swarm8",
+    "phase": "dev",
+    "id": "sweqa_flask_37",
+    "domain": "code",
+    "stratum": "flask",
+    "arm": "swarm8",
+    "question": "Where in the serialization pipeline for the JSON tag class that handles Markup API objects are the lower-level helper functions that the conversion method delegates to?",
+    "utc": "2026-11-19T14:15:26.111+00:00",
+    "answer": "No separate helper functions",
+    "explanation": "`TagMarkup.to_json` performs the conversion inline: it calls the value’s `__html__()` method and passes the result to Python’s built-in `str`. The class checks for a callable `__html__` method. In the serialization pipeline, the inherited `JSONTag.tag` method wraps that result under the tag key (`\" m\"`).",
+    "citations": [
+      {
+        "claim": "TagMarkup.to_json calls __html__ and converts its result with str.",
+        "path": "src/flask/json/tag.py",
+        "quote": "return str(value.__html__())",
+        "span_id": "",
+        "valid": true,
+        "offset": 5199,
+        "line": 185
+      },
+      {
+        "claim": "TagMarkup identifies values by checking for a callable __html__ method.",
+        "path": "src/flask/json/tag.py",
+        "quote": "return callable(getattr(value, \"__html__\", None))",
+        "span_id": "",
+        "valid": true,
+        "offset": 5094,
+        "line": 182
+      },
+      {
+        "claim": "The inherited JSONTag.tag method wraps the conversion result under the tag key.",
+        "path": "src/flask/json/tag.py",
+        "quote": "return {self.key: self.to_json(value)}",
+        "span_id": "",
+        "valid": true,
+        "offset": 2762,
+        "line": 90
+      },
+      {
+        "claim": "TagMarkup uses the key \" m\" in the wrapper.",
+        "path": "src/flask/json/tag.py",
+        "quote": "key = \" m\"",
+        "span_id": "",
+        "valid": true,
+        "offset": 5031,
+        "line": 179
+      }
+    ],
+    "workers_requested": 7,
+    "workers_completed": 7,
+    "workers_contributing": 6,
+    "peak_investigators": 7,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "CHANGES.rst",
+      "docs/api.rst",
+      "docs/quickstart.rst",
+      "src/flask/json/provider.py",
+      "src/flask/json/tag.py",
+      "tests/test_json_tag.py"
+    ],
+    "delivered_spans": [
+      "src/flask/json/tag.py@5199:5227",
+      "src/flask/json/tag.py@5094:5143",
+      "src/flask/json/tag.py@5285:5305",
+      "src/flask/json/tag.py@4770:4795",
+      "src/flask/json/tag.py@1469:1498",
+      "src/flask/json/tag.py@2762:2800",
+      "tests/test_json_tag.py@432:449",
+      "src/flask/json/tag.py@3683:5043",
+      "src/flask/json/tag.py@4883:6262",
+      "src/flask/json/tag.py@1227:2603"
+    ],
+    "seconds": 104.928,
+    "requests": 18,
+    "cost_upper_usd": 0.01747937,
+    "output_tokens": 9232,
+    "dimensions": {
+      "correctness": 18,
+      "completeness": 13,
+      "relevance": 20,
+      "clarity": 19,
+      "reasoning": 16
+    },
+    "score": 86,
+    "grading_cost_upper_usd": 0.0003015,
+    "reference": "In the TagMarkup serialization pipeline, the lower-level helper functions that the `to_json` method delegates to are located **directly within the `to_json` method implementation itself**, specifically at the point where it invokes `value.__html__()`.\n\nHere's the pipeline flow:\n\n1. **Entry point**: `TaggedJSONSerializer.tag()` (line 289-295 in `src/flask/json/tag.py`) iterates through registered tags in order and calls `tag.check(value)` to determine if a tag should handle the value.\n\n2. **Verification**: `TagMarkup.check()` (line 181-182) uses `getattr(value, \"__html__\", None)` with `callable()` verification to safely check if the value has a callable `__html__` method.\n\n3. **Tagging**: If `check()` returns `True`, `JSONTag.tag()` (line 87-90) is called, which wraps the result of `to_json()` with the tag key `\" m\"`.\n\n4. **Conversion**: `TagMarkup.to_json()` (line 184-185) is invoked, which contains the delegation to the lower-level helper:\n   ```python\n   def to_json(self, value: t.Any) -> t.Any:\n       return str(value.__html__())\n   ```\n\n5. **Lower-level helper**: The `__html__()` method on the value object itself is the lower-level helper function. This method is called directly within `to_json()` at line 185.\n\nThe `__html__()` method is not part of TagMarkup's implementation but is expected to exist on the value object being serialized. TagMarkup acts as an adapter that calls this method to obtain the HTML string representation, which is then converted to a string and returned as the JSON-serializable value.\n\nRegarding the safety relationship: The `check()` method's use of `getattr(value, \"__html__\", None)` with `callable()` verification ensures that:\n- No `AttributeError` occurs if `__html__` doesn't exist (getattr returns `None` instead)\n- No `TypeError` occurs if `__html__` exists but isn't callable (callable() returns `False`)\n- Only values with a valid, callable `__html__` method reach `to_json()`, where it safely invokes `value.__html__()` without error handling needed\n</start_of_answer>"
+  },
+  {
+    "unit": "dev-mhr_0075-arctic",
+    "phase": "dev",
+    "id": "mhr_0075",
+    "domain": "news",
+    "stratum": "inference_query",
+    "arm": "arctic",
+    "question": "Which institution, featured in articles from both 'Fortune' and 'The Sydney Morning Herald', has taken an aggressive stance on adjusting interest rates in response to economic data and inflation, particularly influencing the housing market reminiscent of the 1980s?",
+    "utc": "2026-11-19T14:11:24.059+00:00",
+    "answer": "Federal Reserve",
+    "explanation": "The clues point to the U.S. Federal Reserve (the Fed): Fortune describes its aggressive rate increases to combat inflation and compares their housing-market effects with the 1980s. The Sydney Morning Herald also discusses the Fed’s rate policy in relation to inflation and economic data.",
+    "citations": [
+      {
+        "claim": "Fortune links aggressive Fed rate hikes to fighting inflation and a housing downturn reminiscent of the 1980s.",
+        "path": "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md",
+        "quote": "the Fed’s current chair, Jerome Powell, has been following a very similar game plan to Volcker’s, raising interest rates aggressively to quash inflation",
+        "span_id": "corpus://folder/fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md#L29-38",
+        "valid": true,
+        "offset": 4014,
+        "line": 37
+      },
+      {
+        "claim": "The Sydney Morning Herald says the Federal Reserve uses high interest rates to bring inflation down and reports on the role of economic data.",
+        "path": "the-sydney-morning-herald/2023-10-01_asx-set-to-open-lower-as-wall-street-closes-september-with-m.md",
+        "quote": "The Fed is trying to push still-high inflation down to its target, and its main tool of high interest rates",
+        "span_id": "corpus://folder/the-sydney-morning-herald/2023-10-01_asx-set-to-open-lower-as-wall-street-closes-september-with-m.md#L12-14",
+        "valid": true,
+        "offset": 2600,
+        "line": 13
+      },
+      {
+        "claim": "The Sydney Morning Herald reports Fed rate hikes and notes that an employment report affected market expectations for rate cuts.",
+        "path": "the-sydney-morning-herald/2023-11-05_asx-to-rise-after-interest-rate-hopes-boost-us-shares.md",
+        "quote": "A report on Friday underscored that pressure is easing on inflation after it showed employers hired fewer workers last month than economists expected.",
+        "span_id": "corpus://folder/the-sydney-morning-herald/2023-11-05_asx-to-rise-after-interest-rate-hopes-boost-us-shares.md#L12-14",
+        "valid": true,
+        "offset": 2127,
+        "line": 13
+      }
+    ],
+    "workers_requested": 0,
+    "workers_completed": 0,
+    "workers_contributing": 0,
+    "peak_investigators": 0,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md",
+      "fortune/2023-10-20_the-housing-winter-arrives-early-as-existing-home-sales-cras.md",
+      "fortune/2023-10-22_economists-central-bankers-are-rethinking-the-quantitative-e.md",
+      "globes-english-israel-business/2023-11-05_psagot-worth-80-less-since-rani-zim-bought-it.md",
+      "the-sydney-morning-herald/2023-09-26_asx-set-to-drop-as-wall-street-s-september-slump-deepens.md",
+      "the-sydney-morning-herald/2023-10-01_asx-set-to-open-lower-as-wall-street-closes-september-with-m.md",
+      "the-sydney-morning-herald/2023-10-24_asx-set-to-rise-ahead-of-inflation-report-after-big-tech-lif.md",
+      "the-sydney-morning-herald/2023-11-05_asx-to-rise-after-interest-rate-hopes-boost-us-shares.md",
+      "the-sydney-morning-herald/2023-12-05_asx-set-for-bright-start-despite-wall-street-slip-a-drops.md"
+    ],
+    "delivered_spans": [],
+    "seconds": 33.153,
+    "requests": 5,
+    "cost_upper_usd": 0.00411033,
+    "output_tokens": 1102,
+    "score": 1,
+    "returned_gold_recall": 1.0,
+    "cited_gold_recall": 1.0,
+    "grading_cost_upper_usd": 0.0,
+    "reference": "Federal Reserve"
+  },
+  {
     "unit": "dev-mhr_0075-oneshot",
     "phase": "dev",
     "id": "mhr_0075",
@@ -2543,6 +3139,107 @@
     "cost_upper_usd": 0.00436176,
     "output_tokens": 1365,
     "score": 1,
+    "returned_gold_recall": 1.0,
+    "cited_gold_recall": 1.0,
+    "grading_cost_upper_usd": 0.0,
+    "reference": "Federal Reserve"
+  },
+  {
+    "unit": "dev-mhr_0075-swarm1",
+    "phase": "dev",
+    "id": "mhr_0075",
+    "domain": "news",
+    "stratum": "inference_query",
+    "arm": "swarm1",
+    "question": "Which institution, featured in articles from both 'Fortune' and 'The Sydney Morning Herald', has taken an aggressive stance on adjusting interest rates in response to economic data and inflation, particularly influencing the housing market reminiscent of the 1980s?",
+    "utc": "2026-11-19T14:12:07.129+00:00",
+    "answer": "Federal Reserve (the Fed)",
+    "explanation": "The Fortune articles identify the Fed’s aggressive inflation-fighting rate hikes and connect them to higher mortgage rates and a housing slowdown resembling the 1980s. Sydney Morning Herald coverage also discusses the Fed’s rate policy in light of inflation and economic reports. Together, these support the Federal Reserve as the institution described.",
+    "citations": [
+      {
+        "claim": "Fortune describes current Fed rate increases as an aggressive effort to curb inflation, with housing effects resembling the 1980s.",
+        "path": "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md",
+        "quote": "the Fed’s current chair, Jerome Powell, has been following a very similar game plan to Volcker’s, raising interest rates aggressively to quash inflation",
+        "span_id": "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md@3243:4514",
+        "valid": true,
+        "offset": 4014,
+        "line": 37
+      },
+      {
+        "claim": "Fortune explicitly compares the housing market’s rate-driven downturn with the 1980s.",
+        "path": "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md",
+        "quote": "This, in turn, has slowed mortgage purchase applications and caused home sales to plummet, just as it did in the ’80s",
+        "span_id": "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md@3243:4514",
+        "valid": true,
+        "offset": 4322,
+        "line": 37
+      },
+      {
+        "claim": "The Sydney Morning Herald reports the Fed uses high interest rates to push inflation down and adjusts its expected policy outlook in light of economic data.",
+        "path": "the-sydney-morning-herald/2023-10-01_asx-set-to-open-lower-as-wall-street-closes-september-with-m.md",
+        "quote": "The Fed is trying to push still-high inflation down to its target, and its main tool of high interest rates",
+        "span_id": "the-sydney-morning-herald/2023-10-01_asx-set-to-open-lower-as-wall-street-closes-september-with-m.md@1950:3350",
+        "valid": true,
+        "offset": 2600,
+        "line": 13
+      },
+      {
+        "claim": "Sydney Morning Herald coverage says easing inflation and labor-market data affected expectations that the Fed’s hikes might be ending.",
+        "path": "the-sydney-morning-herald/2023-12-05_asx-set-for-bright-start-despite-wall-street-slip-a-drops.md",
+        "quote": "With inflation down from its peak two summers ago, Wall Street is hopeful that the Federal Reserve may finally be done with its market-shaking hikes to interest rates",
+        "span_id": "the-sydney-morning-herald/2023-12-05_asx-set-for-bright-start-despite-wall-street-slip-a-drops.md@2774:4174",
+        "valid": true,
+        "offset": 2934,
+        "line": 15
+      }
+    ],
+    "workers_requested": 0,
+    "workers_completed": 0,
+    "workers_contributing": 0,
+    "peak_investigators": 0,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md",
+      "fortune/2023-10-20_the-housing-winter-arrives-early-as-existing-home-sales-cras.md",
+      "the-age/2023-10-04_asx-set-to-open-higher-as-wall-street-rebounds-a-rises.md",
+      "the-age/2023-10-12_asx-to-open-lower-wall-street-falls-as-the-clamp-tightens-fr.md",
+      "the-sydney-morning-herald/2023-10-01_asx-set-to-open-lower-as-wall-street-closes-september-with-m.md",
+      "the-sydney-morning-herald/2023-10-24_asx-set-to-rise-ahead-of-inflation-report-after-big-tech-lif.md",
+      "the-sydney-morning-herald/2023-11-05_asx-to-rise-after-interest-rate-hopes-boost-us-shares.md",
+      "the-sydney-morning-herald/2023-12-05_asx-set-for-bright-start-despite-wall-street-slip-a-drops.md"
+    ],
+    "delivered_spans": [
+      "fortune/2023-10-20_the-housing-winter-arrives-early-as-existing-home-sales-cras.md@2993:4335",
+      "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md@2326:3403",
+      "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md@3243:4514",
+      "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md@0:1248",
+      "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md@5433:5954",
+      "fortune/2023-10-20_the-housing-winter-arrives-early-as-existing-home-sales-cras.md@2086:3153",
+      "the-sydney-morning-herald/2023-10-01_asx-set-to-open-lower-as-wall-street-closes-september-with-m.md@1950:3350",
+      "the-sydney-morning-herald/2023-12-05_asx-set-for-bright-start-despite-wall-street-slip-a-drops.md@2774:4174",
+      "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md@1088:2486",
+      "the-sydney-morning-herald/2023-11-05_asx-to-rise-after-interest-rate-hopes-boost-us-shares.md@1548:2948",
+      "fortune/2023-10-20_the-housing-winter-arrives-early-as-existing-home-sales-cras.md@4175:5526",
+      "the-sydney-morning-herald/2023-11-05_asx-to-rise-after-interest-rate-hopes-boost-us-shares.md@2788:3918",
+      "the-sydney-morning-herald/2023-12-05_asx-set-for-bright-start-despite-wall-street-slip-a-drops.md@4014:5236",
+      "the-sydney-morning-herald/2023-11-05_asx-to-rise-after-interest-rate-hopes-boost-us-shares.md@3758:5133",
+      "the-age/2023-10-12_asx-to-open-lower-wall-street-falls-as-the-clamp-tightens-fr.md@3026:4426",
+      "the-age/2023-10-04_asx-set-to-open-higher-as-wall-street-rebounds-a-rises.md@2833:4152",
+      "the-sydney-morning-herald/2023-10-24_asx-set-to-rise-ahead-of-inflation-report-after-big-tech-lif.md@1694:3094",
+      "the-sydney-morning-herald/2023-10-24_asx-set-to-rise-ahead-of-inflation-report-after-big-tech-lif.md@1143:1854",
+      "the-age/2023-10-12_asx-to-open-lower-wall-street-falls-as-the-clamp-tightens-fr.md@1786:3186",
+      "the-sydney-morning-herald/2023-12-05_asx-set-for-bright-start-despite-wall-street-slip-a-drops.md@716:1890",
+      "fortune/2023-10-06_buckle-up-for-more-turbulence-in-the-housing-market-bofa-say.md@4354:5593",
+      "fortune/2023-10-20_the-housing-winter-arrives-early-as-existing-home-sales-cras.md@1203:2246",
+      "fortune/2023-10-20_the-housing-winter-arrives-early-as-existing-home-sales-cras.md@0:1363"
+    ],
+    "seconds": 65.077,
+    "requests": 6,
+    "cost_upper_usd": 0.006263665,
+    "output_tokens": 1992,
+    "score": 0,
     "returned_gold_recall": 1.0,
     "cited_gold_recall": 1.0,
     "grading_cost_upper_usd": 0.0,
@@ -3147,6 +3844,269 @@
     "cited_gold_recall": 1.0,
     "grading_cost_upper_usd": 0.0,
     "reference": "Align"
+  },
+  {
+    "unit": "dev-mhr_0760-arctic",
+    "phase": "dev",
+    "id": "mhr_0760",
+    "domain": "news",
+    "stratum": "comparison_query",
+    "arm": "arctic",
+    "question": "Does the article from The Verge discussing the Microsoft Elite Series 2 “Core” version mention a reduction in features compared to the standard model, and does the article from The Verge on MacBook Pros indicate a reduction in prices for the new models?",
+    "utc": "2026-11-19T14:11:37.571+00:00",
+    "answer": "Yes to both.",
+    "explanation": "The Elite Series 2 Core is described as stripped down: it omits the rear paddles, accessory charging case, extra stick toppers, and D-pad included with the standard model. The MacBook article reports discounts on the new models at retailers, including $250 off some M3 Pro configurations. This indicates reduced sale prices, not necessarily a permanent reduction in Apple’s official starting prices.",
+    "citations": [
+      {
+        "claim": "The Core version lacks features/accessories included with the standard Elite Series 2.",
+        "path": "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md",
+        "quote": "without the rear paddles, accessory charging case, or extra stick toppers and D-pad",
+        "span_id": "corpus://folder/the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md#L61-78",
+        "valid": true,
+        "offset": 11453,
+        "line": 71
+      },
+      {
+        "claim": "The article reports reduced retail prices for new MacBook Pro models, including $250 discounts on M3 Pro configurations.",
+        "path": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+        "quote": "it’s currently on sale for $1,749 ($250 off) at B&H Photo",
+        "span_id": "corpus://folder/the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md#L40-62",
+        "valid": false,
+        "offset": null,
+        "line": null
+      }
+    ],
+    "workers_requested": 0,
+    "workers_completed": 0,
+    "workers_contributing": 0,
+    "peak_investigators": 0,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "engadget/2023-10-26_what-we-expect-at-apple-s-scary-fast-event-m3-powered-macboo.md",
+      "engadget/2023-11-19_the-53-best-black-friday-deals-we-could-find-at-amazon-walma.md",
+      "engadget/2023-11-24_the-best-apple-black-friday-deals-on-ipads-airpods-apple-wat.md",
+      "engadget/2023-11-27_the-best-apple-cyber-monday-deals-of-2023-save-on-airpods-ip.md",
+      "polygon/2023-11-17_the-best-controllers-for-pc-gaming.md",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md",
+      "wired/2023-11-25_54-best-apple-black-friday-deals-2023-ipad-apple-watch-airpo.md"
+    ],
+    "delivered_spans": [],
+    "seconds": 35.352,
+    "requests": 5,
+    "cost_upper_usd": 0.003444612,
+    "output_tokens": 1087,
+    "score": 0,
+    "returned_gold_recall": 1.0,
+    "cited_gold_recall": 0.5,
+    "grading_cost_upper_usd": 0.0,
+    "reference": "Yes"
+  },
+  {
+    "unit": "dev-mhr_0760-oneshot",
+    "phase": "dev",
+    "id": "mhr_0760",
+    "domain": "news",
+    "stratum": "comparison_query",
+    "arm": "oneshot",
+    "question": "Does the article from The Verge discussing the Microsoft Elite Series 2 “Core” version mention a reduction in features compared to the standard model, and does the article from The Verge on MacBook Pros indicate a reduction in prices for the new models?",
+    "utc": "2026-11-19T14:12:14.402+00:00",
+    "answer": "Yes to both.",
+    "explanation": "The Elite Series 2 Core is described as a stripped-down version that lacks several features included with the standard model. The MacBook article reports discounts on the new models; it does not establish that their original list prices were reduced.",
+    "citations": [
+      {
+        "claim": "The Core version omits features provided with the standard Elite Series 2.",
+        "path": "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md",
+        "quote": "without the rear paddles, accessory charging case, or extra stick toppers and D-pad",
+        "span_id": "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md@11124:12376",
+        "valid": true,
+        "offset": 11453,
+        "line": 71
+      },
+      {
+        "claim": "The MacBook article says new models had begun receiving discounts and gives examples of $250 off.",
+        "path": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+        "quote": "versions that actual humans buy have begun receiving discounts",
+        "span_id": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7268:8581",
+        "valid": true,
+        "offset": 7468,
+        "line": 49
+      },
+      {
+        "claim": "A new 14-inch MacBook Pro model is listed at $250 off.",
+        "path": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+        "quote": "is currently on sale for $1,749 ($250 off)",
+        "span_id": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7268:8581",
+        "valid": true,
+        "offset": 7654,
+        "line": 49
+      }
+    ],
+    "workers_requested": 0,
+    "workers_completed": 0,
+    "workers_contributing": 0,
+    "peak_investigators": 0,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "polygon/2023-11-17_the-best-controllers-for-pc-gaming.md",
+      "techcrunch/2023-11-06_apple-16-inch-m3-max-macbook-pro-review-a-desktop-among-lapt.md",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md",
+      "wired/2023-11-25_54-best-apple-black-friday-deals-2023-ipad-apple-watch-airpo.md"
+    ],
+    "delivered_spans": [
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7268:8581",
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md@11124:12376",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@8421:9690",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@6494:7428",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@1085:2329",
+      "techcrunch/2023-11-06_apple-16-inch-m3-max-macbook-pro-review-a-desktop-among-lapt.md@1984:3258",
+      "wired/2023-11-25_54-best-apple-black-friday-deals-2023-ipad-apple-watch-airpo.md@7027:8102",
+      "polygon/2023-11-17_the-best-controllers-for-pc-gaming.md@3114:4035"
+    ],
+    "seconds": 7.062,
+    "requests": 1,
+    "cost_upper_usd": 0.00069325,
+    "output_tokens": 532,
+    "score": 0,
+    "returned_gold_recall": 1.0,
+    "cited_gold_recall": 1.0,
+    "grading_cost_upper_usd": 0.0,
+    "reference": "Yes"
+  },
+  {
+    "unit": "dev-mhr_0760-stock",
+    "phase": "dev",
+    "id": "mhr_0760",
+    "domain": "news",
+    "stratum": "comparison_query",
+    "arm": "stock",
+    "question": "Does the article from The Verge discussing the Microsoft Elite Series 2 “Core” version mention a reduction in features compared to the standard model, and does the article from The Verge on MacBook Pros indicate a reduction in prices for the new models?",
+    "utc": "2026-11-19T14:12:47.150+00:00",
+    "answer": "Yes",
+    "explanation": "The Core is described as having fewer included features than the standard Elite Series 2. The MacBook article lists discounts on the new models; these are retailer discounts, not a stated cut to Apple’s listed starting prices.",
+    "citations": [
+      {
+        "claim": "The Elite Series 2 Core omits features and accessories included with the standard model.",
+        "path": "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md",
+        "quote": "without the rear paddles, accessory charging case, or extra stick toppers and D-pad",
+        "span_id": "",
+        "valid": true,
+        "offset": 11453,
+        "line": 71
+      },
+      {
+        "claim": "The MacBook article reports $250 retailer discounts on new M3 Pro MacBook Pro models.",
+        "path": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+        "quote": "The 14-inch MacBook Pro in its base configuration with the M3 Pro (11-core CPU / 14-core GPU), 18GB of RAM, and 512GB SSD is currently on sale for $1,749 ($250 off) at B&H Photo.",
+        "span_id": "",
+        "valid": true,
+        "offset": 7532,
+        "line": 49
+      },
+      {
+        "claim": "The article also lists a $250 discount on the new 16-inch model.",
+        "path": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+        "quote": "it’s selling for $2,249 ($250 off) at Amazon and B&H Photo.",
+        "span_id": "",
+        "valid": true,
+        "offset": 7939,
+        "line": 49
+      }
+    ],
+    "workers_requested": 0,
+    "workers_completed": 0,
+    "workers_contributing": 0,
+    "peak_investigators": 0,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md"
+    ],
+    "delivered_spans": [],
+    "seconds": 81.232,
+    "requests": 7,
+    "cost_upper_usd": 0.007016762,
+    "output_tokens": 2292,
+    "score": 1,
+    "returned_gold_recall": 1.0,
+    "cited_gold_recall": 1.0,
+    "grading_cost_upper_usd": 0.0,
+    "reference": "Yes"
+  },
+  {
+    "unit": "dev-mhr_0760-swarm1",
+    "phase": "dev",
+    "id": "mhr_0760",
+    "domain": "news",
+    "stratum": "comparison_query",
+    "arm": "swarm1",
+    "question": "Does the article from The Verge discussing the Microsoft Elite Series 2 “Core” version mention a reduction in features compared to the standard model, and does the article from The Verge on MacBook Pros indicate a reduction in prices for the new models?",
+    "utc": "2026-11-19T14:13:33.321+00:00",
+    "answer": "Yes",
+    "explanation": "The Elite Series 2 Core omits features included with the standard model. The MacBook article reports $250 retailer discounts on new MacBook Pro models; it does not say Apple reduced their official starting prices.",
+    "citations": [
+      {
+        "claim": "The Elite Series 2 Core omits features included with the standard model.",
+        "path": "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md",
+        "quote": "without the rear paddles, accessory charging case, or extra stick toppers and D-pad",
+        "span_id": "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md@11124:12376",
+        "valid": true,
+        "offset": 11453,
+        "line": 71
+      },
+      {
+        "claim": "The article reports retailer discounts on new MacBook Pro models.",
+        "path": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+        "quote": "The 14-inch MacBook Pro in its base configuration with the M3 Pro (11-core CPU / 14-core GPU), 18GB of RAM, and 512GB SSD is currently on sale for $1,749 ($250 off) at B&H Photo.",
+        "span_id": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7268:8581",
+        "valid": true,
+        "offset": 7532,
+        "line": 49
+      },
+      {
+        "claim": "The article lists the new models' starting prices.",
+        "path": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+        "quote": "with prices starting at $1,999 for the 14-inch and $2,499 for the 16-inch",
+        "span_id": "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@6494:7428",
+        "valid": true,
+        "offset": 7175,
+        "line": 47
+      }
+    ],
+    "workers_requested": 0,
+    "workers_completed": 0,
+    "workers_contributing": 0,
+    "peak_investigators": 0,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": true,
+    "returned_files": [
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md",
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md"
+    ],
+    "delivered_spans": [
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@7268:8581",
+      "the-verge/2023-11-21_the-best-xbox-controller-to-buy-right-now.md@11124:12376",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@8421:9690",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@6494:7428",
+      "the-verge/2023-10-26_the-best-deals-on-macbooks-right-now.md@1085:2329"
+    ],
+    "seconds": 76.252,
+    "requests": 4,
+    "cost_upper_usd": 0.005120626,
+    "output_tokens": 2116,
+    "score": 1,
+    "returned_gold_recall": 1.0,
+    "cited_gold_recall": 1.0,
+    "grading_cost_upper_usd": 0.0,
+    "reference": "Yes"
   },
   {
     "unit": "dev-mhr_1743-arctic",
@@ -5011,5 +5971,524 @@
     "cited_gold_recall": 0.6666666666666666,
     "grading_cost_upper_usd": 0.0,
     "reference": "Yes"
+  },
+  {
+    "unit": "dev-sweqa_flask_37-arctic",
+    "phase": "dev",
+    "id": "sweqa_flask_37",
+    "domain": "code",
+    "stratum": "flask",
+    "arm": "arctic",
+    "question": "Where in the serialization pipeline for the JSON tag class that handles Markup API objects are the lower-level helper functions that the conversion method delegates to?",
+    "utc": "2026-11-19T14:13:36.579+00:00",
+    "answer": "`src/flask/json/tag.py` — `TagMarkup.to_json`",
+    "explanation": "The conversion delegates directly to the object’s `__html__()` method and then Python’s built-in `str()`; the repository does not define separate Flask helper functions for these calls. In the pipeline, `TagMarkup` is registered as a default tag, the serializer selects it by calling `check`, and the tag wrapper places `to_json`’s result under the tag key.",
+    "citations": [
+      {
+        "claim": "`TagMarkup.to_json` calls the object’s `__html__()` method and converts its result with `str()`.",
+        "path": "src/flask/json/tag.py",
+        "quote": "return str(value.__html__())",
+        "span_id": "corpus://folder/src/flask/json/tag.py#L163-211",
+        "valid": true,
+        "offset": 5199,
+        "line": 185
+      },
+      {
+        "claim": "The base `JSONTag.tag` method wraps the conversion result in a dictionary keyed by the tag key.",
+        "path": "src/flask/json/tag.py",
+        "quote": "return {self.key: self.to_json(value)}",
+        "span_id": "corpus://folder/src/flask/json/tag.py#L51-95",
+        "valid": true,
+        "offset": 2762,
+        "line": 90
+      },
+      {
+        "claim": "`TaggedJSONSerializer.tag` checks registered tags and invokes the matching tag’s wrapper.",
+        "path": "src/flask/json/tag.py",
+        "quote": "if tag.check(value):\n                return tag.tag(value)",
+        "span_id": "corpus://folder/src/flask/json/tag.py#L210-300",
+        "valid": false,
+        "offset": null,
+        "line": null
+      },
+      {
+        "claim": "`TagMarkup` is included in the serializer’s default tag list.",
+        "path": "src/flask/json/tag.py",
+        "quote": "        TagMarkup,",
+        "span_id": "corpus://folder/src/flask/json/tag.py#L210-265",
+        "valid": true,
+        "offset": 6603,
+        "line": 244
+      }
+    ],
+    "workers_requested": 0,
+    "workers_completed": 0,
+    "workers_contributing": 0,
+    "peak_investigators": 0,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "docs/quickstart.rst",
+      "docs/views.rst",
+      "src/flask/json/__init__.py",
+      "src/flask/json/provider.py",
+      "src/flask/json/tag.py",
+      "src/flask/sessions.py",
+      "tests/test_json_tag.py"
+    ],
+    "delivered_spans": [],
+    "seconds": 37.146,
+    "requests": 8,
+    "cost_upper_usd": 0.002603497,
+    "output_tokens": 970,
+    "dimensions": {
+      "correctness": 18,
+      "completeness": 13,
+      "relevance": 19,
+      "clarity": 18,
+      "reasoning": 15
+    },
+    "score": 83,
+    "grading_cost_upper_usd": 0.000327875,
+    "reference": "In the TagMarkup serialization pipeline, the lower-level helper functions that the `to_json` method delegates to are located **directly within the `to_json` method implementation itself**, specifically at the point where it invokes `value.__html__()`.\n\nHere's the pipeline flow:\n\n1. **Entry point**: `TaggedJSONSerializer.tag()` (line 289-295 in `src/flask/json/tag.py`) iterates through registered tags in order and calls `tag.check(value)` to determine if a tag should handle the value.\n\n2. **Verification**: `TagMarkup.check()` (line 181-182) uses `getattr(value, \"__html__\", None)` with `callable()` verification to safely check if the value has a callable `__html__` method.\n\n3. **Tagging**: If `check()` returns `True`, `JSONTag.tag()` (line 87-90) is called, which wraps the result of `to_json()` with the tag key `\" m\"`.\n\n4. **Conversion**: `TagMarkup.to_json()` (line 184-185) is invoked, which contains the delegation to the lower-level helper:\n   ```python\n   def to_json(self, value: t.Any) -> t.Any:\n       return str(value.__html__())\n   ```\n\n5. **Lower-level helper**: The `__html__()` method on the value object itself is the lower-level helper function. This method is called directly within `to_json()` at line 185.\n\nThe `__html__()` method is not part of TagMarkup's implementation but is expected to exist on the value object being serialized. TagMarkup acts as an adapter that calls this method to obtain the HTML string representation, which is then converted to a string and returned as the JSON-serializable value.\n\nRegarding the safety relationship: The `check()` method's use of `getattr(value, \"__html__\", None)` with `callable()` verification ensures that:\n- No `AttributeError` occurs if `__html__` doesn't exist (getattr returns `None` instead)\n- No `TypeError` occurs if `__html__` exists but isn't callable (callable() returns `False`)\n- Only values with a valid, callable `__html__` method reach `to_json()`, where it safely invokes `value.__html__()` without error handling needed\n</start_of_answer>"
+  },
+  {
+    "unit": "dev-sweqa_flask_37-oneshot",
+    "phase": "dev",
+    "id": "sweqa_flask_37",
+    "domain": "code",
+    "stratum": "flask",
+    "arm": "oneshot",
+    "question": "Where in the serialization pipeline for the JSON tag class that handles Markup API objects are the lower-level helper functions that the conversion method delegates to?",
+    "utc": "2026-11-19T14:13:30.453+00:00",
+    "answer": "`TagMarkup.to_json` in `src/flask/json/tag.py`; it delegates directly to `value.__html__()` and `str`, not to separate Flask helper functions.",
+    "explanation": "`TagMarkup` is part of `TaggedJSONSerializer`’s default tags. The serialization path calls the tag conversion, whose result is wrapped by the base `JSONTag.tag` method. For Markup-API objects, `to_json` obtains the HTML representation with `__html__()` and converts it to a string; deserialization uses `Markup(value)`.",
+    "citations": [
+      {
+        "claim": "TagMarkup.to_json directly calls the object's __html__ method and converts the result to str; its inverse constructs Markup.",
+        "path": "src/flask/json/tag.py",
+        "quote": "def to_json(self, value: t.Any) -> t.Any:\n        return str(value.__html__())\n\n    def to_python(self, value: t.Any) -> t.Any:\n        return Markup(value)",
+        "span_id": "src/flask/json/tag.py@4883:6262",
+        "valid": true,
+        "offset": 5149,
+        "line": 184
+      },
+      {
+        "claim": "The base tag method wraps the to_json result in the tag structure.",
+        "path": "src/flask/json/tag.py",
+        "quote": "def tag(self, value: t.Any) -> dict[str, t.Any]:\n        \"\"\"Convert the value to a valid JSON type and add the tag structure\n        around it.\"\"\"\n        return {self.key: self.to_json(value)}",
+        "span_id": "src/flask/json/tag.py@2443:3843",
+        "valid": true,
+        "offset": 2607,
+        "line": 87
+      },
+      {
+        "claim": "TagMarkup is included in the serializer's default tag classes.",
+        "path": "src/flask/json/tag.py",
+        "quote": "default_tags = [\n        TagDict,\n        PassDict,\n        TagTuple,\n        PassList,\n        TagBytes,\n        TagMarkup,",
+        "span_id": "src/flask/json/tag.py@6102:7487",
+        "valid": true,
+        "offset": 6489,
+        "line": 238
+      }
+    ],
+    "workers_requested": 0,
+    "workers_completed": 0,
+    "workers_contributing": 0,
+    "peak_investigators": 0,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "src/flask/json/tag.py",
+      "tests/test_json_tag.py"
+    ],
+    "delivered_spans": [
+      "src/flask/json/tag.py@3683:5043",
+      "src/flask/json/tag.py@4883:6262",
+      "src/flask/json/tag.py@1227:2603",
+      "src/flask/json/tag.py@0:1387",
+      "src/flask/json/tag.py@6102:7487",
+      "tests/test_json_tag.py@0:1379",
+      "src/flask/json/tag.py@2443:3843",
+      "src/flask/json/tag.py@8543:9281"
+    ],
+    "seconds": 9.62,
+    "requests": 1,
+    "cost_upper_usd": 0.00090575,
+    "output_tokens": 882,
+    "dimensions": {
+      "correctness": 18,
+      "completeness": 13,
+      "relevance": 19,
+      "clarity": 19,
+      "reasoning": 15
+    },
+    "score": 84,
+    "grading_cost_upper_usd": 0.000325625,
+    "reference": "In the TagMarkup serialization pipeline, the lower-level helper functions that the `to_json` method delegates to are located **directly within the `to_json` method implementation itself**, specifically at the point where it invokes `value.__html__()`.\n\nHere's the pipeline flow:\n\n1. **Entry point**: `TaggedJSONSerializer.tag()` (line 289-295 in `src/flask/json/tag.py`) iterates through registered tags in order and calls `tag.check(value)` to determine if a tag should handle the value.\n\n2. **Verification**: `TagMarkup.check()` (line 181-182) uses `getattr(value, \"__html__\", None)` with `callable()` verification to safely check if the value has a callable `__html__` method.\n\n3. **Tagging**: If `check()` returns `True`, `JSONTag.tag()` (line 87-90) is called, which wraps the result of `to_json()` with the tag key `\" m\"`.\n\n4. **Conversion**: `TagMarkup.to_json()` (line 184-185) is invoked, which contains the delegation to the lower-level helper:\n   ```python\n   def to_json(self, value: t.Any) -> t.Any:\n       return str(value.__html__())\n   ```\n\n5. **Lower-level helper**: The `__html__()` method on the value object itself is the lower-level helper function. This method is called directly within `to_json()` at line 185.\n\nThe `__html__()` method is not part of TagMarkup's implementation but is expected to exist on the value object being serialized. TagMarkup acts as an adapter that calls this method to obtain the HTML string representation, which is then converted to a string and returned as the JSON-serializable value.\n\nRegarding the safety relationship: The `check()` method's use of `getattr(value, \"__html__\", None)` with `callable()` verification ensures that:\n- No `AttributeError` occurs if `__html__` doesn't exist (getattr returns `None` instead)\n- No `TypeError` occurs if `__html__` exists but isn't callable (callable() returns `False`)\n- Only values with a valid, callable `__html__` method reach `to_json()`, where it safely invokes `value.__html__()` without error handling needed\n</start_of_answer>"
+  },
+  {
+    "unit": "dev-sweqa_flask_37-stock",
+    "phase": "dev",
+    "id": "sweqa_flask_37",
+    "domain": "code",
+    "stratum": "flask",
+    "arm": "stock",
+    "question": "Where in the serialization pipeline for the JSON tag class that handles Markup API objects are the lower-level helper functions that the conversion method delegates to?",
+    "utc": "2026-11-19T14:14:50.873+00:00",
+    "answer": "src/flask/json/tag.py — TagMarkup.to_json",
+    "explanation": "TagMarkup checks for a callable __html__ method and its to_json method calls value.__html__(), then converts the result with str(). Those delegated operations are provided by the input object and Python; the file does not define lower-level helper functions for them. JSONTag.tag wraps the result under the tag key, and TaggedJSONSerializer.dumps passes the tagged value to the JSON dumper.",
+    "citations": [
+      {
+        "claim": "TagMarkup identifies Markup API objects by checking for a callable __html__ method.",
+        "path": "src/flask/json/tag.py",
+        "quote": "return callable(getattr(value, \"__html__\", None))",
+        "span_id": "",
+        "valid": true,
+        "offset": 5094,
+        "line": 182
+      },
+      {
+        "claim": "TagMarkup.to_json delegates to the object's __html__ method and converts its result to str.",
+        "path": "src/flask/json/tag.py",
+        "quote": "return str(value.__html__())",
+        "span_id": "",
+        "valid": true,
+        "offset": 5199,
+        "line": 185
+      },
+      {
+        "claim": "The base tag method wraps the conversion result under the tag's key.",
+        "path": "src/flask/json/tag.py",
+        "quote": "return {self.key: self.to_json(value)}",
+        "span_id": "",
+        "valid": true,
+        "offset": 2762,
+        "line": 90
+      },
+      {
+        "claim": "The serializer tags the value before passing it to the JSON dumper.",
+        "path": "src/flask/json/tag.py",
+        "quote": "return dumps(self.tag(value), separators=(\",\", \":\"))",
+        "span_id": "",
+        "valid": true,
+        "offset": 9059,
+        "line": 323
+      }
+    ],
+    "workers_requested": 0,
+    "workers_completed": 0,
+    "workers_contributing": 0,
+    "peak_investigators": 0,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "src/flask/json/tag.py"
+    ],
+    "delivered_spans": [],
+    "seconds": 75.342,
+    "requests": 4,
+    "cost_upper_usd": 0.00296936,
+    "output_tokens": 1352,
+    "dimensions": {
+      "correctness": 17,
+      "completeness": 12,
+      "relevance": 18,
+      "clarity": 18,
+      "reasoning": 15
+    },
+    "score": 80,
+    "grading_cost_upper_usd": 0.000315625,
+    "reference": "In the TagMarkup serialization pipeline, the lower-level helper functions that the `to_json` method delegates to are located **directly within the `to_json` method implementation itself**, specifically at the point where it invokes `value.__html__()`.\n\nHere's the pipeline flow:\n\n1. **Entry point**: `TaggedJSONSerializer.tag()` (line 289-295 in `src/flask/json/tag.py`) iterates through registered tags in order and calls `tag.check(value)` to determine if a tag should handle the value.\n\n2. **Verification**: `TagMarkup.check()` (line 181-182) uses `getattr(value, \"__html__\", None)` with `callable()` verification to safely check if the value has a callable `__html__` method.\n\n3. **Tagging**: If `check()` returns `True`, `JSONTag.tag()` (line 87-90) is called, which wraps the result of `to_json()` with the tag key `\" m\"`.\n\n4. **Conversion**: `TagMarkup.to_json()` (line 184-185) is invoked, which contains the delegation to the lower-level helper:\n   ```python\n   def to_json(self, value: t.Any) -> t.Any:\n       return str(value.__html__())\n   ```\n\n5. **Lower-level helper**: The `__html__()` method on the value object itself is the lower-level helper function. This method is called directly within `to_json()` at line 185.\n\nThe `__html__()` method is not part of TagMarkup's implementation but is expected to exist on the value object being serialized. TagMarkup acts as an adapter that calls this method to obtain the HTML string representation, which is then converted to a string and returned as the JSON-serializable value.\n\nRegarding the safety relationship: The `check()` method's use of `getattr(value, \"__html__\", None)` with `callable()` verification ensures that:\n- No `AttributeError` occurs if `__html__` doesn't exist (getattr returns `None` instead)\n- No `TypeError` occurs if `__html__` exists but isn't callable (callable() returns `False`)\n- Only values with a valid, callable `__html__` method reach `to_json()`, where it safely invokes `value.__html__()` without error handling needed\n</start_of_answer>"
+  },
+  {
+    "unit": "dev-sweqa_flask_37-swarm1",
+    "phase": "dev",
+    "id": "sweqa_flask_37",
+    "domain": "code",
+    "stratum": "flask",
+    "arm": "swarm1",
+    "question": "Where in the serialization pipeline for the JSON tag class that handles Markup API objects are the lower-level helper functions that the conversion method delegates to?",
+    "utc": "2026-11-19T14:14:19.650+00:00",
+    "answer": "`TagMarkup.to_json` in `src/flask/json/tag.py`.",
+    "explanation": "The conversion method directly calls the input object's `__html__()` method and passes its result to `str()`. The tag class does not define a separate lower-level helper for this conversion.",
+    "citations": [
+      {
+        "claim": "The conversion is implemented in TagMarkup.to_json.",
+        "path": "src/flask/json/tag.py",
+        "quote": "def to_json(self, value: t.Any) -> t.Any:\n        return str(value.__html__())",
+        "span_id": "src/flask/json/tag.py@4883:6262",
+        "valid": true,
+        "offset": 5149,
+        "line": 184
+      },
+      {
+        "claim": "TagMarkup handles values with a callable __html__ method.",
+        "path": "src/flask/json/tag.py",
+        "quote": "return callable(getattr(value, \"__html__\", None))",
+        "span_id": "src/flask/json/tag.py@4883:6262",
+        "valid": true,
+        "offset": 5094,
+        "line": 182
+      }
+    ],
+    "workers_requested": 0,
+    "workers_completed": 0,
+    "workers_contributing": 0,
+    "peak_investigators": 0,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "src/flask/json/tag.py"
+    ],
+    "delivered_spans": [
+      "src/flask/json/tag.py@3683:5043",
+      "src/flask/json/tag.py@4883:6262",
+      "src/flask/json/tag.py@1227:2603",
+      "src/flask/json/tag.py@0:1387",
+      "src/flask/json/tag.py@6102:7487"
+    ],
+    "seconds": 38.508,
+    "requests": 1,
+    "cost_upper_usd": 0.001795125,
+    "output_tokens": 699,
+    "dimensions": {
+      "correctness": 18,
+      "completeness": 14,
+      "relevance": 20,
+      "clarity": 19,
+      "reasoning": 15
+    },
+    "score": 86,
+    "grading_cost_upper_usd": 0.000326875,
+    "reference": "In the TagMarkup serialization pipeline, the lower-level helper functions that the `to_json` method delegates to are located **directly within the `to_json` method implementation itself**, specifically at the point where it invokes `value.__html__()`.\n\nHere's the pipeline flow:\n\n1. **Entry point**: `TaggedJSONSerializer.tag()` (line 289-295 in `src/flask/json/tag.py`) iterates through registered tags in order and calls `tag.check(value)` to determine if a tag should handle the value.\n\n2. **Verification**: `TagMarkup.check()` (line 181-182) uses `getattr(value, \"__html__\", None)` with `callable()` verification to safely check if the value has a callable `__html__` method.\n\n3. **Tagging**: If `check()` returns `True`, `JSONTag.tag()` (line 87-90) is called, which wraps the result of `to_json()` with the tag key `\" m\"`.\n\n4. **Conversion**: `TagMarkup.to_json()` (line 184-185) is invoked, which contains the delegation to the lower-level helper:\n   ```python\n   def to_json(self, value: t.Any) -> t.Any:\n       return str(value.__html__())\n   ```\n\n5. **Lower-level helper**: The `__html__()` method on the value object itself is the lower-level helper function. This method is called directly within `to_json()` at line 185.\n\nThe `__html__()` method is not part of TagMarkup's implementation but is expected to exist on the value object being serialized. TagMarkup acts as an adapter that calls this method to obtain the HTML string representation, which is then converted to a string and returned as the JSON-serializable value.\n\nRegarding the safety relationship: The `check()` method's use of `getattr(value, \"__html__\", None)` with `callable()` verification ensures that:\n- No `AttributeError` occurs if `__html__` doesn't exist (getattr returns `None` instead)\n- No `TypeError` occurs if `__html__` exists but isn't callable (callable() returns `False`)\n- Only values with a valid, callable `__html__` method reach `to_json()`, where it safely invokes `value.__html__()` without error handling needed\n</start_of_answer>"
+  },
+  {
+    "unit": "dev-sweqa_requests_11-arctic",
+    "phase": "dev",
+    "id": "sweqa_requests_11",
+    "domain": "code",
+    "stratum": "requests",
+    "arm": "arctic",
+    "question": "What is the data integrity mechanism in the PreparedRequest class that maintains header normalization when CaseInsensitiveDict and to_native_string transformations are applied to heterogeneous input headers?",
+    "utc": "2026-11-19T14:15:43.086+00:00",
+    "answer": "Validate-then-normalize insertion into CaseInsensitiveDict",
+    "explanation": "PreparedRequest validates each header name and value before converting the name with to_native_string and storing the pair. Validation allows str or bytes and rejects unsupported types or invalid header characters. CaseInsensitiveDict uses a lowercase key for case-insensitive lookup while retaining the stored spelling, so heterogeneous header-name input is normalized without losing case-insensitive access.",
+    "citations": [
+      {
+        "claim": "PreparedRequest validates each header pair, converts the name to a native string, then stores it with its value.",
+        "path": "src/requests/models.py",
+        "quote": "check_header_validity(header)\n                name, value = header\n                self.headers[to_native_string(name)] = value",
+        "span_id": "corpus://folder/src/requests/models.py#L480-495",
+        "valid": true,
+        "offset": 15369,
+        "line": 490
+      },
+      {
+        "claim": "Header names and values must be str or bytes and are checked for invalid characters.",
+        "path": "src/requests/utils.py",
+        "quote": "if isinstance(header_part, str):\n        validator = _HEADER_VALIDATORS_STR[header_validator_index]\n    elif isinstance(header_part, bytes):\n        validator = _HEADER_VALIDATORS_BYTE[header_validator_index]",
+        "span_id": "corpus://folder/src/requests/utils.py#L1021-1055",
+        "valid": true,
+        "offset": 31496,
+        "line": 1036
+      },
+      {
+        "claim": "CaseInsensitiveDict stores keys under their lowercase form while retaining the original key spelling.",
+        "path": "src/requests/structures.py",
+        "quote": "self._store[key.lower()] = (key, value)",
+        "span_id": "corpus://folder/src/requests/structures.py#L13-70",
+        "valid": true,
+        "offset": 1521,
+        "line": 49
+      },
+      {
+        "claim": "to_native_string returns the native string representation, decoding when needed.",
+        "path": "src/requests/_internal_utils.py",
+        "quote": "Given a string object, regardless of type, returns a representation of\n    that string in the native string type, encoding and decoding where\n    necessary.",
+        "span_id": "corpus://folder/src/requests/_internal_utils.py#L12-33",
+        "valid": true,
+        "offset": 787,
+        "line": 26
+      }
+    ],
+    "workers_requested": 0,
+    "workers_completed": 0,
+    "workers_contributing": 0,
+    "peak_investigators": 0,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "HISTORY.md",
+      "src/requests/_internal_utils.py",
+      "src/requests/adapters.py",
+      "src/requests/models.py",
+      "src/requests/sessions.py",
+      "src/requests/structures.py",
+      "src/requests/utils.py",
+      "tests/test_requests.py",
+      "tests/test_utils.py"
+    ],
+    "delivered_spans": [],
+    "seconds": 41.111,
+    "requests": 9,
+    "cost_upper_usd": 0.002927875,
+    "output_tokens": 1111,
+    "dimensions": {
+      "correctness": 17,
+      "completeness": 12,
+      "relevance": 20,
+      "clarity": 18,
+      "reasoning": 15
+    },
+    "score": 82,
+    "grading_cost_upper_usd": 0.000317375,
+    "reference": "The data integrity mechanism in request preparation that maintains header normalization when case-insensitive dictionary and string normalization are applied to heterogeneous input headers is implemented in the `prepare_headers` method of the PreparedRequest class (located in `src/requests/models.py`, lines 483-492).\n\nThe mechanism works through a coordinated three-step process:\n\n1. **Header Validation**: Each header from the heterogeneous input (which may contain headers with different cases, string types, or byte types) is first validated using `check_header_validity()` (defined in `src/requests/utils.py`, lines 1024-1032). This function validates that header names and values conform to HTTP specifications by checking for invalid characters, leading whitespace, or return characters using regex validators.\n\n2. **String Normalization**: The header name is then normalized using `to_native_string()` (defined in `src/requests/_internal_utils.py`, lines 25-35), which converts the header name to the native string type (ensuring consistent encoding, defaulting to ASCII). This handles heterogeneous input types (str, bytes) by converting them to a uniform native string representation.\n\n3. **Case-Insensitive Storage**: The normalized header name is stored in a `CaseInsensitiveDict` instance (defined in `src/requests/structures.py`, lines 13-80). This dictionary maintains data integrity through its internal `_store` OrderedDict that maps lowercase keys to tuples of `(original_key, value)`. When a header is set using `self.headers[to_native_string(name)] = value`, the CaseInsensitiveDict:\n   - Uses the lowercase version of the key for lookups (`key.lower()`)\n   - Stores the original case of the last key set alongside the value\n   - Preserves the case of the most recently set key while allowing case-insensitive retrieval\n\nThe data integrity is maintained because:\n- All header names are normalized to native strings before storage, ensuring type consistency\n- Case-insensitive lookup works correctly regardless of input case variations\n- The original case of headers is preserved (the last case used) for proper HTTP header formatting\n- Invalid headers are rejected before normalization, preventing corrupted data from entering the system\n- The mechanism handles heterogeneous inputs (mixed str/bytes, different cases) uniformly while maintaining referential integrity\n\nThis ensures that headers like `{\"Content-Type\": \"application/json\"}`, `{\"content-type\": \"application/json\"}`, or `{b\"Content-Type\": b\"application/json\"}` are all normalized and stored consistently, while maintaining the ability to retrieve them case-insensitively and preserve the original case for transmission."
+  },
+  {
+    "unit": "dev-sweqa_requests_11-oneshot",
+    "phase": "dev",
+    "id": "sweqa_requests_11",
+    "domain": "code",
+    "stratum": "requests",
+    "arm": "oneshot",
+    "question": "What is the data integrity mechanism in the PreparedRequest class that maintains header normalization when CaseInsensitiveDict and to_native_string transformations are applied to heterogeneous input headers?",
+    "utc": "2026-11-19T14:15:02.495+00:00",
+    "answer": "Case-insensitive normalized header mapping",
+    "explanation": "PreparedRequest.prepare_headers creates a CaseInsensitiveDict, validates each header pair, converts each header name with to_native_string, and stores it in that mapping. CaseInsensitiveDict makes lookups case-insensitive while retaining the casing of the last key set. If heterogeneous inputs produce keys with equal lowercase forms, the mapping’s documentation says behavior is undefined.",
+    "citations": [
+      {
+        "claim": "prepare_headers initializes a CaseInsensitiveDict, validates each header, converts its name to a native string, and assigns it to the mapping.",
+        "path": "src/requests/models.py",
+        "quote": "self.headers = CaseInsensitiveDict()\n        if headers:\n            for header in headers.items():\n                # Raise exception on invalid header value.\n                check_header_validity(header)\n                name, value = header\n                self.headers[to_native_string(name)] = value",
+        "span_id": "src/requests/models.py@14454:15814",
+        "valid": true,
+        "offset": 15194,
+        "line": 486
+      },
+      {
+        "claim": "CaseInsensitiveDict supports case-insensitive queries and retains the casing of the last key set.",
+        "path": "src/requests/structures.py",
+        "quote": "The structure remembers the\n    case of the last key to be set",
+        "span_id": "src/requests/structures.py@0:1372",
+        "valid": true,
+        "offset": 435,
+        "line": 20
+      },
+      {
+        "claim": "Keys with equal lowercase forms have undefined behavior in CaseInsensitiveDict.",
+        "path": "src/requests/structures.py",
+        "quote": "If the constructor, ``.update``, or equality comparison\n    operations are given keys that have equal ``.lower()``s, the\n    behavior is undefined.",
+        "span_id": "src/requests/structures.py@0:1372",
+        "valid": true,
+        "offset": 1050,
+        "line": 35
+      }
+    ],
+    "workers_requested": 0,
+    "workers_completed": 0,
+    "workers_contributing": 0,
+    "peak_investigators": 0,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "docs/user/advanced.rst",
+      "src/requests/models.py",
+      "src/requests/structures.py"
+    ],
+    "delivered_spans": [
+      "src/requests/models.py@14454:15814",
+      "docs/user/advanced.rst@4714:6097",
+      "src/requests/models.py@19272:20663",
+      "src/requests/models.py@10802:12191",
+      "src/requests/models.py@21675:23037",
+      "src/requests/models.py@20503:21835",
+      "src/requests/models.py@9577:10962",
+      "src/requests/structures.py@0:1372"
+    ],
+    "seconds": 5.975,
+    "requests": 1,
+    "cost_upper_usd": 0.000669125,
+    "output_tokens": 485,
+    "dimensions": {
+      "correctness": 16,
+      "completeness": 12,
+      "relevance": 18,
+      "clarity": 18,
+      "reasoning": 14
+    },
+    "score": 78,
+    "grading_cost_upper_usd": 0.000355625,
+    "reference": "The data integrity mechanism in request preparation that maintains header normalization when case-insensitive dictionary and string normalization are applied to heterogeneous input headers is implemented in the `prepare_headers` method of the PreparedRequest class (located in `src/requests/models.py`, lines 483-492).\n\nThe mechanism works through a coordinated three-step process:\n\n1. **Header Validation**: Each header from the heterogeneous input (which may contain headers with different cases, string types, or byte types) is first validated using `check_header_validity()` (defined in `src/requests/utils.py`, lines 1024-1032). This function validates that header names and values conform to HTTP specifications by checking for invalid characters, leading whitespace, or return characters using regex validators.\n\n2. **String Normalization**: The header name is then normalized using `to_native_string()` (defined in `src/requests/_internal_utils.py`, lines 25-35), which converts the header name to the native string type (ensuring consistent encoding, defaulting to ASCII). This handles heterogeneous input types (str, bytes) by converting them to a uniform native string representation.\n\n3. **Case-Insensitive Storage**: The normalized header name is stored in a `CaseInsensitiveDict` instance (defined in `src/requests/structures.py`, lines 13-80). This dictionary maintains data integrity through its internal `_store` OrderedDict that maps lowercase keys to tuples of `(original_key, value)`. When a header is set using `self.headers[to_native_string(name)] = value`, the CaseInsensitiveDict:\n   - Uses the lowercase version of the key for lookups (`key.lower()`)\n   - Stores the original case of the last key set alongside the value\n   - Preserves the case of the most recently set key while allowing case-insensitive retrieval\n\nThe data integrity is maintained because:\n- All header names are normalized to native strings before storage, ensuring type consistency\n- Case-insensitive lookup works correctly regardless of input case variations\n- The original case of headers is preserved (the last case used) for proper HTTP header formatting\n- Invalid headers are rejected before normalization, preventing corrupted data from entering the system\n- The mechanism handles heterogeneous inputs (mixed str/bytes, different cases) uniformly while maintaining referential integrity\n\nThis ensures that headers like `{\"Content-Type\": \"application/json\"}`, `{\"content-type\": \"application/json\"}`, or `{b\"Content-Type\": b\"application/json\"}` are all normalized and stored consistently, while maintaining the ability to retrieve them case-insensitively and preserve the original case for transmission."
+  },
+  {
+    "unit": "dev-sweqa_requests_11-swarm1",
+    "phase": "dev",
+    "id": "sweqa_requests_11",
+    "domain": "code",
+    "stratum": "requests",
+    "arm": "swarm1",
+    "question": "What is the data integrity mechanism in the PreparedRequest class that maintains header normalization when CaseInsensitiveDict and to_native_string transformations are applied to heterogeneous input headers?",
+    "utc": "2026-11-19T14:14:51.141+00:00",
+    "answer": "Validated, native-string insertion into a CaseInsensitiveDict",
+    "explanation": "PreparedRequest.prepare_headers initializes a CaseInsensitiveDict, iterates over the input headers, validates each name/value pair with check_header_validity, and converts each name with to_native_string before inserting it. This normalizes header names for case-insensitive lookup while accepting names that need conversion; the shown code leaves values unchanged.",
+    "citations": [
+      {
+        "claim": "prepare_headers initializes a CaseInsensitiveDict and validates each input header before insertion.",
+        "path": "src/requests/models.py",
+        "quote": "self.headers = CaseInsensitiveDict()\n        if headers:\n            for header in headers.items():\n                # Raise exception on invalid header value.\n                check_header_validity(header)",
+        "span_id": "src/requests/models.py@14454:15814",
+        "valid": true,
+        "offset": 15194,
+        "line": 486
+      },
+      {
+        "claim": "Header names are converted to native strings before being used as CaseInsensitiveDict keys.",
+        "path": "src/requests/models.py",
+        "quote": "self.headers[to_native_string(name)] = value",
+        "span_id": "src/requests/models.py@14454:15814",
+        "valid": true,
+        "offset": 15452,
+        "line": 492
+      }
+    ],
+    "workers_requested": 0,
+    "workers_completed": 0,
+    "workers_contributing": 0,
+    "peak_investigators": 0,
+    "duplicate_worker_spans": 0,
+    "worker_failures": [],
+    "repaired": false,
+    "returned_files": [
+      "docs/user/advanced.rst",
+      "src/requests/models.py"
+    ],
+    "delivered_spans": [
+      "src/requests/models.py@14454:15814",
+      "docs/user/advanced.rst@4714:6097",
+      "src/requests/models.py@19272:20663",
+      "src/requests/models.py@10802:12191",
+      "src/requests/models.py@21675:23037"
+    ],
+    "seconds": 25.465,
+    "requests": 1,
+    "cost_upper_usd": 0.001689875,
+    "output_tokens": 565,
+    "dimensions": {
+      "correctness": 16,
+      "completeness": 12,
+      "relevance": 20,
+      "clarity": 18,
+      "reasoning": 14
+    },
+    "score": 80,
+    "grading_cost_upper_usd": 0.0003155,
+    "reference": "The data integrity mechanism in request preparation that maintains header normalization when case-insensitive dictionary and string normalization are applied to heterogeneous input headers is implemented in the `prepare_headers` method of the PreparedRequest class (located in `src/requests/models.py`, lines 483-492).\n\nThe mechanism works through a coordinated three-step process:\n\n1. **Header Validation**: Each header from the heterogeneous input (which may contain headers with different cases, string types, or byte types) is first validated using `check_header_validity()` (defined in `src/requests/utils.py`, lines 1024-1032). This function validates that header names and values conform to HTTP specifications by checking for invalid characters, leading whitespace, or return characters using regex validators.\n\n2. **String Normalization**: The header name is then normalized using `to_native_string()` (defined in `src/requests/_internal_utils.py`, lines 25-35), which converts the header name to the native string type (ensuring consistent encoding, defaulting to ASCII). This handles heterogeneous input types (str, bytes) by converting them to a uniform native string representation.\n\n3. **Case-Insensitive Storage**: The normalized header name is stored in a `CaseInsensitiveDict` instance (defined in `src/requests/structures.py`, lines 13-80). This dictionary maintains data integrity through its internal `_store` OrderedDict that maps lowercase keys to tuples of `(original_key, value)`. When a header is set using `self.headers[to_native_string(name)] = value`, the CaseInsensitiveDict:\n   - Uses the lowercase version of the key for lookups (`key.lower()`)\n   - Stores the original case of the last key set alongside the value\n   - Preserves the case of the most recently set key while allowing case-insensitive retrieval\n\nThe data integrity is maintained because:\n- All header names are normalized to native strings before storage, ensuring type consistency\n- Case-insensitive lookup works correctly regardless of input case variations\n- The original case of headers is preserved (the last case used) for proper HTTP header formatting\n- Invalid headers are rejected before normalization, preventing corrupted data from entering the system\n- The mechanism handles heterogeneous inputs (mixed str/bytes, different cases) uniformly while maintaining referential integrity\n\nThis ensures that headers like `{\"Content-Type\": \"application/json\"}`, `{\"content-type\": \"application/json\"}`, or `{b\"Content-Type\": b\"application/json\"}` are all normalized and stored consistently, while maintaining the ability to retrieve them case-insensitively and preserve the original case for transmission."
   }
 ]
