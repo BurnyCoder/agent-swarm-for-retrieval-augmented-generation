@@ -1,21 +1,25 @@
 {
-  "updated": "2026-11-19T13:45:58.370+00:00",
+  "updated": "2026-11-19T14:11:23.181+00:00",
   "budget": {
-    "dev": 0.401346034
+    "dev": 2.614612624
+  },
+  "balances": {
+    "reserved": 1.859004,
+    "settled": 0.755608624
   },
   "groups": [
     {
       "phase": "dev",
       "domain": "news",
       "arm": "arctic",
-      "n": 1,
-      "graded": 1,
-      "mean": 0.0,
-      "low": 0.0,
-      "high": 0.7934506856227626,
-      "cost": 0.002403956,
-      "p50": 38.904,
-      "p95": 38.904,
+      "n": 8,
+      "graded": 8,
+      "mean": 0.75,
+      "low": 0.40927543031016883,
+      "high": 0.9285207872478909,
+      "cost": 0.008245935624999999,
+      "p50": 42.7005,
+      "p95": 104.40584999999997,
       "failures": 0,
       "requested": 0,
       "completed": 0,
@@ -25,14 +29,14 @@
       "phase": "dev",
       "domain": "news",
       "arm": "oneshot",
-      "n": 2,
-      "graded": 2,
-      "mean": 0.5,
-      "low": 0.09453120573423074,
-      "high": 0.9054687942657693,
-      "cost": 0.0006155625,
-      "p50": 4.9735000000000005,
-      "p95": 6.18085,
+      "n": 9,
+      "graded": 9,
+      "mean": 0.7777777777777778,
+      "low": 0.4525889691069889,
+      "high": 0.9367748928821533,
+      "cost": 0.0007030138888888889,
+      "p50": 6.315,
+      "p95": 8.2786,
       "failures": 0,
       "requested": 0,
       "completed": 0,
@@ -42,14 +46,14 @@
       "phase": "dev",
       "domain": "news",
       "arm": "stock",
-      "n": 1,
-      "graded": 1,
-      "mean": 0.0,
-      "low": 0.0,
-      "high": 0.7934506856227626,
-      "cost": 0.004478565,
-      "p50": 34.816,
-      "p95": 34.816,
+      "n": 9,
+      "graded": 9,
+      "mean": 0.8888888888888888,
+      "low": 0.5650002944233439,
+      "high": 0.9801091123614551,
+      "cost": 0.005182703,
+      "p50": 55.834,
+      "p95": 128.05859999999998,
       "failures": 0,
       "requested": 0,
       "completed": 0,
@@ -59,18 +63,69 @@
       "phase": "dev",
       "domain": "news",
       "arm": "swarm1",
-      "n": 2,
-      "graded": 2,
+      "n": 8,
+      "graded": 8,
       "mean": 0.5,
-      "low": 0.09453120573423074,
-      "high": 0.9054687942657693,
-      "cost": 0.005754436,
-      "p50": 91.524,
-      "p95": 109.5726,
+      "low": 0.21521606221387757,
+      "high": 0.7847839377861224,
+      "cost": 0.0060347825,
+      "p50": 100.07849999999999,
+      "p95": 120.66494999999999,
       "failures": 0,
       "requested": 0,
       "completed": 0,
       "contributing": 0
+    },
+    {
+      "phase": "dev",
+      "domain": "news",
+      "arm": "swarm2",
+      "n": 8,
+      "graded": 8,
+      "mean": 0.5,
+      "low": 0.21521606221387757,
+      "high": 0.7847839377861224,
+      "cost": 0.010144590875,
+      "p50": 170.2355,
+      "p95": 251.6809,
+      "failures": 0,
+      "requested": 8,
+      "completed": 8,
+      "contributing": 8
+    },
+    {
+      "phase": "dev",
+      "domain": "news",
+      "arm": "swarm4",
+      "n": 9,
+      "graded": 9,
+      "mean": 0.8888888888888888,
+      "low": 0.5650002944233439,
+      "high": 0.9801091123614551,
+      "cost": 0.018631068222222224,
+      "p50": 180.451,
+      "p95": 230.2262,
+      "failures": 0,
+      "requested": 27,
+      "completed": 27,
+      "contributing": 26
+    },
+    {
+      "phase": "dev",
+      "domain": "news",
+      "arm": "swarm8",
+      "n": 9,
+      "graded": 9,
+      "mean": 0.6666666666666666,
+      "low": 0.3542021355803963,
+      "high": 0.879416181613089,
+      "cost": 0.022486618666666666,
+      "p50": 148.812,
+      "p95": 227.54479999999998,
+      "failures": 0,
+      "requested": 63,
+      "completed": 63,
+      "contributing": 59
     }
   ],
   "pilot": [
@@ -500,9 +555,166 @@
       "returned_gold_recall": null,
       "cited_gold_recall": null,
       "grading_cost_upper_usd": 0.0
+    },
+    {
+      "unit": "dev-mhr_2204-swarm8",
+      "phase": "dev",
+      "id": "mhr_2204",
+      "domain": "news",
+      "stratum": "null_query",
+      "arm": "swarm8",
+      "question": "Considering the information from an article by The Verge on the changes to AppleCare's service coverage and a report by Bloomberg on the financial performance of Apple's services division, which letter represents the first initial of the executive at Apple who is overseeing the division that includes AppleCare?",
+      "utc": "2026-11-19T13:46:12.238+00:00",
+      "answer": "Insufficient information",
+      "explanation": " Unsupported: No article filenames matched the AppleCare or Apple Services search.; The targeted text search found no AppleCare coverage or Services leadership text.",
+      "citations": [
+        {
+          "claim": "No article filenames matched the AppleCare or Apple Services search.",
+          "path": ".",
+          "quote": "No matching article filenames found",
+          "span_id": "",
+          "valid": false,
+          "offset": null,
+          "line": null
+        },
+        {
+          "claim": "The targeted text search found no AppleCare coverage or Services leadership text.",
+          "path": ".",
+          "quote": "No matching AppleCare coverage or Services leadership text found",
+          "span_id": "",
+          "valid": false,
+          "offset": null,
+          "line": null
+        }
+      ],
+      "workers_requested": 7,
+      "workers_completed": 0,
+      "workers_contributing": 0,
+      "peak_investigators": 7,
+      "duplicate_worker_spans": 40,
+      "worker_failures": [
+        {
+          "agent": "investigator-1",
+          "error": "custom exited 1; see process records"
+        },
+        {
+          "agent": "investigator-2",
+          "error": "custom exited 1; see process records"
+        },
+        {
+          "agent": "investigator-3",
+          "error": "custom exited 1; see process records"
+        },
+        {
+          "agent": "investigator-4",
+          "error": "custom exited 1; see process records"
+        },
+        {
+          "agent": "investigator-5",
+          "error": "custom exited 1; see process records"
+        },
+        {
+          "agent": "investigator-6",
+          "error": "custom exited 1; see process records"
+        },
+        {
+          "agent": "investigator-7",
+          "error": "custom exited 1; see process records"
+        }
+      ],
+      "repaired": true,
+      "returned_files": [
+        "cnbc-world-business-news-leade/2023-10-02_the-inside-story-of-dave-clark-s-tumultuous-last-days-at-fle.md",
+        "engadget/2023-10-16_the-best-vpn-services-for-2023.md",
+        "engadget/2023-10-26_what-we-expect-at-apple-s-scary-fast-event-m3-powered-macboo.md",
+        "engadget/2023-10-30_sweeping-white-house-ai-executive-order-takes-aim-at-the-tec.md",
+        "engadget/2023-11-19_the-53-best-black-friday-deals-we-could-find-at-amazon-walma.md",
+        "engadget/2023-11-24_the-best-apple-black-friday-deals-on-ipads-airpods-apple-wat.md",
+        "engadget/2023-11-24_the-best-black-friday-headphone-deals-from-sony-apple-bose-b.md",
+        "engadget/2023-11-27_the-best-apple-cyber-monday-deals-of-2023-save-on-airpods-ip.md",
+        "essentially-sports/2023-10-25_is-the-coverage-on-taylor-swift-and-travis-kelce-s-romance-n.md",
+        "fortune/2023-10-12_power-struggle-in-one-of-canada-s-wealthiest-clans-has-siste.md",
+        "fortune/2023-11-18_openai-s-ex-chairman-accuses-board-of-going-rogue-in-firing.md",
+        "fox-news-health/2023-10-10_mayo-clinic-sees-ai-as-transformative-force-in-health-care-a.md",
+        "iot-business-news/2023-11-18_digital-twin-market-analyzing-growth-and-4-emerging-trends.md",
+        "music-business-worldwide/2023-11-21_62-of-tiktok-users-in-the-united-states-pay-for-a-music-stre.md",
+        "seeking-alpha/2023-10-22_earnings-week-ahead-amazon-microsoft-alphabet-meta-ford-gm-a.md",
+        "techcrunch/2023-09-28_a-comprehensive-list-of-2023-tech-layoffs.md",
+        "techcrunch/2023-09-30_kick-streamers-consider-leaving-over-ceo-s-comments-in-a-sex.md",
+        "techcrunch/2023-10-10_eu-fires-urgent-warning-at-elon-musk-s-x-over-illegal-conten.md",
+        "techcrunch/2023-10-31_5-things-we-learned-so-far-about-the-google-antitrust-case.md",
+        "techcrunch/2023-11-03_if-your-startup-doesn-t-seem-impossible-at-first-it-s-not-ha.md",
+        "techcrunch/2023-11-11_openai-hosts-a-dev-day-techcrunch-reviews-the-m3-imac-and-ma.md",
+        "techcrunch/2023-11-13_more-from-the-us-v-google-trial-vertical-search-pre-installs.md",
+        "techcrunch/2023-12-09_google-fakes-an-ai-demo-grand-theft-auto-vi-goes-viral-and-s.md",
+        "techcrunch/2023-12-11_beeper-mini-is-back-in-operation-after-apple-s-attempt-to-sh.md",
+        "techcrunch/2023-12-19_8-predictions-for-ai-in-2024.md",
+        "the-age/2023-11-07_the-777-million-surprise-donald-trump-is-getting-richer.md",
+        "the-sydney-morning-herald/2023-10-24_asx-set-to-rise-ahead-of-inflation-report-after-big-tech-lif.md",
+        "the-verge/2023-09-26_apple-defends-google-search-deal-in-court-there-wasn-t-a-val.md",
+        "the-verge/2023-10-07_discogs-vibrant-vinyl-community-is-shattering.md",
+        "the-verge/2023-10-25_know-the-price-matching-policies-for-best-buy-target-walmart.md",
+        "the-verge/2023-10-26_the-restaurant-nearest-google.md",
+        "the-verge/2023-11-05_epic-v-google-explained.md",
+        "the-verge/2023-11-09_the-uk-just-laid-out-new-rules-for-the-internet-it-only-gets.md",
+        "the-verge/2023-11-23_the-best-black-friday-deals-you-can-get-for-under-25.md",
+        "the-verge/2023-11-24_some-of-our-favorite-devices-are-on-sale-for-black-friday.md",
+        "the-verge/2023-12-12_tim-sweeney-on-epic-s-victory-royale-over-google.md",
+        "the-verge/2023-12-18_here-are-the-shipping-deadlines-to-get-your-holiday-gifts-on.md",
+        "the-verge/2023-12-19_why-the-apple-watch-is-being-banned-and-how-apple-can-avoid.md",
+        "the-verge/2023-12-24_here-are-over-40-last-minute-gifts-you-can-still-nab-before.md",
+        "wired/2023-10-10_41-best-prime-day-apple-deals-2023.md",
+        "wired/2023-11-25_54-best-apple-black-friday-deals-2023-ipad-apple-watch-airpo.md"
+      ],
+      "delivered_spans": [
+        "the-verge/2023-09-26_apple-defends-google-search-deal-in-court-there-wasn-t-a-val.md@5365:6617",
+        "iot-business-news/2023-11-18_digital-twin-market-analyzing-growth-and-4-emerging-trends.md@2261:3648",
+        "techcrunch/2023-11-11_openai-hosts-a-dev-day-techcrunch-reviews-the-m3-imac-and-ma.md@0:1271",
+        "cnbc-world-business-news-leade/2023-10-02_the-inside-story-of-dave-clark-s-tumultuous-last-days-at-fle.md@3720:4749",
+        "the-verge/2023-12-12_tim-sweeney-on-epic-s-victory-royale-over-google.md@11934:13111",
+        "the-age/2023-11-07_the-777-million-surprise-donald-trump-is-getting-richer.md@0:1391",
+        "cnbc-world-business-news-leade/2023-10-02_the-inside-story-of-dave-clark-s-tumultuous-last-days-at-fle.md@8095:8966",
+        "the-verge/2023-09-26_apple-defends-google-search-deal-in-court-there-wasn-t-a-val.md@0:1343",
+        "the-verge/2023-09-26_apple-defends-google-search-deal-in-court-there-wasn-t-a-val.md@2333:3485",
+        "the-verge/2023-09-26_apple-defends-google-search-deal-in-court-there-wasn-t-a-val.md@4700:5525",
+        "the-verge/2023-09-26_apple-defends-google-search-deal-in-court-there-wasn-t-a-val.md@7169:7958",
+        "the-verge/2023-09-26_apple-defends-google-search-deal-in-court-there-wasn-t-a-val.md@1183:2493",
+        "engadget/2023-10-26_what-we-expect-at-apple-s-scary-fast-event-m3-powered-macboo.md@5043:6013",
+        "techcrunch/2023-11-13_more-from-the-us-v-google-trial-vertical-search-pre-installs.md@3543:4816",
+        "the-verge/2023-12-19_why-the-apple-watch-is-being-banned-and-how-apple-can-avoid.md@8346:9433",
+        "wired/2023-11-25_54-best-apple-black-friday-deals-2023-ipad-apple-watch-airpo.md@29950:31331",
+        "techcrunch/2023-12-11_beeper-mini-is-back-in-operation-after-apple-s-attempt-to-sh.md@3109:4171",
+        "engadget/2023-11-27_the-best-apple-cyber-monday-deals-of-2023-save-on-airpods-ip.md@11909:13232",
+        "engadget/2023-11-24_the-best-black-friday-headphone-deals-from-sony-apple-bose-b.md@21804:22299",
+        "the-verge/2023-11-05_epic-v-google-explained.md@2046:3276",
+        "wired/2023-11-25_54-best-apple-black-friday-deals-2023-ipad-apple-watch-airpo.md@28811:30110",
+        "engadget/2023-11-27_the-best-apple-cyber-monday-deals-of-2023-save-on-airpods-ip.md@10934:12069",
+        "techcrunch/2023-10-31_5-things-we-learned-so-far-about-the-google-antitrust-case.md@3360:4586",
+        "engadget/2023-11-27_the-best-apple-cyber-monday-deals-of-2023-save-on-airpods-ip.md@1106:2037",
+        "techcrunch/2023-09-28_a-comprehensive-list-of-2023-tech-layoffs.md@6924:8164",
+        "techcrunch/2023-12-19_8-predictions-for-ai-in-2024.md@4382:5760",
+        "seeking-alpha/2023-10-22_earnings-week-ahead-amazon-microsoft-alphabet-meta-ford-gm-a.md@4790:5974",
+        "the-verge/2023-12-12_tim-sweeney-on-epic-s-victory-royale-over-google.md@1098:2340",
+        "engadget/2023-11-19_the-53-best-black-friday-deals-we-could-find-at-amazon-walma.md@4208:5478",
+        "the-verge/2023-11-09_the-uk-just-laid-out-new-rules-for-the-internet-it-only-gets.md@1120:2451",
+        "wired/2023-11-25_54-best-apple-black-friday-deals-2023-ipad-apple-watch-airpo.md@33318:34020",
+        "essentially-sports/2023-10-25_is-the-coverage-on-taylor-swift-and-travis-kelce-s-romance-n.md@0:1384"
+      ],
+      "seconds": 135.193,
+      "requests": 31,
+      "cost_upper_usd": 0.027937327,
+      "output_tokens": 6745,
+      "score": 1,
+      "returned_gold_recall": null,
+      "cited_gold_recall": null,
+      "grading_cost_upper_usd": 0.0
     }
   ],
   "freeze": {},
+  "targets": {
+    "dev": 140,
+    "audit": 235
+  },
   "comparisons": [],
   "historical": [
     {
@@ -886,6 +1098,14 @@
     {
       "folder": "news",
       "snapshot": "a591f53b8ba352ed3664fe98041a34a9ea5cf69cfc17b3db76726516af6a45b4",
+      "mode": "hybrid",
+      "spans": 6220,
+      "seconds": 137.243,
+      "utc": "2026-11-19T13:50:02.361+00:00"
+    },
+    {
+      "folder": "news",
+      "snapshot": "a591f53b8ba352ed3664fe98041a34a9ea5cf69cfc17b3db76726516af6a45b4",
       "mode": "lexical",
       "spans": 6220,
       "seconds": 1.036,
@@ -898,6 +1118,75 @@
       "spans": 6220,
       "seconds": 4.156,
       "utc": "2026-11-19T13:39:28.174+00:00"
+    },
+    {
+      "folder": "news",
+      "snapshot": "a591f53b8ba352ed3664fe98041a34a9ea5cf69cfc17b3db76726516af6a45b4",
+      "mode": "lexical",
+      "spans": 6220,
+      "seconds": 1.022,
+      "utc": "2026-11-19T13:53:09.835+00:00"
     }
-  ]
+  ],
+  "smoke": [
+    {
+      "unit": "windows-dense-smoke",
+      "utc": "2026-11-19T13:52:26.4607869Z",
+      "question": "How many stops are on the schedule followed by the Brook service? Give the integer.",
+      "expected": "41",
+      "answer": "41",
+      "agents": 4,
+      "investigators_completed": 3,
+      "investigators_contributing": 3,
+      "citations": [
+        {
+          "path": "routing.md",
+          "line": 3,
+          "offset": 21,
+          "quote": "The Brook service follows the copper schedule.",
+          "valid": true
+        },
+        {
+          "path": "timetable.md",
+          "line": 3,
+          "offset": 15,
+          "quote": "The copper schedule has 41 stops.",
+          "valid": true
+        }
+      ],
+      "seconds": 34.33,
+      "requests": 10,
+      "cost_upper_usd": 0.006273111
+    },
+    {
+      "unit": "windows-missing",
+      "utc": "2026-11-19T13:49:43.8971218Z",
+      "question": "In which four-digit year did the Brook service open? If the files give no date, answer Insufficient information.",
+      "expected": "Insufficient information",
+      "answer": "Insufficient information",
+      "agents": 2,
+      "investigators_completed": 1,
+      "investigators_contributing": 1,
+      "citations": [
+        {
+          "path": "routing.md",
+          "line": 3,
+          "offset": 21,
+          "quote": "The Brook service follows the copper schedule.",
+          "valid": true
+        },
+        {
+          "path": "timetable.md",
+          "line": 3,
+          "offset": 15,
+          "quote": "The copper schedule has 41 stops. The amber schedule has 12 stops.",
+          "valid": true
+        }
+      ],
+      "seconds": 30.666,
+      "requests": 4,
+      "cost_upper_usd": 0.003014911
+    }
+  ],
+  "stages": []
 }
