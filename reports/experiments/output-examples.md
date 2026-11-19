@@ -4,662 +4,619 @@ Cases are selected in the split manifest's stored order. A dash in the figure de
 
 ![Question outcomes across conditions](../figures/examples.png)
 
-## mhr_0570
+## mhr_2126
 
-Does the 'Business World' article suggesting that the 'Philippines government' could hinder private investment due to rising national debt align with the concern over the 'Philippines' debt-to-GDP ratio' expressed in another 'Business World' article, or do they present differing implications for the country's economy?
+Did the approach to presenting prop bets to bettors by Sporting News change between the report on NBA prop bets published on October 2, 2023, and the report on NCAAF bowl season prop bets published later?
 
 **Benchmark reference**
 
-Align
+no
 
 ### arctic
 
 Recorded score 0 / 1.
 
-They align.
+Yes
 
-Both articles express concern that rising public debt can constrain the economy and private investment, rather than presenting opposing implications. The nuance is that the November article says a 61% debt-to-GDP ratio may be manageable temporarily, but warns of greater risks if debt rises faster than the economy and of crowding out private investment. The October article reports President Marcos’s concern that the roughly 63% ratio was “a little high” and “not ideal,” alongside a plan to bring it almost below 60% by 2025.
+The October 2 NBA report takes an instructional approach: it explains team and player props, how to read their odds, and how to bet them. The later bowl-season report treats props more briefly within a bowl-odds roundup: it gives examples of bowl props and points readers to separate touchdown-prop coverage for specific games. So the presentation changed from a detailed general guide to brief, event-specific signposting and a general definition.
 
-> While the current 61% debt-to-GDP ratio may be manageable for an emerging economy like the Philippines for some time
+> Published: 2023-10-02T23:49:35+00:00
 
-business-world/2023-11-05_strategizing-for-sustainable-development.md · verified
+sporting-news/2023-10-02_nba-prop-bets-best-team-and-player-props-2023-24-season.md · verified
 
-> We worry about our debt-to-GDP ratio in the Philippines, as it stands at about 63% and that’s a little high for us and it is not ideal
+> How to read NBA props odds
 
-business-world/2023-10-08_a-deficit-budget-for-2024.md · verified
+sporting-news/2023-10-02_nba-prop-bets-best-team-and-player-props-2023-24-season.md · verified
 
-> By keeping more funds in the hands of the private sector rather than competing for credit
+> Using multiple sportsbook accounts lets you find the best odds for every NBA prop bet.
 
-business-world/2023-10-08_a-deficit-budget-for-2024.md · verified
+sporting-news/2023-10-02_nba-prop-bets-best-team-and-player-props-2023-24-season.md · verified
+
+> Published: 2023-12-15T20:37:00+00:00
+
+sporting-news/2023-12-15_college-bowl-odds-spreads-money-lines-and-totals-ncaaf-2023.md · verified
+
+> Interested in Touchdown props? Click here!
+
+sporting-news/2023-12-15_college-bowl-odds-spreads-money-lines-and-totals-ncaaf-2023.md · verified
+
+> Bowl game props: These can be team or individual player prop bets
+
+sporting-news/2023-12-15_college-bowl-odds-spreads-money-lines-and-totals-ncaaf-2023.md · verified
 
 ### oneshot
 
 Recorded score 0 / 1.
 
-They align.
+Yes.
 
-Both articles express concern about elevated or rising national debt. The first explains that continued debt growth could crowd out private investment; the other calls the Philippines’ debt-to-GDP ratio high and not ideal, while discussing inflation risks from deficit financing. They emphasize different economic consequences, but do not present conflicting implications.
+The October NBA report presents props as the subject of a dedicated guide: it defines them, gives numerous player and team examples, and explains how to bet on them. The later NCAAF bowl report treats props more briefly as one option among several bowl bet types, with a couple of examples. So the presentation shifted from an in-depth, sport-specific guide to a concise overview within a broader bowl-betting guide.
 
-> If the debt continues to rise more than the economy, risks will increase, and the government may “crowd out” private investment
+> Some examples of NBA player props are:
 
-business-world/2023-11-05_strategizing-for-sustainable-development.md · verified
+sporting-news/2023-10-02_nba-prop-bets-best-team-and-player-props-2023-24-season.md · verified
 
-> it stands at about 63% and that’s a little high for us and it is not ideal
+> Tips for betting on NBA props
 
-business-world/2023-10-08_a-deficit-budget-for-2024.md · verified
+sporting-news/2023-10-02_nba-prop-bets-best-team-and-player-props-2023-24-season.md · verified
 
-> deficit budgets and the remedies — monetary (borrowings increasing money supply) and fiscal (like raising taxes) increase inflation
+> These can be team or individual player prop bets, such as which team is winning at halftime or the total number of receptions a player collects.
 
-business-world/2023-10-08_a-deficit-budget-for-2024.md · verified
+sporting-news/2023-12-15_college-bowl-odds-spreads-money-lines-and-totals-ncaaf-2023.md · verified
 
 ### stock
 
 Recorded score 0 / 1.
 
-They align.
+Yes
 
-Both articles treat rising public debt as an economic concern. The November article says the current ratio may be manageable for a time, but warns that debt rising faster than the economy could limit the government’s ability to respond to shocks and crowd out private investment. The October article likewise reports that President Marcos considered the roughly 63% debt-to-GDP ratio high and not ideal, and discusses the borrowing and debt-service pressures associated with deficits. The emphasis differs, but the implications are consistent.
+The October 2 report is a dedicated NBA prop-betting guide: it gives player and team prop examples, explains prop types, and offers betting tips. The December 15 bowl-season report presents props as one part of a broader bowl-odds article. It defines bowl props with general examples and points readers to separate Rose Bowl and Sugar Bowl touchdown-prop pages for more detail.
 
-> If the debt continues to rise more than the economy, risks will increase, and the government may “crowd out” private investment as it competes with the private sector for funds to service its debt.
+> Some examples of NBA player props are:
 
-business-world/2023-11-05_strategizing-for-sustainable-development.md · verified
+sporting-news/2023-10-02_nba-prop-bets-best-team-and-player-props-2023-24-season.md · verified
 
-> “We worry about our debt-to-GDP ratio in the Philippines, as it stands at about 63% and that’s a little high for us and it is not ideal,” President Ferdinand Marcos, Jr.
+> Tips for betting on NBA props
 
-business-world/2023-10-08_a-deficit-budget-for-2024.md · verified
+sporting-news/2023-10-02_nba-prop-bets-best-team-and-player-props-2023-24-season.md · verified
 
-> the government borrows money either from foreign sources or from the domestic capital market which increases the debt stock of the NG and its debt servicing requirements
+> Bowl game props: These can be team or individual player prop bets, such as which team is winning at halftime or the total number of receptions a player collects.
 
-business-world/2023-10-08_a-deficit-budget-for-2024.md · verified
+sporting-news/2023-12-15_college-bowl-odds-spreads-money-lines-and-totals-ncaaf-2023.md · verified
+
+> For more on the opening lines for the Rose Bowl click here! Interested in Touchdown props? Click here!
+
+sporting-news/2023-12-15_college-bowl-odds-spreads-money-lines-and-totals-ncaaf-2023.md · verified
 
 ### swarm1
 
 Recorded score 0 / 1.
 
-Aligned
+Insufficient information
 
-Both articles warn that high or rising public debt can harm the economy. Their emphasis differs: one reports concern that a roughly 63% debt-to-GDP ratio is too high and links deficit financing to inflation; the other says a roughly 61% ratio may be manageable for a time, but warns that debt growing faster than the economy could reduce fiscal room and crowd out private investment. The excerpts therefore show related concerns, not opposing implications.
+The bowl report frames prop bets as part of the broader range of markets around bowl, playoff, and championship odds. The bowl report briefly defines props within its list of bowl betting markets, using team and player examples. The bowl report points readers to separate touchdown prop coverage. Unsupported: The NBA report introduces props as an easy entry point and emphasizes their variety across players and teams.
 
-> “We worry about our debt-to-GDP ratio in the Philippines, as it stands at about 63% and that’s a little high for us and it is not ideal,”
+> NBA prop bets are an easy way to jump into basketball betting. Proposition bets, or props, are easy to understand, numerous, and cover both player props and team props to give you plenty of variety.
 
-business-world/2023-10-08_a-deficit-budget-for-2024.md · verified
+sporting-news/2023-10-02_nba-prop-bets-best-team-and-player-props-2023-24-season.md · unverified
 
-> While the current 61% debt-to-GDP ratio may be manageable for an emerging economy like the Philippines for some time, the country may not have the fiscal space to respond to another potential domestic or external shock. If the debt continues to rise more than the economy, risks will increase, and the government may “crowd out” private investment as it competes with the private sector for funds to service its debt.
+> Along with game odds, sportsbooks will offer a wider variety of prop bets to match the hype surrounding College Bowl odds, the College Football Playoff, and National Championship games.
 
-business-world/2023-11-05_strategizing-for-sustainable-development.md · verified
+sporting-news/2023-12-15_college-bowl-odds-spreads-money-lines-and-totals-ncaaf-2023.md · verified
 
-> Some economists say that deficit budgets and the remedies — monetary (borrowings increasing money supply) and fiscal (like raising taxes) increase inflation, and stubborn inflation further entrenches structural deficits in the system. It is a vicious cycle.
+> Bowl game props: These can be team or individual player prop bets, such as which team is winning at halftime or the total number of receptions a player collects.
 
-business-world/2023-10-08_a-deficit-budget-for-2024.md · verified
+sporting-news/2023-12-15_college-bowl-odds-spreads-money-lines-and-totals-ncaaf-2023.md · verified
 
-### swarm2
+> Interested in Touchdown props? Click here!
 
-Recorded score 0 / 1.
-
-Broadly aligned, with different emphasis
-
-Both articles express concern about rising public debt and the debt-to-GDP ratio. The sustainable-development article says a 61% ratio may be manageable for a time, but warns that debt growing faster than the economy could limit the government’s ability to respond to shocks and crowd out private investment. The deficit-budget article calls the roughly 63% ratio “a little high” and “not ideal,” and reports a goal of bringing it to almost below 60% by 2025. It also raises a separate concern that deficits and their remedies may contribute to inflation and reinforce structural deficits. The implications are compatible, though the articles emphasize different risks.
-
-> While the current 61% debt-to-GDP ratio may be manageable for an emerging economy like the Philippines for some time, the country may not have the fiscal space to respond to another potential domestic or external shock. If the debt continues to rise more than the economy, risks will increase, and the government may “crowd out” private investment
-
-business-world/2023-11-05_strategizing-for-sustainable-development.md · verified
-
-> the country’s debt-to-GDP ratio to almost below 60% by 2025. And yet, “We worry about our debt-to-GDP ratio in the Philippines, as it stands at about 63% and that’s a little high for us and it is not ideal,”
-
-business-world/2023-10-08_a-deficit-budget-for-2024.md · verified
-
-> Some economists say that deficit budgets and the remedies — monetary (borrowings increasing money supply) and fiscal (like raising taxes) increase inflation, and stubborn inflation further entrenches structural deficits in the system.
-
-business-world/2023-10-08_a-deficit-budget-for-2024.md · verified
+sporting-news/2023-12-15_college-bowl-odds-spreads-money-lines-and-totals-ncaaf-2023.md · verified
 
 ### swarm4
 
 Recorded score 0 / 1.
 
-Aligned concerns
+Yes
 
-Both articles treat public debt as an economic concern, though they emphasize different aspects. The November article says the roughly 61% debt-to-GDP ratio may be manageable for a time, but warns that if debt grows faster than the economy it could leave less room to respond to shocks and crowd out private investment. The October article reports President Marcos calling the ratio of about 63% high and not ideal, while also describing a plan to reduce new borrowing and bring the ratio to almost below 60% by 2025. Those figures and forecasts differ, but the articles’ implications are broadly consistent: debt levels warrant concern and management; the November article makes the investment risk explicit.
+The October 2 NBA report took an instructional approach: it categorized team and player props and gave bettors a dedicated section of practical advice, including checking player news and injuries, tracking usage and minutes, and comparing sportsbook lines. The later NCAAF bowl season report presented props as part of the broader bowl odds coverage, briefly defined them with team and player examples, and linked readers to separate touchdown prop coverage for specific playoff bowls.
 
-> While the current 61% debt-to-GDP ratio may be manageable for an emerging economy like the Philippines for some time, the country may not have the fiscal space to respond to another potential domestic or external shock. If the debt continues to rise more than the economy, risks will increase, and the government may “crowd out” private investment
+> Published: 2023-10-02T23:49:35+00:00
 
-business-world/2023-11-05_strategizing-for-sustainable-development.md · verified
+sporting-news/2023-10-02_nba-prop-bets-best-team-and-player-props-2023-24-season.md · verified
 
-> the country’s debt-to-GDP ratio to almost below 60% by 2025. And yet, “We worry about our debt-to-GDP ratio in the Philippines, as it stands at about 63% and that’s a little high for us and it is not ideal,”
+> Tips for betting on NBA props
 
-business-world/2023-10-08_a-deficit-budget-for-2024.md · verified
+Every bettor should develop their strategies, but we do have three tips you can use for NBA props.
 
-### swarm8
+sporting-news/2023-10-02_nba-prop-bets-best-team-and-player-props-2023-24-season.md · verified
 
-Recorded score 0 / 1.
+> Pay attention to player and team news: Oddsmakers use various information to develop their lines for games and players, and you should, too.
 
-Aligned
+sporting-news/2023-10-02_nba-prop-bets-best-team-and-player-props-2023-24-season.md · verified
 
-Both articles raise concerns about debt sustainability and its economic effects. The implications are qualified differently: the October article calls the roughly 63% ratio high and not ideal, while the November article says the 61% ratio may be manageable for a time but warns that debt growing faster than the economy could increase risks and crowd out private investment.
+> Published: 2023-12-15T20:37:00+00:00
 
-> We worry about our debt-to-GDP ratio in the Philippines, as it stands at about 63% and that’s a little high for us and it is not ideal,
+sporting-news/2023-12-15_college-bowl-odds-spreads-money-lines-and-totals-ncaaf-2023.md · verified
 
-business-world/2023-10-08_a-deficit-budget-for-2024.md · verified
+> Bowl game props: These can be team or individual player prop bets, such as which team is winning at halftime or the total number of receptions a player collects.
 
-> While the current 61% debt-to-GDP ratio may be manageable for an emerging economy like the Philippines for some time
+sporting-news/2023-12-15_college-bowl-odds-spreads-money-lines-and-totals-ncaaf-2023.md · verified
 
-business-world/2023-11-05_strategizing-for-sustainable-development.md · verified
+> Interested in Touchdown props? Click here!
 
-> If the debt continues to rise more than the economy, risks will increase, and the government may “crowd out” private investment as it competes with the private sector for funds to service its debt.
+sporting-news/2023-12-15_college-bowl-odds-spreads-money-lines-and-totals-ncaaf-2023.md · verified
 
-business-world/2023-11-05_strategizing-for-sustainable-development.md · verified
+## mhr_1818
 
-## mhr_2204
-
-Considering the information from an article by The Verge on the changes to AppleCare's service coverage and a report by Bloomberg on the financial performance of Apple's services division, which letter represents the first initial of the executive at Apple who is overseeing the division that includes AppleCare?
+Before the report by The Age on October 22, 2023, which maintained that Google manipulates Search to maximise ad revenue, and the subsequent report by TechCrunch on November 13, 2023, detailing Google's expenditure to be the default search engine, was there inconsistency in the portrayal of Google's business practices in the TechCrunch article published on December 15, 2023, regarding the class action antitrust suit against Google?
 
 **Benchmark reference**
 
-Insufficient information.
+no
 
 ### arctic
 
 Recorded score 1 / 1.
 
-Insufficient information.
+No
 
-The mounted files do not establish which executive oversees the division that includes AppleCare, so they do not support a reliable initial. The only relevant Verge article located is about Apple’s Google search deal; it identifies Cue as a witness but does not establish that he oversees that division. I also did not locate the specified Verge AppleCare coverage article or Bloomberg services-performance report in the files.
+The December 15 article presents allegations and Google’s response as opposing attributed positions, rather than making contradictory claims itself. The Age discussed an allegation that Google manipulates searches to maximize ad revenue, while also reporting Google’s denial; TechCrunch’s November 13 article described the $26.3 billion default-search payments and other default-setting agreements. The December article focuses on a separate publisher lawsuit alleging that Google’s use of publisher content and AI products diverts readers and ad revenue, and also reports Google’s claim that it sends publishers substantial traffic at no cost. Those points are in tension, but the article identifies who is making each claim; the files do not establish an inconsistency in its portrayal.
 
-> Cue was on the stand as a witness in US v. Google, the landmark antitrust trial over Google’s search business.
+> maintains that Google manipulates Search to maximise ad revenue
 
-the-verge/2023-09-26_apple-defends-google-search-deal-in-court-there-wasn-t-a-val.md · verified
+the-age/2023-10-22_is-google-search-better-than-the-rest-and-is-that-fair.md · verified
+
+> Google spent $26.3 billion in 2021 making itself the default search engine across platforms
+
+techcrunch/2023-11-13_more-from-the-us-v-google-trial-vertical-search-pre-installs.md · verified
+
+> argues that Google “siphons off” news publishers’ content, their readers and ad revenue
+
+techcrunch/2023-12-15_news-publisher-files-class-action-antitrust-suit-against-goo.md · verified
+
+> Google links people to publishers’ websites more than 24 billion times each month – at no cost to them.
+
+techcrunch/2023-12-15_news-publisher-files-class-action-antitrust-suit-against-goo.md · verified
+
+> The case points to other concerns, too, like changing AdSense rates
+
+techcrunch/2023-12-15_news-publisher-files-class-action-antitrust-suit-against-goo.md · verified
 
 ### oneshot
 
-Recorded score 1 / 1.
+Recorded score 0 / 1.
 
-Insufficient information
+No clear inconsistency
 
-The supplied evidence does not identify the Apple executive overseeing the division that includes AppleCare. The retrieved excerpts are unrelated to AppleCare coverage or Apple’s services division.
+The December 15 article describes allegations in a news-publisher lawsuit: that Google takes publishers’ content, readers, and ad revenue, with AI products worsening the harm. The article also distinguishes that dispute from Google’s search-default payments and from separate digital-ad-tech litigation. Those are different alleged practices and markets, so the supplied evidence does not show a contradiction in the portrayal. The Age article itself is not included, so its exact wording cannot be independently compared.
+
+> The case, filed by Arkansas-based publisher Helena World Chronicle, argues that Google “siphons off” news publishers’ content, their readers and ad revenue through anticompetitive means. It also specifically cites new AI technologies
+
+techcrunch/2023-12-15_news-publisher-files-class-action-antitrust-suit-against-goo.md · verified
+
+> references the 2020 Justice Department’s civil antitrust suit over search and search advertising (which are different markets from digital ad technologies in the more recent suit).
+
+techcrunch/2023-12-15_news-publisher-files-class-action-antitrust-suit-against-goo.md · verified
+
+> we learned how Google spent $26.3 billion in 2021 making itself the default search engine across platforms
+
+techcrunch/2023-11-13_more-from-the-us-v-google-trial-vertical-search-pre-installs.md · verified
 
 ### stock
 
 Recorded score 1 / 1.
 
-Insufficient information
+No
 
-The mounted folder contains no AppleCare text or Bloomberg-named files, and its only article mentioning Eddy Cue concerns the Google search trial. It does not establish who oversees the division that includes AppleCare, so the initial cannot be determined from these files.
+The December 15 article describes additional alleged practices affecting publishers; they do not contradict the earlier accounts. The Age reported Megan Grey’s allegation that Google manipulates Search to maximize ad revenue, while also noting Google denied steering users toward more monetizable topics. TechCrunch’s November 13 report focused on Google’s spending to become the default search engine and allegations that its partner deals blocked competition. The December 15 report focused on publishers’ claims that Google uses their content and AI features to divert traffic and revenue, and mentions AdSense rates. These are distinct, compatible allegations, not findings that the articles present as proven facts.
 
-> No AppleCare text matches in /work. No Bloomberg-named files in /work.
+> maintains that Google manipulates Search to maximise ad revenue
 
-. · unverified
+the-age/2023-10-22_is-google-search-better-than-the-rest-and-is-that-fair.md · verified
 
-> Cue was on the stand as a witness in US v. Google
+> Google spent $26.3 billion in 2021 making itself the default search engine across platforms
 
-the-verge/2023-09-26_apple-defends-google-search-deal-in-court-there-wasn-t-a-val.md · verified
+techcrunch/2023-11-13_more-from-the-us-v-google-trial-vertical-search-pre-installs.md · verified
+
+> Google “siphons off” news publishers’ content, their readers and ad revenue through anticompetitive means.
+
+techcrunch/2023-12-15_news-publisher-files-class-action-antitrust-suit-against-goo.md · verified
+
+> like changing AdSense rates
+
+techcrunch/2023-12-15_news-publisher-files-class-action-antitrust-suit-against-goo.md · verified
 
 ### swarm1
 
-Recorded score 1 / 1.
+Recorded score 0 / 1.
 
-Insufficient information
+No clear inconsistency.
 
-The available Verge passage discusses Eddy Cue reviewing Apple’s financial filings in the Google case, but does not identify who oversees the division that includes AppleCare. The referenced AppleCare and Bloomberg articles are not established by the available folder evidence, so the requested initial cannot be verified.
+The reports describe different, compatible allegations. The Age attributes the claim that Google manipulates Search to maximize ad revenue to Megan Gray, while noting she may have misread the evidence and that Google denied steering users toward more monetizable subjects. TechCrunch’s November report describes Google’s $26.3 billion in payments to become the default search engine. Its December article reports publishers’ separate allegations that Google takes their content, readers, and ad revenue, including through AI and search features; it also includes Google’s response. The December article distinguishes the publishers’ case from the DOJ cases, which concern different markets. The December framing may emphasize the publishers’ allegations, but the cited accounts do not establish a contradiction in the underlying portrayal of Google’s practices.
 
-> Bellshaw asked Cue to review some of Apple’s financial filings.
+> She admits that she may have misinterpreted the evidence, but maintains that Google manipulates Search to maximise ad revenue.
 
-the-verge/2023-09-26_apple-defends-google-search-deal-in-court-there-wasn-t-a-val.md · verified
+the-age/2023-10-22_is-google-search-better-than-the-rest-and-is-that-fair.md · verified
 
-### swarm2
+> But Google denies pushing users towards the most monetisable subjects.
 
-Recorded score 1 / 1.
+the-age/2023-10-22_is-google-search-better-than-the-rest-and-is-that-fair.md · verified
 
-Insufficient information
+> Google spent $26.3 billion in 2021 making itself the default search engine across platforms
 
-The folder does not contain the cited AppleCare coverage article or Bloomberg report, and the provided Verge excerpt does not establish which executive oversees the division that includes AppleCare.
+techcrunch/2023-11-13_more-from-the-us-v-google-trial-vertical-search-pre-installs.md · verified
 
-> Cue was on the stand as a witness in US v. Google
+> The case, filed by Arkansas-based publisher Helena World Chronicle, argues that Google “siphons off” news publishers’ content, their readers and ad revenue through anticompetitive means.
 
-the-verge/2023-09-26_apple-defends-google-search-deal-in-court-there-wasn-t-a-val.md · verified
+techcrunch/2023-12-15_news-publisher-files-class-action-antitrust-suit-against-goo.md · verified
+
+> search and search advertising (which are different markets from digital ad technologies in the more recent suit).
+
+techcrunch/2023-12-15_news-publisher-files-class-action-antitrust-suit-against-goo.md · verified
+
+> Google links people to publishers’ websites more than 24 billion times each month – at no cost to them.
+
+techcrunch/2023-12-15_news-publisher-files-class-action-antitrust-suit-against-goo.md · verified
 
 ### swarm4
 
 Recorded score 1 / 1.
 
-Insufficient information
+No
 
-The available evidence does not establish which Apple executive oversees the division that includes AppleCare. The Verge excerpt concerns Eddy Cue’s testimony in the Google antitrust trial, and the cited material contains no relevant Bloomberg report.
+The December 15 article reports allegations in a different case: that Google takes publishers’ content, readers, and ad revenue. It attributes those claims to the publisher’s lawsuit, gives Google’s response, and explicitly distinguishes that case from the separate digital ad technology and search advertising suits. Those accounts can coexist with The Age’s report of an allegation about Search monetization and TechCrunch’s report of payments for default placement; the articles do not portray those practices as mutually exclusive.
 
-> Cue was on the stand as a witness in US v. Google
+> maintains that Google manipulates Search to maximise ad revenue
 
-the-verge/2023-09-26_apple-defends-google-search-deal-in-court-there-wasn-t-a-val.md · verified
+the-age/2023-10-22_is-google-search-better-than-the-rest-and-is-that-fair.md · verified
 
-### swarm8
+> Google spent $26.3 billion in 2021 making itself the default search engine across platforms
 
-Recorded score 1 / 1.
+techcrunch/2023-11-13_more-from-the-us-v-google-trial-vertical-search-pre-installs.md · verified
 
-Insufficient information
+> argues that Google “siphons off” news publishers’ content, their readers and ad revenue through anticompetitive means
 
-The available material does not establish which executive oversees the division that includes AppleCare. The supplied Verge excerpt discusses Apple’s Google search deal, and the other excerpts are unrelated to AppleCare oversight.
+techcrunch/2023-12-15_news-publisher-files-class-action-antitrust-suit-against-goo.md · verified
 
-> Bellshaw asked Cue to review some of Apple’s financial filings.
+> which are different markets from digital ad technologies in the more recent suit
 
-the-verge/2023-09-26_apple-defends-google-search-deal-in-court-there-wasn-t-a-val.md · verified
+techcrunch/2023-12-15_news-publisher-files-class-action-antitrust-suit-against-goo.md · verified
 
-> David co-created Apple Music when he was part of Apple’s system software product marketing group.
+> Google links people to publishers’ websites more than 24 billion times each month – at no cost to them.
 
-techcrunch/2023-12-09_google-fakes-an-ai-demo-grand-theft-auto-vi-goes-viral-and-s.md · verified
+techcrunch/2023-12-15_news-publisher-files-class-action-antitrust-suit-against-goo.md · verified
 
-## sweqa_flask_37
+## sweqa_django_40
 
-Where in the serialization pipeline for the JSON tag class that handles Markup API objects are the lower-level helper functions that the conversion method delegates to?
+Where does the cascade deletion triggered by the ForeignKey relationship in silly_tribble propagate through the data control flow when a referenced Tribble instance is deleted?
 
 **Benchmark reference**
 
-In the TagMarkup serialization pipeline, the lower-level helper functions that the `to_json` method delegates to are located **directly within the `to_json` method implementation itself**, specifically at the point where it invokes `value.__html__()`.
+The cascade deletion triggered by the foreign key in the unmigrated test app model propagates through the data control flow in the following sequence when a referenced migration-defined model instance is deleted:
 
-Here's the pipeline flow:
+**1. Entry Point - Model.delete() method** (`django/db/models/base.py`, lines 1231-1240):
+   - When a model instance's `delete()` method is called, it creates a `Collector` instance and calls `collector.collect([self])` to begin the collection phase.
 
-1. **Entry point**: `TaggedJSONSerializer.tag()` (line 289-295 in `src/flask/json/tag.py`) iterates through registered tags in order and calls `tag.check(value)` to determine if a tag should handle the value.
+**2. Collection Phase - Collector.collect() method** (`django/db/models/deletion.py`, lines 244-396):
+   - The `collect()` method adds the object to be deleted to `self.data` (a defaultdict mapping models to sets of instances).
+   - It then calls `get_candidate_relations_to_delete()` (lines 84-91) to find all reverse relations (one-to-many and one-to-one) that point to the model being deleted.
+   - For each candidate relation, it calls `related_objects()` (lines 398-406) to query for related model instances using a filter predicate like `{related_field.name}__in: objs`.
+   - For the specific case: when a `Tribble` instance is deleted, `get_candidate_relations_to_delete()` finds the reverse relation from `Tribble` to `SillyModel` (created automatically for the `silly_tribble` ForeignKey).
+   - `related_objects()` queries for all `SillyModel` instances where `silly_tribble` points to the deleted `Tribble` instance.
 
-2. **Verification**: `TagMarkup.check()` (line 181-182) uses `getattr(value, "__html__", None)` with `callable()` verification to safely check if the value has a callable `__html__` method.
+**3. CASCADE Handler** (`django/db/models/deletion.py`, lines 22-31):
+   - When a related field has `on_delete=CASCADE`, the `CASCADE()` function is called with the collector, field, and related objects.
+   - The `CASCADE()` function recursively calls `collector.collect(sub_objs, source=field.remote_field.model, ...)` to add the related objects (e.g., `SillyModel` instances) to the collection for deletion.
+   - This creates a recursive propagation: if those `SillyModel` instances have their own CASCADE relationships, those will also be collected.
 
-3. **Tagging**: If `check()` returns `True`, `JSONTag.tag()` (line 87-90) is called, which wraps the result of `to_json()` with the tag key `" m"`.
+**4. Dependency Tracking** (`django/db/models/deletion.py`, lines 116-138, 140-146):
+   - As objects are collected, the `add()` method tracks deletion-order dependencies via `self.dependencies` to ensure objects are deleted in the correct order (child models before parent models when there are non-nullable relationships).
 
-4. **Conversion**: `TagMarkup.to_json()` (line 184-185) is invoked, which contains the delegation to the lower-level helper:
+**5. Deletion Phase - Collector.delete() method** (`django/db/models/deletion.py`, lines 431-517):
+   - After collection is complete, `collector.delete()` is called.
+   - It sorts objects by dependencies using `sort()` (lines 413-429) to determine deletion order.
+   - Within a database transaction (`transaction.atomic()`), it:
+     a. Sends `pre_delete` signals for each object (lines 456-463)
+     b. Performs fast deletes for querysets that can be deleted without fetching into memory (lines 466-469)
+     c. Updates fields for SET_NULL/SET_DEFAULT handlers (lines 472-491)
+     d. Deletes instances in dependency order using `sql.DeleteQuery.delete_batch()` (lines 498-503)
+     e. Sends `post_delete` signals for each deleted object (lines 505-512)
+
+**Data Control Flow Summary:**
+The propagation follows this path: `Model.delete()` → `Collector.__init__()` → `Collector.collect()` → `get_candidate_relations_to_delete()` → `Collector.related_objects()` → `CASCADE()` → recursive `Collector.collect()` → `Collector.delete()` → `sql.DeleteQuery.delete_batch()` → actual SQL DELETE statements.
+
+For the specific case of `silly_tribble` referencing `Tribble`: when a `Tribble` instance is deleted, the cascade propagates by finding all `SillyModel` instances via the reverse relation, adding them to the collector through the CASCADE handler, and then deleting them in the same transaction after the `Tribble` instance is deleted (respecting dependency order).
+
+### arctic
+
+Recorded score 71 / 100.
+
+unmigrated_app.SillyModel
+
+In the intended cascade path, deleting a Tribble instance starts a Collector from Model.delete(); the collector finds reverse ForeignKey relations, queries related SillyModel rows, and invokes the ForeignKey’s CASCADE handler. That handler recursively collects those rows, which the collector then deletes (possibly through its fast-delete path). Important fixture caveat: the repository says this SillyModel foreign key points to a Tribble defined only in a migration, so the global app registry never sees Tribble and the reference is left dangling. Thus the code establishes the intended cascade destination, but not a live runtime cascade for this fixture.
+
+> silly_tribble = models.ForeignKey("migrations.Tribble", models.CASCADE)
+
+tests/migrations/migrations_test_apps/unmigrated_app/models.py · verified
+
+> collector = Collector(using=using, origin=self)
+
+django/db/models/base.py · verified
+
+> for related in get_candidate_relations_to_delete(model._meta):
+
+django/db/models/deletion.py · verified
+
+> collector.collect(
+
+django/db/models/deletion.py · verified
+
+> count = qs._raw_delete(using=self.using)
+
+django/db/models/deletion.py · verified
+
+> the global app registry never sees it and the reference is left dangling.
+
+tests/migrations/test_commands.py · unverified
+
+### oneshot
+
+Recorded score 70 / 100.
+
+SillyModel
+
+Deleting a referenced Tribble cascades to each SillyModel row whose silly_tribble ForeignKey points to it. The evidence does not establish any further application-level propagation beyond those related rows; Django sends deletion signals for cascaded objects, but does not call their Model.delete() methods.
+
+> silly_tribble = models.ForeignKey("migrations.Tribble", models.CASCADE)
+
+tests/migrations/migrations_test_apps/unmigrated_app/models.py · verified
+
+> Cascade deletes. Django emulates the behavior of the SQL constraint ON DELETE CASCADE and also deletes the object containing the ForeignKey. :meth:`.Model.delete` isn't called on related models
+
+docs/ref/models/fields.txt · unverified
+
+### stock
+
+Recorded score 74 / 100.
+
+Django’s deletion Collector
+
+For a ForeignKey configured with CASCADE, deleting a Tribble instance calls Model.delete(), which starts a Collector. The Collector follows reverse relationships, queries the related model for rows whose ForeignKey points to the Tribble, and invokes that field’s on_delete handler. CASCADE feeds those rows back into the Collector, which recursively discovers further cascades. The collected rows are then deleted, with fast-delete paths available; the normal path sends delete signals and issues SQL deletes. The mounted repository has no `silly_tribble` app or Tribble model, so it does not establish which specific related models or further branches are involved.
+
+> collector.collect([self], keep_parents=keep_parents)
+        return collector.delete()
+
+django/db/models/base.py · verified
+
+> for related in get_candidate_relations_to_delete(model._meta):
+
+django/db/models/deletion.py · verified
+
+> [(f"{related_field.name}__in", objs) for related_field in related_fields]
+
+django/db/models/deletion.py · verified
+
+> collector.collect(
+        sub_objs,
+
+django/db/models/deletion.py · verified
+
+> count = query.delete_batch(pk_list, self.using)
+
+django/db/models/deletion.py · verified
+
+### swarm1
+
+Recorded score 56 / 100.
+
+Insufficient information
+
+SillyModel’s `silly_tribble` field references `migrations.Tribble` with CASCADE. The collector finds reverse related objects for candidate foreign-key relations and runs each field’s on_delete handler. The related-object lookup filters the related model by the foreign-key field against the objects being deleted. The collector invokes the field’s on_delete handler on the related rows. Unsupported: Deleting a model instance starts collection from that instance and then deletes through the collector.; CASCADE recursively collects those related rows.; Deletion is bulk and cascaded models’ delete methods are not called, but deletion signals are sent.; The unmigrated_app test says the Tribble reference is dangling in the global app registry.
+
+> silly_tribble = models.ForeignKey("migrations.Tribble", models.CASCADE)
+
+tests/migrations/migrations_test_apps/unmigrated_app/models.py · verified
+
+> collector.collect([self], keep_parents=keep_parents)\n        return collector.delete()
+
+django/db/models/base.py · unverified
+
+> sub_objs = self.related_objects(related_model, [field], batch)
+
+django/db/models/deletion.py · verified
+
+> return related_model._base_manager.using(self.using).filter(predicate)
+
+django/db/models/deletion.py · verified
+
+> on_delete(self, field, sub_objs, self.using)
+
+django/db/models/deletion.py · verified
+
+> def CASCADE(collector, field, sub_objs, using):\n    collector.collect(
+
+django/db/models/deletion.py · unverified
+
+> does not call any ``delete()`` methods on your models. It does, however, emit the
+
+docs/ref/models/querysets.txt · unverified
+
+> the global app registry never sees it and the reference is left dangling.
+
+tests/migrations/test_commands.py · unverified
+
+### swarm4
+
+Recorded score 64 / 100.
+
+Insufficient information
+
+`SillyModel.silly_tribble` references `migrations.Tribble` and uses `models.CASCADE`. The Collector obtains related rows for the relationship and stores them as `sub_objs`. The Collector passes related objects to the field’s `on_delete` handler. The cascade handler passes related objects to the Collector for collection. The Collector deletes collected instances with a batched delete query. Unsupported: Django documents that CASCADE deletes the object containing the ForeignKey, does not call related models’ `Model.delete()`, and sends delete signals for deleted objects.
+
+> silly_tribble = models.ForeignKey("migrations.Tribble", models.CASCADE)
+
+tests/migrations/migrations_test_apps/unmigrated_app/models.py · verified
+
+> sub_objs = self.related_objects(related_model, [field], batch)
+
+django/db/models/deletion.py · verified
+
+> on_delete(self, field, sub_objs, self.using)
+
+django/db/models/deletion.py · verified
+
+> collector.collect(
+        sub_objs,
+        source=field.remote_field.model,
+
+django/db/models/deletion.py · verified
+
+> query = sql.DeleteQuery(model)
+                pk_list = [obj.pk for obj in instances]
+                count = query.delete_batch(pk_list, self.using)
+
+django/db/models/deletion.py · verified
+
+> Cascade deletes. Django emulates the behavior of the SQL constraint ON DELETE CASCADE and also deletes the object containing the ForeignKey.
+
+docs/ref/models/fields.txt · unverified
+
+## sweqa_sphinx_18
+
+How does the EPUB test function validate that manifest item identifiers match spine itemref references?
+
+**Benchmark reference**
+
+The EPUB test function validates structural consistency between manifest item identifiers and spine itemref references through two complementary assertion checks in the test suite.
+
+**Validation mechanism:**
+
+1. **Manifest item ID pattern validation (lines 156-158):**
+   The test iterates through manifest items starting from index 2 (after the 'ncx' and 'nav' items) and asserts each item's `id` attribute follows the sequential pattern `epub-%d` where `%d` is the index:
    ```python
-   def to_json(self, value: t.Any) -> t.Any:
-       return str(value.__html__())
+   for i, item in enumerate(items[2:]):
+       # items are named as epub-NN
+       assert item.get('id') == 'epub-%d' % i
    ```
 
-5. **Lower-level helper**: The `__html__()` method on the value object itself is the lower-level helper function. This method is called directly within `to_json()` at line 185.
+2. **Spine itemref reference validation (lines 165-166):**
+   The test asserts that spine `<itemref>` elements have `idref` attributes that match specific manifest item IDs:
+   ```python
+   assert itemrefs[0].get('idref') == 'epub-1'
+   assert itemrefs[1].get('idref') == 'epub-0'
+   ```
 
-The `__html__()` method is not part of TagMarkup's implementation but is expected to exist on the value object being serialized. TagMarkup acts as an adapter that calls this method to obtain the HTML string representation, which is then converted to a string and returned as the JSON-serializable value.
+**How consistency is maintained in the implementation:**
 
-Regarding the safety relationship: The `check()` method's use of `getattr(value, "__html__", None)` with `callable()` verification ensures that:
-- No `AttributeError` occurs if `__html__` doesn't exist (getattr returns `None` instead)
-- No `TypeError` occurs if `__html__` exists but isn't callable (callable() returns `False`)
-- Only values with a valid, callable `__html__` method reach `to_json()`, where it safely invokes `value.__html__()` without error handling needed
-</start_of_answer>
+Both manifest items and spine itemrefs use the same `make_id()` method (defined in `sphinx/builders/_epub_base.py`, lines 183-190) which ensures consistency:
+
+- When building manifest items (line 603): `self.make_id(filename)` generates the ID
+- When building spine itemrefs (line 616): `self.make_id(refnode['refuri'])` generates the idref
+- The `make_id()` method uses an `id_cache` dictionary to ensure the same filename/refuri always gets the same ID
+- IDs are generated as `'epub-%d' % self.env.new_serialno('epub')`, creating sequential identifiers like 'epub-0', 'epub-1', etc.
+
+This design ensures that spine itemrefs always reference valid manifest item IDs because both use the same identifier generation mechanism with the same cache, maintaining structural consistency in the EPUB package document.
 
 ### arctic
 
-Recorded score 83 / 100.
+Recorded score 80 / 100.
 
-`src/flask/json/tag.py` — `TagMarkup.to_json`
+Hard-coded manifest-ID and spine-idref assertions
 
-The conversion delegates directly to the object’s `__html__()` method and then Python’s built-in `str()`; the repository does not define separate Flask helper functions for these calls. In the pipeline, `TagMarkup` is registered as a default tag, the serializer selects it by calling `check`, and the tag wrapper places `to_json`’s result under the tag key.
+The test parses the generated content.opf, checks that the manifest items have IDs epub-0 and epub-1 (and that the generated items follow the epub-N naming pattern), then checks that the first two spine itemrefs refer to epub-1 and epub-0, respectively. It validates the expected references with explicit assertions rather than comparing every manifest ID against every spine idref.
 
-> return str(value.__html__())
+> manifest = opf.find('./idpf:manifest')
+    items = list(manifest)
 
-src/flask/json/tag.py · verified
+tests/test_builders/test_build_epub.py · verified
 
-> return {self.key: self.to_json(value)}
+> for i, item in enumerate(items[2:]):
+        # items are named as epub-NN
+        assert item.get('id') == 'epub-%d' % i
 
-src/flask/json/tag.py · verified
+tests/test_builders/test_build_epub.py · verified
 
-> if tag.check(value):
-                return tag.tag(value)
+> assert itemrefs[0].get('idref') == 'epub-1'
+    assert itemrefs[1].get('idref') == 'epub-0'
 
-src/flask/json/tag.py · unverified
-
-> TagMarkup,
-
-src/flask/json/tag.py · verified
+tests/test_builders/test_build_epub.py · verified
 
 ### oneshot
 
 Recorded score 84 / 100.
 
-`TagMarkup.to_json` in `src/flask/json/tag.py`; it delegates directly to `value.__html__()` and `str`, not to separate Flask helper functions.
+It checks that manifest IDs follow `epub-N` numbering, then asserts the spine’s first two `idref` values are `epub-1` and `epub-0`, matching the manifest items.
 
-`TagMarkup` is part of `TaggedJSONSerializer`’s default tags. The serialization path calls the tag conversion, whose result is wrapped by the base `JSONTag.tag` method. For Markup-API objects, `to_json` obtains the HTML representation with `__html__()` and converts it to a string; deserialization uses `Markup(value)`.
+In `test_build_epub`, the loop verifies each content manifest item has ID `epub-%d` for its index. The test then checks the spine references `epub-1` followed by `epub-0`, corresponding to the manifest’s `epub-1` and `epub-0` items.
 
-> def to_json(self, value: t.Any) -> t.Any:
-        return str(value.__html__())
+> assert item.get('id') == 'epub-%d' % i
 
-    def to_python(self, value: t.Any) -> t.Any:
-        return Markup(value)
+tests/test_builders/test_build_epub.py · verified
 
-src/flask/json/tag.py · verified
+> assert itemrefs[0].get('idref') == 'epub-1'
+    assert itemrefs[1].get('idref') == 'epub-0'
 
-> def tag(self, value: t.Any) -> dict[str, t.Any]:
-        """Convert the value to a valid JSON type and add the tag structure
-        around it."""
-        return {self.key: self.to_json(value)}
+tests/test_builders/test_build_epub.py · verified
 
-src/flask/json/tag.py · verified
+> 'id': 'epub-0',
 
-> default_tags = [
-        TagDict,
-        PassDict,
-        TagTuple,
-        PassList,
-        TagBytes,
-        TagMarkup,
+tests/test_builders/test_build_epub.py · verified
 
-src/flask/json/tag.py · verified
+> 'id': 'epub-1',
+
+tests/test_builders/test_build_epub.py · verified
 
 ### stock
 
-Recorded score 80 / 100.
+Recorded score 84 / 100.
 
-src/flask/json/tag.py — TagMarkup.to_json
+It checks the expected IDs explicitly.
 
-TagMarkup checks for a callable __html__ method and its to_json method calls value.__html__(), then converts the result with str(). Those delegated operations are provided by the input object and Python; the file does not define lower-level helper functions for them. JSONTag.tag wraps the result under the tag key, and TaggedJSONSerializer.dumps passes the tagged value to the JSON dumper.
+In `test_build_epub`, the manifest items after `ncx` and `nav` are checked to have sequential IDs `epub-0`, `epub-1`. The spine is then checked to reference `epub-1` followed by `epub-0`, confirming those IDs and their expected reading order. These are explicit expected-value assertions rather than a dynamically computed comparison between the manifest and spine.
 
-> return callable(getattr(value, "__html__", None))
+> for i, item in enumerate(items[2:]):
+        # items are named as epub-NN
+        assert item.get('id') == 'epub-%d' % i
 
-src/flask/json/tag.py · verified
+tests/test_builders/test_build_epub.py · verified
 
-> return str(value.__html__())
+> assert itemrefs[0].get('idref') == 'epub-1'
+    assert itemrefs[1].get('idref') == 'epub-0'
 
-src/flask/json/tag.py · verified
-
-> return {self.key: self.to_json(value)}
-
-src/flask/json/tag.py · verified
-
-> return dumps(self.tag(value), separators=(",", ":"))
-
-src/flask/json/tag.py · verified
+tests/test_builders/test_build_epub.py · verified
 
 ### swarm1
 
 Recorded score 86 / 100.
 
-`TagMarkup.to_json` in `src/flask/json/tag.py`.
+Direct XML ID assertions
 
-The conversion method directly calls the input object's `__html__()` method and passes its result to `str()`. The tag class does not define a separate lower-level helper for this conversion.
+In `test_build_epub`, the test enumerates manifest items from `items[2:]` and asserts each ID equals `epub-<index>`. It then checks that the spine’s first two `idref` values are `epub-1` and `epub-0`, confirming they refer to those manifest IDs in that order.
 
-> def to_json(self, value: t.Any) -> t.Any:
-        return str(value.__html__())
+> assert item.get('id') == 'epub-%d' % i
 
-src/flask/json/tag.py · verified
+tests/test_builders/test_build_epub.py · verified
 
-> return callable(getattr(value, "__html__", None))
+> assert itemrefs[0].get('idref') == 'epub-1'
+    assert itemrefs[1].get('idref') == 'epub-0'
 
-src/flask/json/tag.py · verified
-
-### swarm2
-
-Recorded score 53 / 100.
-
-Insufficient information
-
-`TagMarkup.to_json` calls `value.__html__()` and passes its result to `str`. Unsupported: `TagMarkup` is described as handling objects with a `__html__` method.
-
-> return str(value.__html__())
-
-src/flask/json/tag.py · verified
-
-> having a ``__html__`` method to the result of that method.
-
-src/flask/json/tag.py · unverified
+tests/test_builders/test_build_epub.py · verified
 
 ### swarm4
 
-Recorded score 83 / 100.
+Recorded score 88 / 100.
 
-TagMarkup.to_json
+It asserts the expected manifest IDs and spine references directly.
 
-In `src/flask/json/tag.py`, the conversion method directly calls the input object's `__html__()` method and passes its result to Python's `str()`. These are not separate Flask helper functions. In the pipeline, the serializer selects the matching tag and calls `tag()`, whose base implementation wraps the `to_json` result with the tag key.
+The test checks that manifest items after the `ncx` and `nav` entries have sequential IDs (`epub-0`, `epub-1`, …). It then checks that the first two spine `itemref` elements refer to `epub-1` and `epub-0`, in that order. These are explicit expected-value assertions rather than a general comparison of every manifest item against every spine reference.
 
-> return str(value.__html__())
+> for i, item in enumerate(items[2:]):
+        # items are named as epub-NN
+        assert item.get('id') == 'epub-%d' % i
 
-src/flask/json/tag.py · verified
+tests/test_builders/test_build_epub.py · verified
 
-> if tag.check(value):
-                return tag.tag(value)
+> assert itemrefs[0].get('idref') == 'epub-1'
+    assert itemrefs[1].get('idref') == 'epub-0'
 
-src/flask/json/tag.py · verified
-
-> return {self.key: self.to_json(value)}
-
-src/flask/json/tag.py · verified
-
-### swarm8
-
-Recorded score 86 / 100.
-
-No separate helper functions
-
-`TagMarkup.to_json` performs the conversion inline: it calls the value’s `__html__()` method and passes the result to Python’s built-in `str`. The class checks for a callable `__html__` method. In the serialization pipeline, the inherited `JSONTag.tag` method wraps that result under the tag key (`" m"`).
-
-> return str(value.__html__())
-
-src/flask/json/tag.py · verified
-
-> return callable(getattr(value, "__html__", None))
-
-src/flask/json/tag.py · verified
-
-> return {self.key: self.to_json(value)}
-
-src/flask/json/tag.py · verified
-
-> key = " m"
-
-src/flask/json/tag.py · verified
-
-## sweqa_requests_11
-
-What is the data integrity mechanism in the PreparedRequest class that maintains header normalization when CaseInsensitiveDict and to_native_string transformations are applied to heterogeneous input headers?
-
-**Benchmark reference**
-
-The data integrity mechanism in request preparation that maintains header normalization when case-insensitive dictionary and string normalization are applied to heterogeneous input headers is implemented in the `prepare_headers` method of the PreparedRequest class (located in `src/requests/models.py`, lines 483-492).
-
-The mechanism works through a coordinated three-step process:
-
-1. **Header Validation**: Each header from the heterogeneous input (which may contain headers with different cases, string types, or byte types) is first validated using `check_header_validity()` (defined in `src/requests/utils.py`, lines 1024-1032). This function validates that header names and values conform to HTTP specifications by checking for invalid characters, leading whitespace, or return characters using regex validators.
-
-2. **String Normalization**: The header name is then normalized using `to_native_string()` (defined in `src/requests/_internal_utils.py`, lines 25-35), which converts the header name to the native string type (ensuring consistent encoding, defaulting to ASCII). This handles heterogeneous input types (str, bytes) by converting them to a uniform native string representation.
-
-3. **Case-Insensitive Storage**: The normalized header name is stored in a `CaseInsensitiveDict` instance (defined in `src/requests/structures.py`, lines 13-80). This dictionary maintains data integrity through its internal `_store` OrderedDict that maps lowercase keys to tuples of `(original_key, value)`. When a header is set using `self.headers[to_native_string(name)] = value`, the CaseInsensitiveDict:
-   - Uses the lowercase version of the key for lookups (`key.lower()`)
-   - Stores the original case of the last key set alongside the value
-   - Preserves the case of the most recently set key while allowing case-insensitive retrieval
-
-The data integrity is maintained because:
-- All header names are normalized to native strings before storage, ensuring type consistency
-- Case-insensitive lookup works correctly regardless of input case variations
-- The original case of headers is preserved (the last case used) for proper HTTP header formatting
-- Invalid headers are rejected before normalization, preventing corrupted data from entering the system
-- The mechanism handles heterogeneous inputs (mixed str/bytes, different cases) uniformly while maintaining referential integrity
-
-This ensures that headers like `{"Content-Type": "application/json"}`, `{"content-type": "application/json"}`, or `{b"Content-Type": b"application/json"}` are all normalized and stored consistently, while maintaining the ability to retrieve them case-insensitively and preserve the original case for transmission.
-
-### arctic
-
-Recorded score 82 / 100.
-
-Validate-then-normalize insertion into CaseInsensitiveDict
-
-PreparedRequest validates each header name and value before converting the name with to_native_string and storing the pair. Validation allows str or bytes and rejects unsupported types or invalid header characters. CaseInsensitiveDict uses a lowercase key for case-insensitive lookup while retaining the stored spelling, so heterogeneous header-name input is normalized without losing case-insensitive access.
-
-> check_header_validity(header)
-                name, value = header
-                self.headers[to_native_string(name)] = value
-
-src/requests/models.py · verified
-
-> if isinstance(header_part, str):
-        validator = _HEADER_VALIDATORS_STR[header_validator_index]
-    elif isinstance(header_part, bytes):
-        validator = _HEADER_VALIDATORS_BYTE[header_validator_index]
-
-src/requests/utils.py · verified
-
-> self._store[key.lower()] = (key, value)
-
-src/requests/structures.py · verified
-
-> Given a string object, regardless of type, returns a representation of
-    that string in the native string type, encoding and decoding where
-    necessary.
-
-src/requests/_internal_utils.py · verified
-
-### oneshot
-
-Recorded score 78 / 100.
-
-Case-insensitive normalized header mapping
-
-PreparedRequest.prepare_headers creates a CaseInsensitiveDict, validates each header pair, converts each header name with to_native_string, and stores it in that mapping. CaseInsensitiveDict makes lookups case-insensitive while retaining the casing of the last key set. If heterogeneous inputs produce keys with equal lowercase forms, the mapping’s documentation says behavior is undefined.
-
-> self.headers = CaseInsensitiveDict()
-        if headers:
-            for header in headers.items():
-                # Raise exception on invalid header value.
-                check_header_validity(header)
-                name, value = header
-                self.headers[to_native_string(name)] = value
-
-src/requests/models.py · verified
-
-> The structure remembers the
-    case of the last key to be set
-
-src/requests/structures.py · verified
-
-> If the constructor, ``.update``, or equality comparison
-    operations are given keys that have equal ``.lower()``s, the
-    behavior is undefined.
-
-src/requests/structures.py · verified
-
-### stock
-
-Recorded score 86 / 100.
-
-Validated native-string header names stored in a CaseInsensitiveDict
-
-PreparedRequest.prepare_headers validates each input name/value pair, converts each name to the native string type, and stores it in a fresh CaseInsensitiveDict. That mapping uses lowercase keys for case-insensitive lookup while retaining the original spelling of the most recently assigned key. Header values remain as supplied after validation.
-
-> self.headers = CaseInsensitiveDict()
-        if headers:
-            for header in headers.items():
-                # Raise exception on invalid header value.
-                check_header_validity(header)
-                name, value = header
-                self.headers[to_native_string(name)] = value
-
-src/requests/models.py · verified
-
-> # Use the lowercased key for lookups, but store the actual
-        # key alongside the value.
-        self._store[key.lower()] = (key, value)
-
-src/requests/structures.py · verified
-
-> if isinstance(header_part, str):
-        validator = _HEADER_VALIDATORS_STR[header_validator_index]
-    elif isinstance(header_part, bytes):
-        validator = _HEADER_VALIDATORS_BYTE[header_validator_index]
-    else:
-        raise InvalidHeader(
-
-src/requests/utils.py · verified
-
-> def to_native_string(string, encoding="ascii"):
-    """Given a string object, regardless of type, returns a representation of
-    that string in the native string type, encoding and decoding where
-    necessary. This assumes ASCII unless told otherwise.
-    """
-    if isinstance(string, builtin_str):
-        out = string
-    else:
-        out = string.decode(encoding)
-
-src/requests/_internal_utils.py · verified
-
-### swarm1
-
-Recorded score 80 / 100.
-
-Validated, native-string insertion into a CaseInsensitiveDict
-
-PreparedRequest.prepare_headers initializes a CaseInsensitiveDict, iterates over the input headers, validates each name/value pair with check_header_validity, and converts each name with to_native_string before inserting it. This normalizes header names for case-insensitive lookup while accepting names that need conversion; the shown code leaves values unchanged.
-
-> self.headers = CaseInsensitiveDict()
-        if headers:
-            for header in headers.items():
-                # Raise exception on invalid header value.
-                check_header_validity(header)
-
-src/requests/models.py · verified
-
-> self.headers[to_native_string(name)] = value
-
-src/requests/models.py · verified
-
-### swarm2
-
-Recorded score 75 / 100.
-
-PreparedRequest.prepare_headers()
-
-It initializes self.headers as a CaseInsensitiveDict, validates each input header, then converts each header name with to_native_string before storing it. The conversion is applied to names; the code stores each value unchanged.
-
-> self.headers = CaseInsensitiveDict()
-        if headers:
-            for header in headers.items():
-                # Raise exception on invalid header value.
-                check_header_validity(header)
-                name, value = header
-                self.headers[to_native_string(name)] = value
-
-src/requests/models.py · verified
-
-### swarm4
-
-Recorded score 83 / 100.
-
-Validated native-string insertion into a CaseInsensitiveDict
-
-`PreparedRequest.prepare_headers` creates a fresh `CaseInsensitiveDict`, validates each header pair, converts each header name with `to_native_string`, and stores the value under that converted name. The dictionary uses a lowercased lookup key while retaining the assigned spelling and value, so string and byte names are normalized for case-insensitive lookup.
-
-> self.headers[to_native_string(name)] = value
-
-src/requests/models.py · verified
-
-> self._store[key.lower()] = (key, value)
-
-src/requests/structures.py · verified
-
-> must be of type str or bytes
-
-src/requests/utils.py · verified
-
-### swarm8
-
-Recorded score 78 / 100.
-
-Native-string normalization into a CaseInsensitiveDict
-
-PreparedRequest validates each header pair, converts the name with to_native_string, then stores it in a CaseInsensitiveDict. The helper decodes byte strings using its default ASCII encoding. The dictionary uses lowercase keys for case-insensitive lookup while retaining the stored spelling for iteration. The tests cover mixed text and byte header names. CaseInsensitiveDict documents behavior as undefined for keys with equal lowercase forms.
-
-> check_header_validity(header)
-                name, value = header
-                self.headers[to_native_string(name)] = value
-
-src/requests/models.py · verified
-
-> def to_native_string(string, encoding="ascii"):
-    """Given a string object, regardless of type, returns a representation of
-    that string in the native string type, encoding and decoding where
-    necessary. This assumes ASCII unless told otherwise.
-
-src/requests/_internal_utils.py · verified
-
-> # Use the lowercased key for lookups, but store the actual
-        # key alongside the value.
-        self._store[key.lower()] = (key, value)
-
-src/requests/structures.py · verified
-
-> headers = {"unicode": "blah", b"byte": "blah"}
-
-tests/test_requests.py · verified
-
-> If the constructor, ``.update``, or equality comparison
-    operations are given keys that have equal ``.lower()``s, the
-    behavior is undefined.
-
-src/requests/structures.py · verified
+tests/test_builders/test_build_epub.py · verified
